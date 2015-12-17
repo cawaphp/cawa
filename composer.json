@@ -1,0 +1,63 @@
+{
+    "name": "cawaphp/cawa",
+    "description": "Сáша core",
+    "keywords": [
+        "cawa",
+        "core"
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "license": "GPL-3.0",
+    "authors": [
+        {
+            "name": "tchiotludo"
+        }
+    ],
+    "autoload": {
+        "files": [
+            "src/VarDumper/Resources/functions.php"
+        ],
+        "psr-4": {
+            "Cawa\\": "src"
+        }
+    },
+    "require": {
+        "php": "~7.0",
+        "ext-mbstring": "*",
+        "ext-intl": "*",
+        "ext-curl": "*",
+        "psr/log": "^1.0",
+        "behat/transliterator": "^1.1",
+        "nesbot/carbon": "~1.21",
+        "symfony/var-dumper": "^3.0",
+        "jeremykendall/php-domain-parser": "~3.0",
+        "swiftmailer/swiftmailer": "^5.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~5.1",
+        "twig/twig": "^1.23"
+    },
+    "suggest": {
+        "twig/twig": "Required for using the twig template engine"
+    },
+    "scripts": {
+        "test": [
+            "phpdbg -qrr vendor/bin/phpunit"
+        ],
+        "test-ci": [
+            "phpdbg -qrr vendor/bin/phpunit --verbose --coverage-clover build/logs/clover.xml"
+        ],
+        "fix" : [
+            "php php-cs-fixer.phar fix --dry-run -vvv"
+        ],
+        "fix-dry" : [
+            "php php-cs-fixer.phar fix --dry-run -vvv"
+        ],
+        "cs" : [
+            "phpcs --standard=PSR2 src/"
+        ],
+        "cbf" : [
+            "phpcbf --standard=PSR2 src/"
+        ]
+    }
+}

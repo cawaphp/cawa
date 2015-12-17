@@ -1,0 +1,15 @@
+### Composer
+composer.phar
+composer.lock
+vendor/
+
+### Npm & Bower
+node_modules/
+bower_components/
+
+### ide
+.idea/
+
+### Tools
+phpunit.phar
+php-cs-fixer.phar
