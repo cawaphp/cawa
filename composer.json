@@ -1,9 +1,9 @@
 {
     "name": "cawaphp/cawa",
-    "description": "Сáша core",
+    "description": "Сáша Framework",
     "keywords": [
         "cawa",
-        "core"
+        "framework"
     ],
     "minimum-stability": "dev",
     "prefer-stable": true,
@@ -23,24 +23,19 @@
     },
     "require": {
         "php": "~7.0",
+
         "ext-mbstring": "*",
+        "ext-intl": "*",
+
         "behat/transliterator": "^1.1",
-
-        "cawaphp/cache": "dev-master",
-        "cawaphp/core": "dev-master",
-        "cawaphp/events": "dev-master",
-        "cawaphp/log": "dev-master",
-        "cawaphp/intl": "dev-master",
-        "cawaphp/uri": "dev-master",
-
-
+        "jeremykendall/php-domain-parser": "~3.0",
+        "nesbot/carbon": "~1.21",
+        "psr/log": "^1.0",
+        "symfony/translation": "~3.0",
+        "symfony/var-dumper": "^3.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "~5.1",
-        "twig/twig": "^1.23"
-    },
-    "suggest": {
-        "twig/twig": "Required for using the twig template engine"
+        "phpunit/phpunit": "~5.1"
     },
     "scripts": {
         "test": [

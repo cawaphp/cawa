@@ -11,11 +11,11 @@
 
 declare (strict_types = 1);
 
-namespace Cawa\Session;
+namespace Cawa\Log;
 
 use Cawa\Core\DI;
 
-trait SessionFactory
+trait LoggerFactory
 {
     /**
      * @var array
@@ -23,15 +23,15 @@ trait SessionFactory
     private static $container = [];
 
     /**
-     * @return Session
+     * @return Logger
      */
-    private static function session() : Session
+    private static function logger() : Logger
     {
         if ($return = DI::get(__METHOD__)) {
             return $return;
         }
 
-        $item = new Session();
+        $item = new Logger();
 
         return DI::set(__METHOD__,  null, $item);
     }
