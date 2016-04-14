@@ -14,13 +14,22 @@ declare (strict_types = 1);
 namespace Cawa\Router;
 
 use Behat\Transliterator\Transliterator;
-use Cawa\Core\App;
-use Cawa\Core\Controller\AbstractController;
+use Cawa\Cache\CacheFactory;
+use Cawa\App\App;
+use Cawa\App\Controller\AbstractController;
+use Cawa\Events\DispatcherFactory;
 use Cawa\Events\TimerEvent;
+use Cawa\Intl\TranslatorFactory;
+use Cawa\Session\SessionFactory;
 use Cawa\Uri\Uri;
 
 class Router
 {
+    use DispatcherFactory;
+    use TranslatorFactory;
+    use CacheFactory;
+    use SessionFactory;
+
     const OPTIONS_SESSION = 'SESSION';
     const OPTIONS_CACHE = 'CACHE';
     const OPTIONS_MASTERPAGE = 'MASTERPAGE';
@@ -304,7 +313,7 @@ class Router
                     }
 
                     if (!is_null($data)) {
-                        $dest = $this->uris[$value][App::translator()->getLocale()];
+                        $dest = $this->uris[$value][self::translator()->getLocale()];
                     } else {
                         $dest = '(?:' . implode('|', $this->uris[$value]) . ')';
                     }
@@ -312,9 +321,9 @@ class Router
 
                 case 'L':
                     if (!is_null($data)) {
-                        $dest = App::translator()->getLocale();
+                        $dest = self::translator()->getLocale();
                     } else {
-                        $dest = '(?:' . implode('|', App::translator()->getLocales()) . ')';
+                        $dest = '(?:' . implode('|', self::translator()->getLocales()) . ')';
                     }
                     break;
 
@@ -396,7 +405,7 @@ class Router
                 'args' => $args
             ]);
 
-            App::events()->emit($event);
+            self::dispatcher()->emit($event);
 
             $cacheKey = $this->cacheKey($route, $args);
 
@@ -471,7 +480,7 @@ class Router
     private function cacheGet(Route $route, string $cacheKey)
     {
         if ($route->getOption(Route::OPTIONS_CACHE)) {
-            if ($data = App::di()->getCache('OUTPUT')->get($cacheKey)) {
+            if ($data = self::cache('OUTPUT')->get($cacheKey)) {
                 foreach ($data['headers'] as $name => $header) {
                     App::response()->addHeader($name, $header);
                 }
@@ -497,7 +506,7 @@ class Router
         if ($route->getOption(Route::OPTIONS_CACHE)) {
             $second = $route->getOption(Route::OPTIONS_CACHE);
 
-            if (App::session()->isStarted()) {
+            if (self::session()->isStarted()) {
                 throw new \LogicException("Can't set a cache on a route that use session data");
             }
 
@@ -511,7 +520,7 @@ class Router
                 'headers' => App::response()->getHeaders()
             ];
 
-            App::di()->getCache('OUTPUT')->set($cacheKey, $data, $second);
+            self::cache('OUTPUT')->set($cacheKey, $data, $second);
         }
 
         return true;
@@ -599,7 +608,7 @@ class Router
 
         $mReturn = call_user_func_array([$controller, $method], $ordererArgs);
 
-        App::events()->emit($event);
+        self::dispatcher()->emit($event);
 
         return $mReturn;
     }

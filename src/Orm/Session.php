@@ -13,10 +13,13 @@ declare (strict_types = 1);
 
 namespace Cawa\Orm;
 
-use Cawa\Core\App;
+use Cawa\App\App;
+use Cawa\Session\SessionFactory;
 
 trait Session
 {
+    use SessionFactory;
+
     /**
      * @param string $name
      *
@@ -33,7 +36,7 @@ trait Session
             $data = $this->sessionSleep();
         }
 
-        App::session()->set($name, $data);
+        self::session()->set($name, $data);
     }
 
     /**
@@ -47,7 +50,7 @@ trait Session
             $name = get_class();
         }
 
-        return App::session()->exist($name);
+        return self::session()->exist($name);
     }
 
     /**
@@ -61,7 +64,7 @@ trait Session
             $name = get_class();
         }
 
-        $data = App::session()->get($name);
+        $data = self::session()->get($name);
 
         if (!$data) {
             return false;

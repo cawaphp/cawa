@@ -13,17 +13,20 @@ declare (strict_types=1);
 
 namespace Cawa\Error;
 
-use Cawa\Core\App;
+use Cawa\App\App;
 use Cawa\Error\Exceptions\Deprecated;
 use Cawa\Error\Exceptions\Error;
 use Cawa\Error\Exceptions\Fatal;
 use Cawa\Error\Exceptions\Notice;
 use Cawa\Error\Exceptions\Warning;
 use Cawa\Error\Formatter\HtmlFormatter;
+use Cawa\Log\LoggerFactory;
 use Cawa\Net\Ip;
 
 class Handler
 {
+    use LoggerFactory;
+
     /**
      * Friendly name from error code
      */
@@ -171,7 +174,7 @@ class Handler
 
             App::response()->setStatus(500);
 
-            if (App::env() != App::PROD || App::isAdminIp()) {
+            if (App::env() != App::PROD || Ip::isAdmin()) {
                 $formatter = new HtmlFormatter();
                 echo $formatter->render($exception);
             } else {
@@ -238,7 +241,7 @@ class Handler
         $context['Trace'] = $exception->getTraceAsString();
         $context['Referer'] = App::request()->getHeader('Referer');
 
-        App::logger()->log($level, $exception->getMessage(), $context);
+        self::logger()->log($level, $exception->getMessage(), $context);
     }
 
     /**

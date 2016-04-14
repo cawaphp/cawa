@@ -13,7 +13,8 @@ declare (strict_types = 1);
 
 namespace Cawa\Net;
 
-use Cawa\Core\App;
+use Cawa\App\App;
+use Cawa\Core\DI;
 
 abstract class Ip
 {
@@ -31,7 +32,7 @@ abstract class Ip
             return self::$cachedIp;
         }
 
-        $headers = App::config()->getIfExists('ip/remoteAddressHeaders') ?: 'REMOTE_ADDR';
+        $headers = DI::config()->getIfExists('ip/remoteAddressHeaders') ?: 'REMOTE_ADDR';
 
         if (!is_array($headers)) {
             $headers = [$headers];
@@ -83,6 +84,27 @@ abstract class Ip
         }
 
         return !(filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE) == $ip);
+    }
+
+    /**
+     * @return bool
+     */
+    public static function isAdmin() : bool
+    {
+        $ips = DI::config()->getIfExists('ip/admin');
+
+        if (!$ips) {
+            return false;
+        }
+
+        $ip = Ip::get();
+        foreach ($ips as $currentIp) {
+            if ($currentIp === $ip) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**

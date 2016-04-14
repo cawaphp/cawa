@@ -16,7 +16,7 @@ declare (strict_types=1);
  *
  * @author tchiotludo <http://github.com/tchiotludo>
  */
-use Cawa\Core\App;
+use Cawa\App\App;
 use Cawa\Error\Formatter\HtmlFormatter;
 use Cawa\VarDumper\CliDumper;
 use Cawa\VarDumper\HtmlDumper;

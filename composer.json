@@ -24,14 +24,16 @@
     "require": {
         "php": "~7.0",
         "ext-mbstring": "*",
-        "ext-intl": "*",
-        "ext-curl": "*",
-        "psr/log": "^1.0",
         "behat/transliterator": "^1.1",
-        "nesbot/carbon": "~1.21",
-        "symfony/var-dumper": "^3.0",
-        "jeremykendall/php-domain-parser": "~3.0",
-        "swiftmailer/swiftmailer": "^5.4"
+
+        "cawaphp/cache": "dev-master",
+        "cawaphp/core": "dev-master",
+        "cawaphp/events": "dev-master",
+        "cawaphp/log": "dev-master",
+        "cawaphp/intl": "dev-master",
+        "cawaphp/uri": "dev-master",
+
+
     },
     "require-dev": {
         "phpunit/phpunit": "~5.1",
