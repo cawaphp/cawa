@@ -11,26 +11,25 @@
 
 declare (strict_types = 1);
 
-namespace Cawa\App\Controller\Renderer;
+namespace Cawa\Renderer;
 
-use Cawa\App\Controller\ViewController;
-
-class PhtmlContainer extends ViewController
+class HtmlContainer extends HtmlElement
 {
-    use Phtml {
-        Phtml::render as private phtmlRender;
-    }
     use TraitContainer {
         TraitContainer::render as private containerRender;
     }
 
     /**
-     * {@inheritdoc}
+     * @return string
      */
     public function render()
     {
-        $this->addData('content', $this->containerRender());
+        if ($this->elements) {
+            HtmlElement::setContent($this->containerRender());
+        }
 
-        return $this->phtmlRender();
+        $render = HtmlElement::render();
+
+        return $render;
     }
 }

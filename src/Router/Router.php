@@ -15,7 +15,7 @@ namespace Cawa\Router;
 
 use Behat\Transliterator\Transliterator;
 use Cawa\App\App;
-use Cawa\App\Controller\AbstractController;
+use Cawa\Controller\AbstractController;
 use Cawa\Cache\CacheFactory;
 use Cawa\Events\DispatcherFactory;
 use Cawa\Events\TimerEvent;

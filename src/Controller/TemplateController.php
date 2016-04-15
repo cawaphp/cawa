@@ -11,7 +11,7 @@
 
 declare (strict_types=1);
 
-namespace Cawa\App\Controller;
+namespace Cawa\Controller;
 
 /**
  * @mixin AbstractController

@@ -11,9 +11,9 @@
 
 declare (strict_types = 1);
 
-namespace Cawa\App\Controller\Renderer;
+namespace Cawa\Renderer;
 
-use Cawa\App\Controller\ViewController;
+use Cawa\Controller\ViewController;
 
 trait TraitContainer
 {

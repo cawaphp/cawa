@@ -10,7 +10,7 @@
  */
 declare (strict_types = 1);
 
-namespace Cawa\App\Controller\Renderer;
+namespace Cawa\Renderer;
 
 use Cawa\Intl\TranslatorFactory;
 

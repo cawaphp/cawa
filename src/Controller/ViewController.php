@@ -11,12 +11,12 @@
 
 declare (strict_types=1);
 
-namespace Cawa\App\Controller;
+namespace Cawa\Controller;
 
 abstract class ViewController extends AbstractController
 {
     /**
-     * @return string
+     * @return string|array
      */
     abstract public function render();
 }

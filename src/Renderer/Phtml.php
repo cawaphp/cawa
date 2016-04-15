@@ -11,10 +11,10 @@
 
 declare (strict_types = 1);
 
-namespace Cawa\App\Controller\Renderer;
+namespace Cawa\Renderer;
 
-use Cawa\App\Controller\TemplateController;
-use Cawa\App\Controller\ViewData;
+use Cawa\Controller\TemplateController;
+use Cawa\Controller\ViewData;
 
 /**
  * @mixin ViewData
