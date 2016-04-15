@@ -27,8 +27,6 @@ class Element extends ViewController
     public function __construct(string $content = null)
     {
         $this->content = $content;
-
-        parent::__construct();
     }
 
     /**

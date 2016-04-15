@@ -25,7 +25,7 @@ trait TranslatorFactory
     /**
      * @return Translator
      */
-    private static function translator() : Translator
+    protected static function translator() : Translator
     {
         if ($return = DI::get(__METHOD__)) {
             return $return;

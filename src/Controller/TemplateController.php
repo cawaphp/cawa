@@ -18,6 +18,26 @@ namespace Cawa\Controller;
  */
 trait TemplateController
 {
+
+    /**
+     * @var array
+     */
+    private static $path;
+
+    /**
+     *
+     */
+    private function getPath()
+    {
+        if (!self::$path) {
+            $reflection = new \ReflectionClass($this);
+            $filename = $reflection->getFileName();
+            self::$path = pathinfo($filename);
+        }
+
+        return self::$path;
+    }
+
     /**
      * @var string
      */
@@ -31,14 +51,12 @@ trait TemplateController
     public function setTemplatePath(string $path = null) : self
     {
         if (empty($path)) {
-            $this->templatePath = $this->path['dirname'] . '/' . $this->path['filename'];
+            $this->templatePath = $this->getPath()['dirname'] . '/' . $this->getPath()['filename'];
         } elseif (substr($path, 0, 1) == '/') {
             $this->templatePath = $path;
         } else {
-            $this->templatePath = $this->path['dirname'] . '/' . $path;
+            $this->templatePath = $this->getPath()['dirname'] . '/' . $path;
         }
-
-        // $this->event->addData(array('template' => $this->templatePath));
 
         return $this;
     }

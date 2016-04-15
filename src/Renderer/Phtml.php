@@ -41,4 +41,16 @@ trait Phtml
 
         return $render;
     }
+
+    /**
+     * Escape content
+     *
+     * @param string $content
+     *
+     * @return string
+     */
+    public function escape(string $content) : string
+    {
+        return htmlspecialchars($content);
+    }
 }
