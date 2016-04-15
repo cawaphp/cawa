@@ -17,7 +17,7 @@ use Cawa\Net\Uri;
 
 class Response
 {
-    use TraitHttp;
+    use HttpTrait;
 
     /**
      * @param string $response

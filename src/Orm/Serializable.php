@@ -15,7 +15,7 @@ namespace Cawa\Orm;
 
 abstract class Serializable implements \Serializable
 {
-    use TraitSerializable;
+    use SerializableTrait;
 
     /**
      * @return string

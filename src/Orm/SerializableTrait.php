@@ -13,7 +13,7 @@ declare (strict_types = 1);
 
 namespace Cawa\Orm;
 
-trait TraitSerializable
+trait SerializableTrait
 {
     /**
      * Recursive serialize to get parent class property.

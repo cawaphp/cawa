@@ -15,7 +15,7 @@ namespace Cawa\Renderer;
 
 use Cawa\Controller\ViewController;
 
-trait TraitContainer
+trait ContainerTrait
 {
     /**
      * @var ViewController[]

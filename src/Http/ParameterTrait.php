@@ -13,7 +13,7 @@ declare (strict_types=1);
 
 namespace Cawa\Http;
 
-trait TraitParameter
+trait ParameterTrait
 {
     /**
      * @param mixed $variable

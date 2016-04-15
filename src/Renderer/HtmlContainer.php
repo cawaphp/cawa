@@ -15,8 +15,8 @@ namespace Cawa\Renderer;
 
 class HtmlContainer extends HtmlElement
 {
-    use TraitContainer {
-        TraitContainer::render as private containerRender;
+    use ContainerTrait {
+        ContainerTrait::render as private containerRender;
     }
 
     /**

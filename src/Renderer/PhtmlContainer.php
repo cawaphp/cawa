@@ -20,8 +20,8 @@ class PhtmlContainer extends ViewController
     use Phtml {
         Phtml::render as private phtmlRender;
     }
-    use TraitContainer {
-        TraitContainer::render as private containerRender;
+    use ContainerTrait {
+        ContainerTrait::render as private containerRender;
     }
 
     /**

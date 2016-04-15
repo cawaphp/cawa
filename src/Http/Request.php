@@ -17,8 +17,8 @@ use Cawa\Net\Uri;
 
 class Request
 {
-    use TraitHttp;
-    use TraitParameter;
+    use HttpTrait;
+    use ParameterTrait;
 
     /**
      * @param Uri|null $uri

@@ -17,5 +17,5 @@ use Cawa\Controller\ViewController;
 
 class Container extends ViewController
 {
-    use TraitContainer;
+    use ContainerTrait;
 }
