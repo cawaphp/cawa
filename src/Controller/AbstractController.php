@@ -13,19 +13,8 @@ declare (strict_types=1);
 
 namespace Cawa\Controller;
 
-use Cawa\App\HttpApp;
 
 abstract class AbstractController
 {
 
-    /**
-     * @param string $name
-     * @param array $data
-     *
-     * @return string
-     */
-    public function route(string $name, array $data = [])
-    {
-        return HttpApp::router()->getUri($name, $data);
-    }
 }

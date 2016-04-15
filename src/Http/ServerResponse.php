@@ -15,9 +15,12 @@ namespace Cawa\Http;
 
 use Cawa\App\HttpApp;
 use Cawa\Net\Uri;
+use Cawa\Router\RouterFactory;
 
 class ServerResponse extends Response
 {
+    use RouterFactory;
+
     /**
      * {@inheritdoc}
      *
@@ -159,7 +162,7 @@ class ServerResponse extends Response
      */
     public function redirectRoute($name, array $data = [], int $statusCode = 302)
     {
-        $url = HttpApp::router()->getUri($name, $data);
+        $url = $this->router()->getUri($name, $data);
         $this->setStatus($statusCode);
         $this->addHeader('Location', (string) $url);
         HttpApp::end();

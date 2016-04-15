@@ -21,22 +21,12 @@ use Cawa\Http\ServerRequest;
 use Cawa\Http\ServerResponse;
 use Cawa\Log\Output\StdErr;
 use Cawa\Router\Router;
+use Cawa\Router\RouterFactory;
 use Psr\Log\LogLevel;
 
 class HttpApp extends AbstractApp
 {
-    /**
-     * @var Router
-     */
-    private $router;
-
-    /**
-     * @return Router
-     */
-    public static function router() : Router
-    {
-        return self::$instance->router;
-    }
+    use RouterFactory;
 
     /**
      * @var ServerRequest
@@ -76,8 +66,6 @@ class HttpApp extends AbstractApp
         ErrorHandler::register();
 
         ob_start();
-
-        $this->router = new Router();
     }
 
     /**
@@ -91,11 +79,11 @@ class HttpApp extends AbstractApp
         $this->response = new ServerResponse();
 
         if (file_exists($this->getAppRoot() . '/config/route.php')) {
-            $this->router->addRoutes(require $this->getAppRoot() . '/config/route.php');
+            $this->router()->addRoutes(require $this->getAppRoot() . '/config/route.php');
         }
 
         if (file_exists($this->getAppRoot() . '/config/uri.php')) {
-            $this->router->addUris(require $this->getAppRoot() . '/config/uri.php');
+            $this->router()->addUris(require $this->getAppRoot() . '/config/uri.php');
         }
 
         $this->init = true;
@@ -106,7 +94,7 @@ class HttpApp extends AbstractApp
      */
     public function handle()
     {
-        $return = $this->router->handle();
+        $return = $this->router()->handle();
 
         // hack to display trace on development env
         $debug = (HttpApp::env() == HttpApp::DEV && ob_get_length() > 0);
