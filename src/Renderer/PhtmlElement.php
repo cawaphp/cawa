@@ -17,5 +17,5 @@ use Cawa\Controller\ViewController;
 
 class PhtmlElement extends ViewController
 {
-    use Phtml;
+    use PhtmlTrait;
 }

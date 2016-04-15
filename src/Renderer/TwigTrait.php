@@ -14,15 +14,15 @@ declare (strict_types = 1);
 namespace Cawa\Renderer;
 
 use Cawa\App\HttpApp;
-use Cawa\Controller\TemplateController;
-use Cawa\Controller\ViewData;
+use Cawa\Controller\TemplateControllerTrait;
+use Cawa\Controller\ViewDataTrait;
 use Twig_Environment;
 use Twig_Loader_Filesystem;
 
-trait Twig
+trait TwigTrait
 {
-    use ViewData;
-    use TemplateController;
+    use ViewDataTrait;
+    use TemplateControllerTrait;
 
     /**
      * @var \Twig_Environment

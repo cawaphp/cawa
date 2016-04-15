@@ -13,7 +13,7 @@ declare (strict_types=1);
 
 namespace Cawa\Controller;
 
-trait ViewData
+trait ViewDataTrait
 {
     private $data = [];
 

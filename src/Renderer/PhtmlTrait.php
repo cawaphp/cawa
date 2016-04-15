@@ -13,15 +13,15 @@ declare (strict_types = 1);
 
 namespace Cawa\Renderer;
 
-use Cawa\Controller\TemplateController;
-use Cawa\Controller\ViewData;
+use Cawa\Controller\TemplateControllerTrait;
+use Cawa\Controller\ViewDataTrait;
 
 /**
- * @mixin ViewData
+ * @mixin ViewDataTrait
  */
-trait Phtml
+trait PhtmlTrait
 {
-    use TemplateController;
+    use TemplateControllerTrait;
 
     /**
      * @return string

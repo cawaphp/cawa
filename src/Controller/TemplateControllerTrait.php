@@ -16,7 +16,7 @@ namespace Cawa\Controller;
 /**
  * @mixin AbstractController
  */
-trait TemplateController
+trait TemplateControllerTrait
 {
 
     /**

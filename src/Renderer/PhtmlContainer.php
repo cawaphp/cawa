@@ -17,8 +17,8 @@ use Cawa\Controller\ViewController;
 
 class PhtmlContainer extends ViewController
 {
-    use Phtml {
-        Phtml::render as private phtmlRender;
+    use PhtmlTrait {
+        PhtmlTrait::render as private phtmlRender;
     }
     use ContainerTrait {
         ContainerTrait::render as private containerRender;

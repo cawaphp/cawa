@@ -15,7 +15,7 @@ namespace Cawa\VarDumper;
 
 class CliDumper extends \Symfony\Component\VarDumper\Dumper\CliDumper
 {
-    use Dumper;
+    use DumperTrait;
 
     /**
      * @var int

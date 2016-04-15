@@ -43,7 +43,7 @@ $app->end();
 
 ## Features
 - HMVC framework : Because simple MVC sucks
-- Template : Phtml & Twig template engine support
+- Template : PhtmlTrait & Twig template engine support
 - Http Router : strict type http router, with localized url, controller & callback
 - Error Handler : catch all error with pretty html output
 - Intl & l18n : really simple key value store v

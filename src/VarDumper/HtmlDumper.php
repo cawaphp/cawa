@@ -15,7 +15,7 @@ namespace Cawa\VarDumper;
 
 class HtmlDumper extends \Symfony\Component\VarDumper\Dumper\HtmlDumper
 {
-    use Dumper;
+    use DumperTrait;
 
     /**
      * @var string
