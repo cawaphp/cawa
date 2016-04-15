@@ -89,7 +89,7 @@ class DateTime extends Carbon implements \JsonSerializable
     protected function getUserTimezone() : \DateTimeZone
     {
         if (!$this->userTimezone) {
-            $timezone = DI::config()->get("timezone");
+            $timezone = DI::config()->get('timezone');
             $this->userTimezone = new \DateTimeZone($timezone);
         }
 
@@ -97,7 +97,7 @@ class DateTime extends Carbon implements \JsonSerializable
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function format($format = null)
     {
@@ -117,6 +117,7 @@ class DateTime extends Carbon implements \JsonSerializable
     {
         $clone = clone $this;
         $clone->setTimezone($this->getUserTimezone());
+
         return $clone->format($format);
     }
 
@@ -133,9 +134,9 @@ class DateTime extends Carbon implements \JsonSerializable
 
         if ($day && $hour) {
             $format = '%x %X';
-        } else if ($day && !$hour) {
+        } elseif ($day && !$hour) {
             $format = '%x';
-        } else if (!$day && $hour) {
+        } elseif (!$day && $hour) {
             $format = '%X';
         } else {
             throw new \InvalidArgumentException("Can't display date with no format");

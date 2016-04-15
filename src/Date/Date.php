@@ -24,7 +24,7 @@ class Date extends DateTime
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function format($format = null)
     {

@@ -328,7 +328,6 @@ class Cookie
                     case 'httponly':
                         $cookie->setHttpOnly(true);
                         break;
-
                 }
             }
         }

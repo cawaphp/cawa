@@ -18,7 +18,7 @@ declare (strict_types=1);
  */
 namespace CawaTest\Uri;
 
-use Cawa\Uri\Uri;
+use Cawa\Net\Uri;
 use PHPUnit_Framework_TestCase as TestCase;
 
 class UriTest extends TestCase

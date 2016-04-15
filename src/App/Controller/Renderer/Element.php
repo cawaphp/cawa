@@ -75,7 +75,6 @@ class Element extends ViewController
      */
     public function render()
     {
-
         return $this->content;
     }
 }

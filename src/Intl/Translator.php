@@ -329,5 +329,4 @@ class Translator
     {
         return $this->getKey($key);
     }
-
 }

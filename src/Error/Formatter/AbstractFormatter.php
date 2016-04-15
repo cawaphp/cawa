@@ -37,7 +37,6 @@ abstract class AbstractFormatter
             $index = trim(array_shift($row), '#');
 
             foreach ($row as $current) {
-
                 // current file
                 if (is_null($stack['file'])) {
                     if (substr($current, -1) === ':') {

@@ -11,7 +11,7 @@
 
 declare (strict_types=1);
 
-namespace Cawa\Uri;
+namespace Cawa\Net;
 
 use Pdp\Parser;
 use Pdp\PublicSuffixListManager;

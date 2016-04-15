@@ -51,7 +51,6 @@ trait TraitParameter
 
             default:
                 throw new \LogicException(sprintf("Invalid filter type '%s'", $type));
-
         }
 
         return $variable;

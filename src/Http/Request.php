@@ -13,7 +13,7 @@ declare (strict_types=1);
 
 namespace Cawa\Http;
 
-use Cawa\Uri\Uri;
+use Cawa\Net\Uri;
 
 class Request
 {
@@ -54,7 +54,7 @@ class Request
     }
 
     /**
-     * @var \Cawa\Uri\Uri
+     * @var \Cawa\Net\Uri
      */
     protected $uri;
 

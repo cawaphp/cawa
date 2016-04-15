@@ -189,7 +189,6 @@ class App
 
         $this->request = $request;
 
-
         if (file_exists($this->appRoot . '/config/config.php')) {
             DI::config()->add(require $this->appRoot . '/config/config.php');
         }

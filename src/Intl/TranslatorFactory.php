@@ -33,6 +33,6 @@ trait TranslatorFactory
 
         $item = new Translator();
 
-        return DI::set(__METHOD__,  null, $item);
+        return DI::set(__METHOD__, null, $item);
     }
 }

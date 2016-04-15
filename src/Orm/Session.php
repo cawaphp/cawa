@@ -13,7 +13,6 @@ declare (strict_types = 1);
 
 namespace Cawa\Orm;
 
-use Cawa\App\App;
 use Cawa\Session\SessionFactory;
 
 trait Session

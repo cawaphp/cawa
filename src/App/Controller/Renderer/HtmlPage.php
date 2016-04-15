@@ -12,7 +12,6 @@ declare (strict_types = 1);
 
 namespace Cawa\App\Controller\Renderer;
 
-use Cawa\App\App;
 use Cawa\Intl\TranslatorFactory;
 
 class HtmlPage extends HtmlContainer
@@ -205,12 +204,12 @@ class HtmlPage extends HtmlContainer
         $this->footer->add($meta);
 
         // add a preload header
-        if ($meta->getAttribute("src")) {
+        if ($meta->getAttribute('src')) {
             $preload = new HtmlElement('<link>');
             $preload->addAttributes([
-                "as" => "script",
-                "href" => $meta->getAttribute("src"),
-                "rel" => "preload"
+                'as' => 'script',
+                'href' => $meta->getAttribute('src'),
+                'rel' => 'preload'
             ]);
             $this->head->add($preload);
         }

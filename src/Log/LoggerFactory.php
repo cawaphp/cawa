@@ -33,6 +33,6 @@ trait LoggerFactory
 
         $item = new Logger();
 
-        return DI::set(__METHOD__,  null, $item);
+        return DI::set(__METHOD__, null, $item);
     }
 }

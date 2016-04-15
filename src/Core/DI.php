@@ -70,7 +70,7 @@ abstract class DI
         return self::$config;
     }
 
-    /**
+    /*
      * @param string $name
      *
      * @return Client
@@ -97,5 +97,4 @@ abstract class DI
         return $this->container[$containerName];
     }
     */
-
 }

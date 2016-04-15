@@ -14,7 +14,7 @@ declare (strict_types=1);
 namespace Cawa\Http;
 
 use Cawa\App\App;
-use Cawa\Uri\Uri;
+use Cawa\Net\Uri;
 
 class ServerResponse extends Response
 {

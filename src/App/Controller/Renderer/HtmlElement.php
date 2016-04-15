@@ -13,8 +13,6 @@ declare (strict_types = 1);
 
 namespace Cawa\App\Controller\Renderer;
 
-use ReflectionClass;
-
 class HtmlElement extends Element
 {
     /**

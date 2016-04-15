@@ -56,12 +56,12 @@ abstract class AbstractController
     protected function getLocalePath(string $path) : string
     {
         if (!isset($this->path['dirname'])) {
-            throw new \RuntimeException("call too early before AbstractController::__construct call");
+            throw new \RuntimeException('call too early before AbstractController::__construct call');
         }
 
         if (substr($path, 0, 2) == '..') {
             return $this->path['dirname'] . '/' . $path;
-        } else if (substr($path, 0, 1) == '/') {
+        } elseif (substr($path, 0, 1) == '/') {
             return $path;
         } else {
             return $this->path['dirname'] . '/lang/' . $path;

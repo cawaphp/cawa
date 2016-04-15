@@ -14,14 +14,14 @@ declare (strict_types = 1);
 namespace Cawa\Router;
 
 use Behat\Transliterator\Transliterator;
-use Cawa\Cache\CacheFactory;
 use Cawa\App\App;
 use Cawa\App\Controller\AbstractController;
+use Cawa\Cache\CacheFactory;
 use Cawa\Events\DispatcherFactory;
 use Cawa\Events\TimerEvent;
 use Cawa\Intl\TranslatorFactory;
+use Cawa\Net\Uri;
 use Cawa\Session\SessionFactory;
-use Cawa\Uri\Uri;
 
 class Router
 {
@@ -95,10 +95,9 @@ class Router
         $routesTranform = [];
 
         foreach ($routes as $name => $route) {
-
             if (is_string($route)) {
                 $routesTranform[$name] = Route::create($route);
-            } else if (is_array($route)) {
+            } elseif (is_array($route)) {
                 $routesTranform = array_merge($routesTranform, $this->addRecursiveRoute([$name], $route));
             } else {
                 $routesTranform[$name] = $route;
@@ -143,7 +142,6 @@ class Router
     {
         $return = [];
         foreach ($routes as $currentPath => $route) {
-
             if (is_string($route) || $route instanceof Route) {
                 if (is_string($route)) {
                     $route = Route::create($route)
@@ -157,13 +155,13 @@ class Router
                     $match[] = $route->getMatch();
                 }
 
-                $route->setMatch(implode("/", $match));
+                $route->setMatch(implode('/', $match));
 
                 $return[$route->getName()] = $route;
             } else {
                 $return = array_merge(
                     $return,
-                    $this->addRecursiveRoute(array_merge($path , [$currentPath]), $route)
+                    $this->addRecursiveRoute(array_merge($path, [$currentPath]), $route)
                 );
             }
         }
@@ -420,7 +418,6 @@ class Router
             return $return;
         }
 
-
         return $this->return404();
     }
 
@@ -430,17 +427,17 @@ class Router
     private function return404()
     {
         if (isset($this->errors[404])) {
-             App::response()->setStatus(404);
+            App::response()->setStatus(404);
 
-             return $this->callController($this->errors[404], []);
-         } else {
-             return '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">' . "\n" .
+            return $this->callController($this->errors[404], []);
+        } else {
+            return '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">' . "\n" .
                  '<html><head>' . "\n" .
                  '<title>404 Not Found</title>' . "\n" .
                  '</head><body>' . "\n" .
                  '<h1>Not Found</h1>' . "\n" .
                  '</body></html>';
-         }
+        }
     }
 
     /**
@@ -544,7 +541,7 @@ class Router
                 ));
             }
 
-            return str_replace("/", "\\", $args[$match[1]]);
+            return str_replace('/', '\\', $args[$match[1]]);
         }, $vars);
     }
 

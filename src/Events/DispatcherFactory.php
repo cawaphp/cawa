@@ -33,6 +33,6 @@ trait DispatcherFactory
 
         $item = new Dispatcher();
 
-        return DI::set(__METHOD__,  null, $item);
+        return DI::set(__METHOD__, null, $item);
     }
 }

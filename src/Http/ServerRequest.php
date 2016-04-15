@@ -13,7 +13,7 @@ declare (strict_types=1);
 
 namespace Cawa\Http;
 
-use Cawa\Uri\Uri;
+use Cawa\Net\Uri;
 
 class ServerRequest extends Request
 {
