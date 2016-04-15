@@ -11,12 +11,6 @@
 
 declare (strict_types=1);
 
-/*
- * Сáша frameworks
- *
- * @author tchiotludo <http://github.com/tchiotludo>
- */
-use Cawa\App\App;
 use Cawa\Error\Formatter\HtmlFormatter;
 use Cawa\VarDumper\CliDumper;
 use Cawa\VarDumper\HtmlDumper;
@@ -34,11 +28,7 @@ if (!function_exists('trace')) {
         if (!$init) {
             $cloner = new VarCloner();
 
-            if (App::isInit()) {
-                $isCli = false;
-            } else {
-                $isCli = 'cli' === PHP_SAPI;
-            }
+            $isCli = 'cli' === PHP_SAPI;
 
             $dumper = $isCli ? new CliDumper() : new HtmlDumper();
             $handler = function ($var) use ($cloner, $dumper) {
@@ -53,7 +43,6 @@ if (!function_exists('trace')) {
         }
     }
 }
-
 if (!function_exists('traceDie')) {
     /**
      * @param mixed $var
