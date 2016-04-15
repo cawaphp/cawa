@@ -23,7 +23,7 @@ use Cawa\Log\Output\StdErr;
 use Cawa\Router\Router;
 use Psr\Log\LogLevel;
 
-class App extends AbstractApp
+class HttpApp extends AbstractApp
 {
     /**
      * @var Router
@@ -65,7 +65,7 @@ class App extends AbstractApp
     }
 
     /**
-     * App constructor.
+     * HttpApp constructor.
      *
      * @param string $appRoot
      */
@@ -109,7 +109,7 @@ class App extends AbstractApp
         $return = $this->router->handle();
 
         // hack to display trace on development env
-        $debug = (App::env() == App::DEV && ob_get_length() > 0);
+        $debug = (HttpApp::env() == HttpApp::DEV && ob_get_length() > 0);
 
         if ($return instanceof \SimpleXMLElement) {
             if ($debug == false) {

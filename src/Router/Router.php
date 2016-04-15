@@ -14,7 +14,7 @@ declare (strict_types = 1);
 namespace Cawa\Router;
 
 use Behat\Transliterator\Transliterator;
-use Cawa\App\App;
+use Cawa\App\HttpApp;
 use Cawa\Controller\AbstractController;
 use Cawa\Cache\CacheFactory;
 use Cawa\Events\DispatcherFactory;
@@ -254,9 +254,9 @@ class Router
             // control query string
             if ($route->getUserInput()) {
                 foreach ($route->getUserInput() as $querystring) {
-                    $method = App::request()->getMethod() == 'POST' ? 'getPostOrQuery' : 'getQuery';
+                    $method = HttpApp::request()->getMethod() == 'POST' ? 'getPostOrQuery' : 'getQuery';
 
-                    $value = App::request()->$method($querystring->getName(), $querystring->getType());
+                    $value = HttpApp::request()->$method($querystring->getName(), $querystring->getType());
 
                     if (is_null($value) && $querystring->isMandatory()) {
                         return [false, null, $regexp];
@@ -282,7 +282,7 @@ class Router
     {
         $regexp = $route->getMatch();
 
-        // App::logger()->debug($regexp);
+        // HttpApp::logger()->debug($regexp);
 
         preg_match_all('`\{\{(.+)\}\}`U', $regexp, $matches);
         if (sizeof($matches[1]) == 0) {
@@ -379,7 +379,7 @@ class Router
      */
     public function handle()
     {
-        $uri = clone App::request()->getUri();
+        $uri = clone HttpApp::request()->getUri();
         $uri->removeAllQueries();
         $url = $uri->get();
 
@@ -427,7 +427,7 @@ class Router
     private function return404()
     {
         if (isset($this->errors[404])) {
-            App::response()->setStatus(404);
+            HttpApp::response()->setStatus(404);
 
             return $this->callController($this->errors[404], []);
         } else {
@@ -479,7 +479,7 @@ class Router
         if ($route->getOption(Route::OPTIONS_CACHE)) {
             if ($data = self::cache('OUTPUT')->get($cacheKey)) {
                 foreach ($data['headers'] as $name => $header) {
-                    App::response()->addHeader($name, $header);
+                    HttpApp::response()->addHeader($name, $header);
                 }
 
                 return $data['output'];
@@ -507,14 +507,14 @@ class Router
                 throw new \LogicException("Can't set a cache on a route that use session data");
             }
 
-            App::response()->addHeader('Expires', gmdate('D, d M Y H:i:s', time() + $second) . ' GMT');
-            App::response()->addHeader('Cache-Control', 'public, max-age=' . $second . ', must-revalidate');
-            App::response()->addHeader('Pragma', 'public, max-age=' . $second . ', must-revalidate');
-            App::response()->addHeader('Vary', 'Accept-Encoding');
+            HttpApp::response()->addHeader('Expires', gmdate('D, d M Y H:i:s', time() + $second) . ' GMT');
+            HttpApp::response()->addHeader('Cache-Control', 'public, max-age=' . $second . ', must-revalidate');
+            HttpApp::response()->addHeader('Pragma', 'public, max-age=' . $second . ', must-revalidate');
+            HttpApp::response()->addHeader('Vary', 'Accept-Encoding');
 
             $data = [
                 'output' => $return,
-                'headers' => App::response()->getHeaders()
+                'headers' => HttpApp::response()->getHeaders()
             ];
 
             self::cache('OUTPUT')->set($cacheKey, $data, $second);
@@ -580,9 +580,9 @@ class Router
         if (is_null($method)) {
             $method = 'get';
 
-            if (App::request()->isAjax() && method_exists($controller, 'ajax')) {
+            if (HttpApp::request()->isAjax() && method_exists($controller, 'ajax')) {
                 $method = 'ajax';
-            } elseif (App::request()->getMethod() == 'POST' && method_exists($controller, 'post')) {
+            } elseif (HttpApp::request()->getMethod() == 'POST' && method_exists($controller, 'post')) {
                 $method = 'post';
             }
         }

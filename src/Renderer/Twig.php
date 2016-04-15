@@ -13,7 +13,7 @@ declare (strict_types = 1);
 
 namespace Cawa\Renderer;
 
-use Cawa\App\App;
+use Cawa\App\HttpApp;
 use Cawa\Controller\TemplateController;
 use Cawa\Controller\ViewData;
 use Twig_Environment;
@@ -39,7 +39,7 @@ trait Twig
             $loader->prependPath('/');
 
             $twig = new Twig_Environment($loader, [
-              'cache' => App::getAppRoot() . '/cache/twig',
+              'cache' => HttpApp::getAppRoot() . '/cache/twig',
             ]);
             self::$renderer = $twig;
         }

@@ -51,7 +51,7 @@ abstract class AbstractApp
     public static function instance()
     {
         if (!self::$instance) {
-            throw new \LogicException('App is not created');
+            throw new \LogicException('HttpApp is not created');
         }
 
         return self::$instance;
@@ -66,7 +66,7 @@ abstract class AbstractApp
     public static function create(string $appRoot, ServerRequest $request = null) : self
     {
         if (self::$instance) {
-            throw new \LogicException('App is already created');
+            throw new \LogicException('HttpApp is already created');
         }
 
         self::$instance = new static($appRoot, $request);
@@ -116,7 +116,7 @@ abstract class AbstractApp
     }
 
     /**
-     * App constructor.
+     * HttpApp constructor.
      *
      * @param string $appRoot
      */
@@ -134,7 +134,7 @@ abstract class AbstractApp
     public function init()
     {
         if ($this->init == true) {
-            throw new \LogicException("Can't reinit App");
+            throw new \LogicException("Can't reinit HttpApp");
         }
 
         if (file_exists($this->appRoot . '/config/config.php')) {

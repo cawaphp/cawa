@@ -83,7 +83,7 @@ abstract class DI
             return $this->container[$containerName];
         }
 
-        $config = App::config()->get('httpclient/' . $name);
+        $config = HttpApp::config()->get('httpclient/' . $name);
 
         if (is_callable($config)) {
             $return = $config();

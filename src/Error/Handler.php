@@ -13,7 +13,7 @@ declare (strict_types=1);
 
 namespace Cawa\Error;
 
-use Cawa\App\App;
+use Cawa\App\HttpApp;
 use Cawa\Error\Exceptions\Deprecated;
 use Cawa\Error\Exceptions\Error;
 use Cawa\Error\Exceptions\Fatal;
@@ -169,12 +169,12 @@ class Handler
             return;
         }
 
-        if (App::isInit()) {
+        if (HttpApp::isInit()) {
             self::log($exception);
 
-            App::response()->setStatus(500);
+            HttpApp::response()->setStatus(500);
 
-            if (App::env() != App::PROD || Ip::isAdmin()) {
+            if (HttpApp::env() != HttpApp::PROD || Ip::isAdmin()) {
                 $formatter = new HtmlFormatter();
                 echo $formatter->render($exception);
             } else {
@@ -182,13 +182,13 @@ class Handler
                 trace('Oups');
             }
 
-            App::end();
+            HttpApp::end();
         } else {
             if (!headers_sent()) {
                 header('HTTP/1.1 500 Internal Server Error');
             }
 
-            if (App::env() != App::PROD) {
+            if (HttpApp::env() != HttpApp::PROD) {
                 $formatter = new HtmlFormatter();
                 echo $formatter->render($exception);
             } else {
@@ -232,14 +232,14 @@ class Handler
         }
         unset($context['message']);
 
-        $start = App::request()->getServer('REQUEST_TIME_FLOAT');
+        $start = HttpApp::request()->getServer('REQUEST_TIME_FLOAT');
         $end = microtime(true);
         $context['Duration'] = round(($end - $start) * 1000, 3);
 
         $context['Ip'] = Ip::get();
-        $context['Url'] = App::request()->getUri()->get(false);
+        $context['Url'] = HttpApp::request()->getUri()->get(false);
         $context['Trace'] = $exception->getTraceAsString();
-        $context['Referer'] = App::request()->getHeader('Referer');
+        $context['Referer'] = HttpApp::request()->getHeader('Referer');
 
         self::logger()->log($level, $exception->getMessage(), $context);
     }

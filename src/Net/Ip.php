@@ -13,7 +13,7 @@ declare (strict_types = 1);
 
 namespace Cawa\Net;
 
-use Cawa\App\App;
+use Cawa\App\HttpApp;
 use Cawa\Core\DI;
 
 abstract class Ip
@@ -39,7 +39,7 @@ abstract class Ip
         }
 
         foreach ($headers as $header) {
-            $return = App::request()->getServer($header);
+            $return = HttpApp::request()->getServer($header);
             if ($return) {
                 self::$cachedIp = $return;
 

@@ -13,7 +13,7 @@ declare (strict_types=1);
 
 namespace Cawa\Controller;
 
-use Cawa\App\App;
+use Cawa\App\HttpApp;
 use Cawa\Core\DI;
 
 abstract class AbstractController
@@ -26,7 +26,7 @@ abstract class AbstractController
      */
     public function route(string $name, array $data = [])
     {
-        return App::router()->getUri($name, $data);
+        return HttpApp::router()->getUri($name, $data);
     }
 
     /**

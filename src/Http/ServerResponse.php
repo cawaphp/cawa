@@ -13,7 +13,7 @@ declare (strict_types=1);
 
 namespace Cawa\Http;
 
-use Cawa\App\App;
+use Cawa\App\HttpApp;
 use Cawa\Net\Uri;
 
 class ServerResponse extends Response
@@ -149,7 +149,7 @@ class ServerResponse extends Response
 
         $this->setStatus($statusCode);
         $this->addHeader('Location', (string) $url);
-        App::end();
+        HttpApp::end();
     }
 
     /**
@@ -159,10 +159,10 @@ class ServerResponse extends Response
      */
     public function redirectRoute($name, array $data = [], int $statusCode = 302)
     {
-        $url = App::router()->getUri($name, $data);
+        $url = HttpApp::router()->getUri($name, $data);
         $this->setStatus($statusCode);
         $this->addHeader('Location', (string) $url);
-        App::end();
+        HttpApp::end();
     }
 
     /**

@@ -13,7 +13,7 @@ declare (strict_types=1);
 
 namespace Cawa\Intl;
 
-use Cawa\App\App;
+use Cawa\App\HttpApp;
 use Cawa\Core\DI;
 use Cawa\Http\Cookie;
 use Cawa\Log\LoggerFactory;
@@ -97,8 +97,8 @@ class Translator
             throw new \Exception(sprintf("Unable to set locale to '%s'", $this->locales[$this->locale]));
         }
 
-        if (!App::request()->getCookie(self::COOKIE_LANGUAGE)) {
-            App::response()->addCookie(new Cookie(self::COOKIE_LANGUAGE, $this->locale, 60*60*24*365));
+        if (!HttpApp::request()->getCookie(self::COOKIE_LANGUAGE)) {
+            HttpApp::response()->addCookie(new Cookie(self::COOKIE_LANGUAGE, $this->locale, 60*60*24*365));
         }
     }
 
@@ -108,20 +108,20 @@ class Translator
     private function detectLocale() : string
     {
         // detection from url
-        $explode = explode('/', App::request()->getUri()->getPath());
+        $explode = explode('/', HttpApp::request()->getUri()->getPath());
         if (isset($explode[1]) && in_array($explode[1], $this->getLocales())) {
             return $explode[1];
         }
 
         // detection from cookie
-        if ($cookie = App::request()->getCookie(self::COOKIE_LANGUAGE)) {
+        if ($cookie = HttpApp::request()->getCookie(self::COOKIE_LANGUAGE)) {
             if (in_array($cookie, $this->getLocales())) {
                 return $cookie->getValue();
             }
         }
 
         // detection from headers
-        $accepted = App::request()->getAcceptedLanguage();
+        $accepted = HttpApp::request()->getAcceptedLanguage();
 
         array_walk($accepted, function (&$value) {
             $value = substr($value, 0, 2);
@@ -156,7 +156,7 @@ class Translator
         if (substr($file, 0, 1) == '/') {
             $path = '';
         } else {
-            $path = App::getAppRoot() . '/lang/';
+            $path = HttpApp::getAppRoot() . '/lang/';
         }
 
         if ($appendLang) {
@@ -185,7 +185,7 @@ class Translator
 
             $name = $rename;
         } else {
-            $path = App::getAppRoot() . '/lang/' . $name;
+            $path = HttpApp::getAppRoot() . '/lang/' . $name;
         }
 
         if ($appendLang) {
