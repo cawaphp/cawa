@@ -15,7 +15,7 @@ namespace Cawa\Renderer;
 
 use Cawa\Controller\ViewController;
 
-class PhtmlElement extends ViewController
+class Phtml extends ViewController
 {
     use PhtmlTrait;
 }

@@ -17,6 +17,7 @@ use Cawa\Intl\TranslatorFactory;
 class HtmlPage extends HtmlContainer
 {
     use TranslatorFactory;
+    use AssetTrait;
 
     /**
      *
