@@ -603,11 +603,11 @@ class Router
             call_user_func_array([$controller, 'init'], $ordererArgs);
         }
 
-        $mReturn = call_user_func_array([$controller, $method], $ordererArgs);
+        $return = call_user_func_array([$controller, $method], $ordererArgs);
 
         self::dispatcher()->emit($event);
 
-        return $mReturn;
+        return $return;
     }
 
     /**

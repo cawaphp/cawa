@@ -75,8 +75,8 @@ class HtmlElement extends Element
      */
     public function addAttributes(array $attributes) : self
     {
-        foreach ($attributes as $sKey => $value) {
-            $this->attributes[$sKey] = $value;
+        foreach ($attributes as $key => $value) {
+            $this->attributes[$key] = $value;
         }
 
         return $this;

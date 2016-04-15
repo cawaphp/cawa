@@ -59,43 +59,43 @@ class Uri
             return null;
         }
 
-        $aParse = @parse_url(urldecode($_SERVER['REQUEST_URI']));
+        $parseUrl = @parse_url(urldecode($_SERVER['REQUEST_URI']));
 
-        if (sizeof($aParse) == 0) {
+        if (sizeof($parseUrl) == 0) {
             return null;
         }
 
-        $aParse['scheme'] = 'http';
-        $aParse['host'] = $_SERVER['SERVER_NAME'];
+        $parseUrl['scheme'] = 'http';
+        $parseUrl['host'] = $_SERVER['SERVER_NAME'];
 
         if (isset($_SERVER['HTTP_X_FORWARDED_PROTO'])) {
             if ($_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
-                $aParse['scheme'] = 'https';
+                $parseUrl['scheme'] = 'https';
             }
         }
 
         /* apache + variants specific way of checking for https */
         if (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] === 'on' || $_SERVER['HTTPS'] == 1)) {
-            $aParse['scheme'] = 'https';
+            $parseUrl['scheme'] = 'https';
         }
 
         /* nginx way of checking for https */
         if (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] === '443') {
-            $aParse['scheme'] = 'https';
+            $parseUrl['scheme'] = 'https';
         }
 
         if ($_SERVER['SERVER_PORT'] != 80 && $_SERVER['SERVER_PORT'] != 443) {
-            $aParse['port'] = $_SERVER['SERVER_PORT'];
+            $parseUrl['port'] = $_SERVER['SERVER_PORT'];
         }
 
-        if (isset($aParse['query'])) {
-            parse_str($aParse['query'], $query);
-            $aParse['query'] = $query;
+        if (isset($parseUrl['query'])) {
+            parse_str($parseUrl['query'], $query);
+            $parseUrl['query'] = $query;
         } else {
-            $aParse['query'] = [];
+            $parseUrl['query'] = [];
         }
 
-        $this->uri = $aParse;
+        $this->uri = $parseUrl;
     }
 
     /**

@@ -271,27 +271,27 @@ class App
      */
     public function handle()
     {
-        $mReturn = $this->router->handle();
+        $retturn = $this->router->handle();
 
         // hack to display trace on development env
         $debug = (App::env() == App::DEV && ob_get_length() > 0);
 
-        if ($mReturn instanceof \SimpleXMLElement) {
+        if ($retturn instanceof \SimpleXMLElement) {
             if ($debug == false) {
                 $this->response->addHeaderIfNotExist('Content-Type', 'text/xml; charset=utf-8');
             }
 
-            $this->response->setBody($mReturn->asXML());
+            $this->response->setBody($retturn->asXML());
         }
-        if (gettype($mReturn) == 'array') {
+        if (gettype($retturn) == 'array') {
             if ($debug == false) {
                 $this->response->addHeaderIfNotExist('Content-Type', 'application/json; charset=utf-8');
             }
 
-            $this->response->setBody(json_encode($mReturn));
+            $this->response->setBody(json_encode($retturn));
         } else {
             $this->response->addHeaderIfNotExist('Content-Type', 'text/html; charset=utf-8');
-            $this->response->setBody($mReturn);
+            $this->response->setBody($retturn);
         }
     }
 

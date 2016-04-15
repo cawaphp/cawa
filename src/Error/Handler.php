@@ -152,9 +152,9 @@ class Handler
         $class = 'Cawa\\Error\\Exceptions\\' . $class;
 
         $message = sprintf('[#%s %s] %s', $errno, self::LEVEL_NAME[$errno], $message);
-        $oException = new $class($message, $errno, 0, $filename, $linenumber);
+        $exception = new $class($message, $errno, 0, $filename, $linenumber);
 
-        throw $oException;
+        throw $exception;
     }
 
     /**
