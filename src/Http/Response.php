@@ -13,8 +13,6 @@ declare (strict_types=1);
 
 namespace Cawa\Http;
 
-use Cawa\Net\Uri;
-
 class Response
 {
     use HttpTrait;

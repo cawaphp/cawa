@@ -22,14 +22,25 @@ class ServerResponse extends Response
     use RouterFactory;
 
     /**
+     * @param string|null $file
+     * @param int|null $line
+     *
+     * @return bool
+     */
+    public function headerSent(string &$file = null, int &$line = null) : bool
+    {
+        return headers_sent($file, $line);
+    }
+
+    /**
      * {@inheritdoc}
      *
      * @throws \LogicException
      */
     public function addHeaderIfNotExist(string $name, string $value) : bool
     {
-        if ($this->headersSent || headers_sent()) {
-            throw new \LogicException('Headers is already sent');
+        if ($this->headerSent($file, $line)) {
+            throw new \LogicException(sprintf("Headers is already sent in '%s:%s'", $file, $line));
         }
 
         return parent::addHeaderIfNotExist($name, $value);
@@ -42,8 +53,8 @@ class ServerResponse extends Response
      */
     public function addHeader(string $name, string $value) : bool
     {
-        if ($this->headersSent || headers_sent()) {
-            throw new \LogicException('Headers is already sent');
+        if ($this->headerSent($file, $line)) {
+            throw new \LogicException(sprintf("Headers is already sent in '%s:%s'", $file, $line));
         }
 
         return parent::addHeader($name, $value);
@@ -56,8 +67,8 @@ class ServerResponse extends Response
      */
     public function removeHeader(string $name)
     {
-        if ($this->headersSent || headers_sent()) {
-            throw new \LogicException('Headers is already sent');
+        if ($this->headerSent($file, $line)) {
+            throw new \LogicException(sprintf("Headers is already sent in '%s:%s'", $file, $line));
         }
 
         return parent::removeHeader($name);
@@ -70,8 +81,8 @@ class ServerResponse extends Response
      */
     public function addCookie(Cookie $cookie)
     {
-        if ($this->headersSent || headers_sent()) {
-            throw new \LogicException('Headers is already sent');
+        if ($this->headerSent($file, $line)) {
+            throw new \LogicException(sprintf("Headers is already sent in '%s:%s'", $file, $line));
         }
 
         return parent::addCookie($cookie);
@@ -84,8 +95,8 @@ class ServerResponse extends Response
      */
     public function setCookie(Cookie $cookie)
     {
-        if ($this->headersSent || headers_sent()) {
-            throw new \LogicException('Headers is already sent');
+        if ($this->headerSent($file, $line)) {
+            throw new \LogicException(sprintf("Headers is already sent in '%s:%s'", $file, $line));
         }
 
         return parent::setCookie($cookie);
@@ -98,8 +109,8 @@ class ServerResponse extends Response
      */
     public function clearCookie(Cookie $cookie)
     {
-        if ($this->headersSent || headers_sent()) {
-            throw new \LogicException('Headers is already sent');
+        if ($this->headerSent($file, $line)) {
+            throw new \LogicException(sprintf("Headers is already sent in '%s:%s'", $file, $line));
         }
 
         return parent::clearCookie($cookie);
@@ -131,8 +142,8 @@ class ServerResponse extends Response
      */
     public function setStatus(int $code) : self
     {
-        if ($this->headersSent || headers_sent()) {
-            throw new \LogicException('Headers is already sent');
+        if ($this->headerSent($file, $line)) {
+            throw new \LogicException(sprintf("Headers is already sent in '%s:%s'", $file, $line));
         }
 
         $this->statusCode = $code;
@@ -169,17 +180,12 @@ class ServerResponse extends Response
     }
 
     /**
-     * @var bool;
-     */
-    private $headersSent = false;
-
-    /**
      * @return void
      */
     private function sendHeaders()
     {
-        if ($this->headersSent || headers_sent()) {
-            throw new \LogicException('Headers is already sent');
+        if ($this->headerSent($file, $line)) {
+            throw new \LogicException(sprintf("Headers is already sent in '%s:%s'", $file, $line));
         }
 
         header('HTTP/1.1 ' . $this->statusCode . ' '  . self::$statusCodeList[$this->statusCode]);
@@ -199,8 +205,6 @@ class ServerResponse extends Response
         foreach ($this->headers as $name => $value) {
             header($name . ': ' . $value);
         }
-
-        $this->headersSent = true;
     }
 
     /**

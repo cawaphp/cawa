@@ -13,7 +13,8 @@ declare (strict_types=1);
 
 namespace Cawa\Error;
 
-use Cawa\App\HttpApp;
+use Cawa\App\HttpFactory;
+use Cawa\App\AbstractApp;
 use Cawa\Error\Exceptions\Deprecated;
 use Cawa\Error\Exceptions\Error;
 use Cawa\Error\Exceptions\Fatal;
@@ -25,6 +26,7 @@ use Cawa\Net\Ip;
 
 class Handler
 {
+    use HttpFactory;
     use LoggerFactory;
 
     /**
@@ -169,12 +171,12 @@ class Handler
             return;
         }
 
-        if (HttpApp::isInit()) {
+        if (AbstractApp::isInit()) {
             self::log($exception);
 
-            HttpApp::response()->setStatus(500);
+            self::response()->setStatus(500);
 
-            if (HttpApp::env() != HttpApp::PROD || Ip::isAdmin()) {
+            if (AbstractApp::env() != AbstractApp::PROD || Ip::isAdmin()) {
                 $formatter = new HtmlFormatter();
                 echo $formatter->render($exception);
             } else {
@@ -182,13 +184,13 @@ class Handler
                 trace('Oups');
             }
 
-            HttpApp::end();
+            AbstractApp::end();
         } else {
             if (!headers_sent()) {
                 header('HTTP/1.1 500 Internal Server Error');
             }
 
-            if (HttpApp::env() != HttpApp::PROD) {
+            if (AbstractApp::env() != AbstractApp::PROD) {
                 $formatter = new HtmlFormatter();
                 echo $formatter->render($exception);
             } else {
@@ -232,14 +234,14 @@ class Handler
         }
         unset($context['message']);
 
-        $start = HttpApp::request()->getServer('REQUEST_TIME_FLOAT');
+        $start = self::request()->getServer('REQUEST_TIME_FLOAT');
         $end = microtime(true);
         $context['Duration'] = round(($end - $start) * 1000, 3);
 
         $context['Ip'] = Ip::get();
-        $context['Url'] = HttpApp::request()->getUri()->get(false);
+        $context['Url'] = self::request()->getUri()->get(false);
         $context['Trace'] = $exception->getTraceAsString();
-        $context['Referer'] = HttpApp::request()->getHeader('Referer');
+        $context['Referer'] = self::request()->getHeader('Referer');
 
         self::logger()->log($level, $exception->getMessage(), $context);
     }

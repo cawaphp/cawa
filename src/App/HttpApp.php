@@ -13,46 +13,13 @@ declare (strict_types=1);
 
 namespace Cawa\App;
 
-use Cawa\Core\DI;
 use Cawa\Error\Handler as ErrorHandler;
-use Cawa\Events\DispatcherFactory;
-use Cawa\Events\Event;
-use Cawa\Http\ServerRequest;
-use Cawa\Http\ServerResponse;
-use Cawa\Log\Output\StdErr;
-use Cawa\Router\Router;
 use Cawa\Router\RouterFactory;
-use Psr\Log\LogLevel;
 
 class HttpApp extends AbstractApp
 {
     use RouterFactory;
-
-    /**
-     * @var ServerRequest
-     */
-    public $request;
-
-    /**
-     * @return ServerRequest
-     */
-    public static function request() : ServerRequest
-    {
-        return self::$instance->request;
-    }
-
-    /**
-     * @var ServerResponse
-     */
-    public $response;
-
-    /**
-     * @return ServerResponse
-     */
-    public static function response() : ServerResponse
-    {
-        return self::$instance->response;
-    }
+    use HttpFactory;
 
     /**
      * HttpApp constructor.
@@ -75,8 +42,7 @@ class HttpApp extends AbstractApp
     {
         parent::init();
 
-        $this->request = ServerRequest::createFromGlobals();
-        $this->response = new ServerResponse();
+        $this->request()->fillFromGlobals();
 
         if (file_exists($this->getAppRoot() . '/config/route.php')) {
             $this->router()->addRoutes(require $this->getAppRoot() . '/config/route.php');
@@ -85,8 +51,6 @@ class HttpApp extends AbstractApp
         if (file_exists($this->getAppRoot() . '/config/uri.php')) {
             $this->router()->addUris(require $this->getAppRoot() . '/config/uri.php');
         }
-
-        $this->init = true;
     }
 
     /**
@@ -97,24 +61,24 @@ class HttpApp extends AbstractApp
         $return = $this->router()->handle();
 
         // hack to display trace on development env
-        $debug = (HttpApp::env() == HttpApp::DEV && ob_get_length() > 0);
+        $debug = (self::env() == self::DEV && ob_get_length() > 0);
 
         if ($return instanceof \SimpleXMLElement) {
             if ($debug == false) {
-                $this->response->addHeaderIfNotExist('Content-Type', 'text/xml; charset=utf-8');
+                $this->response()->addHeaderIfNotExist('Content-Type', 'text/xml; charset=utf-8');
             }
 
-            $this->response->setBody($return->asXML());
+            $this->response()->setBody($return->asXML());
         }
         if (gettype($return) == 'array') {
             if ($debug == false) {
-                $this->response->addHeaderIfNotExist('Content-Type', 'application/json; charset=utf-8');
+                $this->response()->addHeaderIfNotExist('Content-Type', 'application/json; charset=utf-8');
             }
 
-            $this->response->setBody(json_encode($return));
+            $this->response()->setBody(json_encode($return));
         } else {
-            $this->response->addHeaderIfNotExist('Content-Type', 'text/html; charset=utf-8');
-            $this->response->setBody($return);
+            $this->response()->addHeaderIfNotExist('Content-Type', 'text/html; charset=utf-8');
+            $this->response()->setBody($return);
         }
     }
 
@@ -125,10 +89,10 @@ class HttpApp extends AbstractApp
     {
         parent::end();
 
-        echo self::instance()->response()->send();
+        echo self::response()->send();
 
-        $exitCode = self::instance()->response()->getStatus() >= 500 &&
-            self::instance()->response()->getStatus() < 600 ? 1 : 0;
+        $exitCode = self::response()->getStatus() >= 500 &&
+            self::response()->getStatus() < 600 ? 1 : 0;
 
         exit($exitCode);
     }

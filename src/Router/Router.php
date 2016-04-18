@@ -14,7 +14,7 @@ declare (strict_types = 1);
 namespace Cawa\Router;
 
 use Behat\Transliterator\Transliterator;
-use Cawa\App\HttpApp;
+use Cawa\App\HttpFactory;
 use Cawa\Controller\AbstractController;
 use Cawa\Cache\CacheFactory;
 use Cawa\Events\DispatcherFactory;
@@ -29,6 +29,7 @@ class Router
     use TranslatorFactory;
     use CacheFactory;
     use SessionFactory;
+    use HttpFactory;
 
     const OPTIONS_SESSION = 'SESSION';
     const OPTIONS_CACHE = 'CACHE';
@@ -254,9 +255,9 @@ class Router
             // control query string
             if ($route->getUserInput()) {
                 foreach ($route->getUserInput() as $querystring) {
-                    $method = HttpApp::request()->getMethod() == 'POST' ? 'getPostOrQuery' : 'getQuery';
+                    $method = $this->request()->getMethod() == 'POST' ? 'getPostOrQuery' : 'getQuery';
 
-                    $value = HttpApp::request()->$method($querystring->getName(), $querystring->getType());
+                    $value = $this->request()->$method($querystring->getName(), $querystring->getType());
 
                     if (is_null($value) && $querystring->isMandatory()) {
                         return [false, null, $regexp];
@@ -282,7 +283,7 @@ class Router
     {
         $regexp = $route->getMatch();
 
-        // HttpApp::logger()->debug($regexp);
+        // AbstractApp::logger()->debug($regexp);
 
         preg_match_all('`\{\{(.+)\}\}`U', $regexp, $matches);
         if (sizeof($matches[1]) == 0) {
@@ -379,7 +380,7 @@ class Router
      */
     public function handle()
     {
-        $uri = clone HttpApp::request()->getUri();
+        $uri = clone $this->request()->getUri();
         $uri->removeAllQueries();
         $url = $uri->get();
 
@@ -427,7 +428,7 @@ class Router
     private function return404()
     {
         if (isset($this->errors[404])) {
-            HttpApp::response()->setStatus(404);
+            $this->response()->setStatus(404);
 
             return $this->callController($this->errors[404], []);
         } else {
@@ -479,7 +480,7 @@ class Router
         if ($route->getOption(Route::OPTIONS_CACHE)) {
             if ($data = self::cache('OUTPUT')->get($cacheKey)) {
                 foreach ($data['headers'] as $name => $header) {
-                    HttpApp::response()->addHeader($name, $header);
+                    $this->response()->addHeader($name, $header);
                 }
 
                 return $data['output'];
@@ -507,14 +508,14 @@ class Router
                 throw new \LogicException("Can't set a cache on a route that use session data");
             }
 
-            HttpApp::response()->addHeader('Expires', gmdate('D, d M Y H:i:s', time() + $second) . ' GMT');
-            HttpApp::response()->addHeader('Cache-Control', 'public, max-age=' . $second . ', must-revalidate');
-            HttpApp::response()->addHeader('Pragma', 'public, max-age=' . $second . ', must-revalidate');
-            HttpApp::response()->addHeader('Vary', 'Accept-Encoding');
+            $this->response()->addHeader('Expires', gmdate('D, d M Y H:i:s', time() + $second) . ' GMT');
+            $this->response()->addHeader('Cache-Control', 'public, max-age=' . $second . ', must-revalidate');
+            $this->response()->addHeader('Pragma', 'public, max-age=' . $second . ', must-revalidate');
+            $this->response()->addHeader('Vary', 'Accept-Encoding');
 
             $data = [
                 'output' => $return,
-                'headers' => HttpApp::response()->getHeaders()
+                'headers' => $this->response()->getHeaders()
             ];
 
             self::cache('OUTPUT')->set($cacheKey, $data, $second);
@@ -580,9 +581,9 @@ class Router
         if (is_null($method)) {
             $method = 'get';
 
-            if (HttpApp::request()->isAjax() && method_exists($controller, 'ajax')) {
+            if ($this->request()->isAjax() && method_exists($controller, 'ajax')) {
                 $method = 'ajax';
-            } elseif (HttpApp::request()->getMethod() == 'POST' && method_exists($controller, 'post')) {
+            } elseif ($this->request()->getMethod() == 'POST' && method_exists($controller, 'post')) {
                 $method = 'post';
             }
         }

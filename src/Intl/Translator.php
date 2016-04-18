@@ -13,7 +13,8 @@ declare (strict_types=1);
 
 namespace Cawa\Intl;
 
-use Cawa\App\HttpApp;
+use Cawa\App\HttpFactory;
+use Cawa\App\AbstractApp;
 use Cawa\Core\DI;
 use Cawa\Http\Cookie;
 use Cawa\Log\LoggerFactory;
@@ -21,6 +22,7 @@ use Symfony\Component\Translation\MessageSelector;
 
 class Translator
 {
+    use HttpFactory;
     use LoggerFactory;
 
     /**
@@ -97,8 +99,8 @@ class Translator
             throw new \Exception(sprintf("Unable to set locale to '%s'", $this->locales[$this->locale]));
         }
 
-        if (!HttpApp::request()->getCookie(self::COOKIE_LANGUAGE)) {
-            HttpApp::response()->addCookie(new Cookie(self::COOKIE_LANGUAGE, $this->locale, 60*60*24*365));
+        if (!$this->request()->getCookie(self::COOKIE_LANGUAGE)) {
+            $this->response()->addCookie(new Cookie(self::COOKIE_LANGUAGE, $this->locale, 60*60*24*365));
         }
     }
 
@@ -108,20 +110,20 @@ class Translator
     private function detectLocale() : string
     {
         // detection from url
-        $explode = explode('/', HttpApp::request()->getUri()->getPath());
+        $explode = explode('/', $this->request()->getUri()->getPath());
         if (isset($explode[1]) && in_array($explode[1], $this->getLocales())) {
             return $explode[1];
         }
 
         // detection from cookie
-        if ($cookie = HttpApp::request()->getCookie(self::COOKIE_LANGUAGE)) {
+        if ($cookie = $this->request()->getCookie(self::COOKIE_LANGUAGE)) {
             if (in_array($cookie, $this->getLocales())) {
                 return $cookie->getValue();
             }
         }
 
         // detection from headers
-        $accepted = HttpApp::request()->getAcceptedLanguage();
+        $accepted = $this->request()->getAcceptedLanguage();
 
         array_walk($accepted, function (&$value) {
             $value = substr($value, 0, 2);
@@ -146,29 +148,6 @@ class Translator
     private $translations = [];
 
     /**
-     * @param string $file
-     * @param bool $appendLang
-     *
-     * @return string
-     */
-    private function getAbsolutePath($file, bool $appendLang = true) : string
-    {
-        if (substr($file, 0, 1) == '/') {
-            $path = '';
-        } else {
-            $path = HttpApp::getAppRoot() . '/lang/';
-        }
-
-        if ($appendLang) {
-            $path .= $file . '.' . $this->locale . '.php';
-        } else {
-            $path .= $file . '.php';
-        }
-
-        return $path;
-    }
-
-    /**
      * @param string $name
      * @param string $rename
      * @param bool $appendLang
@@ -185,7 +164,7 @@ class Translator
 
             $name = $rename;
         } else {
-            $path = HttpApp::getAppRoot() . '/lang/' . $name;
+            $path = AbstractApp::getAppRoot() . '/lang/' . $name;
         }
 
         if ($appendLang) {

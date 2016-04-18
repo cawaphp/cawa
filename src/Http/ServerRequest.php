@@ -48,25 +48,21 @@ class ServerRequest extends Request
     }
 
     /**
-     * @return static
+     *
      */
-    public static function createFromGlobals() : self
+    public function fillFromGlobals() 
     {
-        $request = new static();
-
-        $request->method = $_SERVER['REQUEST_METHOD'] ?? null;
-        $request->uri = new Uri();
-        $request->post = $_POST;
-        $request->files = $_FILES;
-        $request->payload = file_get_contents('php://input');
+        $this->method = $_SERVER['REQUEST_METHOD'] ?? null;
+        $this->uri = new Uri();
+        $this->post = $_POST;
+        $this->files = $_FILES;
+        $this->payload = file_get_contents('php://input');
 
         foreach ($_COOKIE as $name => $value) {
-            $request->cookies[$name] = new Cookie($name, $value);
+            $this->cookies[$name] = new Cookie($name, $value);
         }
 
-        $request->handleServerVars();
-
-        return $request;
+        $this->handleServerVars();
     }
 
     /**

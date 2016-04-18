@@ -69,32 +69,4 @@ abstract class DI
 
         return self::$config;
     }
-
-    /*
-     * @param string $name
-     *
-     * @return Client
-     */
-    /*
-    public function getHttpClient(string $name) : Client
-    {
-        $containerName = 'httpclient.' . $name;
-        if (isset($this->container[$containerName])) {
-            return $this->container[$containerName];
-        }
-
-        $config = HttpApp::config()->get('httpclient/' . $name);
-
-        if (is_callable($config)) {
-            $return = $config();
-        } else {
-            $return = new Client();
-            $return->setBaseUri($config);
-        }
-
-        $this->container[$containerName] = $return;
-
-        return $this->container[$containerName];
-    }
-    */
 }
