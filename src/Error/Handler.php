@@ -13,8 +13,8 @@ declare (strict_types=1);
 
 namespace Cawa\Error;
 
-use Cawa\App\HttpFactory;
 use Cawa\App\AbstractApp;
+use Cawa\App\HttpFactory;
 use Cawa\Error\Exceptions\Deprecated;
 use Cawa\Error\Exceptions\Error;
 use Cawa\Error\Exceptions\Fatal;

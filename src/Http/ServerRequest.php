@@ -50,7 +50,7 @@ class ServerRequest extends Request
     /**
      *
      */
-    public function fillFromGlobals() 
+    public function fillFromGlobals()
     {
         $this->method = $_SERVER['REQUEST_METHOD'] ?? null;
         $this->uri = new Uri();

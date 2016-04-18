@@ -21,13 +21,13 @@ use Symfony\Component\Console\Output\StreamOutput;
 class Application extends \Symfony\Component\Console\Application
 {
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     protected function doRunCommand(Command $command, InputInterface $input, OutputInterface $output)
     {
         if (!in_array($command->getName(), [
-            "help",
-            "list",
+            'help',
+            'list',
         ])) {
             $output = new ConsoleOutput();
         }
@@ -36,7 +36,7 @@ class Application extends \Symfony\Component\Console\Application
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function renderException(\Exception $e, OutputInterface $output)
     {
@@ -52,7 +52,7 @@ class Application extends \Symfony\Component\Console\Application
         parent::renderException($e, $errorStream);
 
         rewind($memory);
-        $exception = "";
+        $exception = '';
         while (!feof($memory)) {
             $exception .= fread($memory, 8192);
         }
@@ -61,11 +61,10 @@ class Application extends \Symfony\Component\Console\Application
         $console = new ConsoleOutput();
 
         $explode = explode("\n", rtrim($exception));
-        foreach($explode as &$line) {
+        foreach ($explode as &$line) {
             $line = $console->prefixWithTimestamp($line);
         }
 
         $output->write(implode("\n", $explode) . "\n");
     }
-
 }

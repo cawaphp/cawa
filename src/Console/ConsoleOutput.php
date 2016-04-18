@@ -20,7 +20,7 @@ use Symfony\Component\Console\Output\ConsoleOutputInterface;
 class ConsoleOutput extends BaseConsoleOutput implements ConsoleOutputInterface
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function __construct(
         $verbosity = self::VERBOSITY_NORMAL,
@@ -31,11 +31,11 @@ class ConsoleOutput extends BaseConsoleOutput implements ConsoleOutputInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function doWrite($message, $newline)
     {
-        if (trim($message) != "") {
+        if (trim($message) != '') {
             $message = $this->prefixWithTimestamp($message);
         }
 

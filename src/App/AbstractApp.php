@@ -14,13 +14,10 @@ declare (strict_types = 1);
 namespace Cawa\App;
 
 use Cawa\Core\DI;
-use Cawa\Error\Handler as ErrorHandler;
 use Cawa\Events\DispatcherFactory;
 use Cawa\Events\Event;
 use Cawa\Http\ServerRequest;
-use Cawa\Http\ServerResponse;
 use Cawa\Log\Output\StdErr;
-use Cawa\Router\Router;
 use Psr\Log\LogLevel;
 
 abstract class AbstractApp
@@ -159,8 +156,10 @@ abstract class AbstractApp
         $loggers[] = $logger;
 
         if (!is_array($loggers)) {
-            throw new \InvalidArgumentException(sprintf("Invalid logger configuration, expected array got '%s'",
-                    gettype($loggers)));
+            throw new \InvalidArgumentException(sprintf(
+                "Invalid logger configuration, expected array got '%s'",
+                gettype($loggers)
+            ));
         }
 
         foreach ($loggers as $logger) {

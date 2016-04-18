@@ -36,7 +36,7 @@ class ConsoleApp extends AbstractApp
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function init()
     {
@@ -47,7 +47,7 @@ class ConsoleApp extends AbstractApp
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function handle()
     {
@@ -55,7 +55,7 @@ class ConsoleApp extends AbstractApp
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public static function end()
     {

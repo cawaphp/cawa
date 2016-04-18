@@ -13,8 +13,8 @@ declare (strict_types=1);
 
 namespace Cawa\Intl;
 
-use Cawa\App\HttpFactory;
 use Cawa\App\AbstractApp;
+use Cawa\App\HttpFactory;
 use Cawa\Core\DI;
 use Cawa\Http\Cookie;
 use Cawa\Log\LoggerFactory;
