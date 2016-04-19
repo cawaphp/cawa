@@ -92,6 +92,36 @@ class Request
     }
 
     /**
+     * @param array $input
+     * @param string $name
+     *
+     * @return mixed
+     */
+    private function getUserData(array $input, string $name)
+    {
+        if (stripos($name, '[') !== false) {
+            $names = explode('[', str_replace(']', '', $name));
+
+            $ref = &$input;
+            $leave = false;
+
+            while ($leave == false) {
+                $key = array_shift($names);
+
+                if (is_null($key)) {
+                    $leave = true;
+                } else {
+                    $ref = &$ref[$key];
+                }
+            }
+
+            return $ref;
+        } else {
+            return $input[$name] ?? null;
+        }
+    }
+
+    /**
      * @param string $name
      * @param string $type
      * @param mixed $default
@@ -100,7 +130,7 @@ class Request
      */
     public function getQuery(string $name, string $type = null, $default = null)
     {
-        $value = $this->uri->getQuery($name) ?? null;
+        $value = $this->getUserData($this->uri->getQueries(), $name);
 
         if ($type) {
             $value = $this->validateType($value, $type, $default);
@@ -131,7 +161,7 @@ class Request
      */
     public function getPost(string $name, string $type = null, $default = null)
     {
-        $value = $this->post[$name] ?? null;
+        $value = $this->getUserData($this->post, $name);
 
         if ($type) {
             $value = $this->validateType($value, $type, $default);

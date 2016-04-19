@@ -223,11 +223,17 @@ class Translator
             }
         }
 
-        // multi level keys
         $ref = &$this->translations[$name];
+        $leave = false;
 
-        while ($key = array_shift($keys)) {
-            $ref = &$ref[$key];
+        while ($leave == false) {
+            $key = array_shift($keys);
+
+            if (is_null($key)) {
+                $leave = true;
+            } else {
+                $ref = &$ref[$key];
+            }
         }
 
         return $ref;
