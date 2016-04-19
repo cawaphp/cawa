@@ -20,11 +20,13 @@ use Cawa\Controller\AbstractController;
 use Cawa\Events\DispatcherFactory;
 use Cawa\Events\TimerEvent;
 use Cawa\Intl\TranslatorFactory;
+use Cawa\Log\LoggerFactory;
 use Cawa\Net\Uri;
 use Cawa\Session\SessionFactory;
 
 class Router
 {
+    use LoggerFactory;
     use DispatcherFactory;
     use TranslatorFactory;
     use CacheFactory;
@@ -545,6 +547,8 @@ class Router
 
         // replace class dynamic args
         if (!class_exists($class)) {
+            $this->logger()->critical(sprintf("Can't load class '%s' on route '%s'", $class, $route->getName()));
+
             return $this->return404();
         }
 
