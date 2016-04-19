@@ -131,7 +131,7 @@ abstract class AbstractApp
     public function init()
     {
         if ($this->init == true) {
-            throw new \LogicException("Can't reinit HttpApp");
+            throw new \LogicException("Can't reinit App");
         }
 
         if (file_exists($this->appRoot . '/config/config.php')) {
