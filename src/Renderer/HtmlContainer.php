@@ -32,4 +32,16 @@ class HtmlContainer extends HtmlElement
 
         return $render;
     }
+
+    /**
+     * @return array
+     */
+    public function renderOuter() : array
+    {
+        HtmlElement::setContent('[-INNER-]');
+
+        $render = HtmlElement::render();
+
+        return explode('[-INNER-]', $render);
+    }
 }

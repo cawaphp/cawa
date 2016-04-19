@@ -243,6 +243,20 @@ class HtmlElement extends Element
     }
 
     /**
+     * @return array
+     */
+    public function renderOuter() : array
+    {
+        if (!$this->tag) {
+            throw new \LogicException('Missing tag');
+        }
+
+        $render = self::htmlTag($this->tag, $this->attributes, '[-INNER-]');
+
+        return explode('[-INNER-]', $render);
+    }
+
+    /**
      * @param string $tag
      * @param array $attributes
      * @param string $innerHtml

@@ -67,6 +67,30 @@ class Element extends ViewController
     }
 
     /**
+     * @param string $content
+     *
+     * @return $this
+     */
+    public function prependContent(string $content) : self
+    {
+        $this->content = $content . $this->content;
+
+        return $this;
+    }
+
+    /**
+     * @param string $content
+     *
+     * @return $this
+     */
+    public function appendContent(string $content) : self
+    {
+        $this->content = $this->content . $content;
+
+        return $this;
+    }
+
+    /**
      * @throws \LogicException
      *
      * @return string

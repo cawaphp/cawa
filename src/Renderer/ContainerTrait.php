@@ -65,6 +65,14 @@ trait ContainerTrait
     }
 
     /**
+     * @return ViewController[]
+     */
+    public function getElements() : array
+    {
+        return $this->elements;
+    }
+
+    /**
      * @return string
      */
     public function render()

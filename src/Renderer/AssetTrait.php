@@ -24,14 +24,13 @@ trait AssetTrait
      */
     protected function getAssetData(string $path) : array
     {
-        $return = [null, null];
+        $return = [null, DI::config()->exists('assets/hashes')];
 
         // file hash
         $hashes = DI::config()->getIfExists('assets/hashes');
         if ($hashes) {
             if (isset($hashes[$path])) {
                 $path = $hashes[$path];
-                $return[1] = true;
             }
         }
 

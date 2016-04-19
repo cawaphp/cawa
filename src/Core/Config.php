@@ -74,4 +74,23 @@ class Config
             return null;
         }
     }
+
+    /**
+     * @param string $path
+     *
+     * @return bool
+     */
+    public function exists(string $path) : bool
+    {
+        $explode = explode('/', $path);
+        $config = $this->config;
+        while ($element = array_shift($explode)) {
+            if (!array_key_exists($element, $config)) {
+                return false;
+            }
+            $config = $config[$element];
+        }
+
+        return true;
+    }
 }
