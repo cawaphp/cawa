@@ -20,16 +20,16 @@ $.extend({
 
 /**
  * Simple url change that can be override
+ *
+ * @param {String} url
  */
-$.extend({
-    goto: function(url)
-    {
-        document.location.href = url;
-    }
-});
+$.fn.goto = function(url)
+{
+    document.location.href = url;
+};
 
 /**
- * Init
+ * Control that moment is init
  */
 $(document).bind("ready", function (event) {
 
