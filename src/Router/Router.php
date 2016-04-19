@@ -42,42 +42,16 @@ class Router
     private $routes = [];
 
     /**
-     * @var string
+     * @var Route
      */
-    private $currentRouteName;
-
-    /**
-     * @var string
-     */
-    private $currentController;
+    private $currentRoute;
 
     /**
      * @return string
      */
-    public function getCurrentController()
+    public function current() : Route
     {
-        return $this->currentController;
-    }
-
-    /**
-     * @var string
-     */
-    private $currentMethod;
-
-    /**
-     * @return string
-     */
-    public function getCurrentMethod()
-    {
-        return $this->currentMethod;
-    }
-
-    /**
-     * @return string
-     */
-    public function current() : string
-    {
-        return $this->currentRouteName;
+        return $this->currentRoute;
     }
 
     /**
@@ -556,12 +530,10 @@ class Router
     {
         $callback = $route->getController();
 
-        $this->currentRouteName = $route->getName();
+        $this->currentRoute = $route;
 
         // simple function
         if (is_callable($callback) && is_object($callback)) {
-            $this->currentController = 'Callable';
-
             return call_user_func_array($callback, [$args]);
         }
 
@@ -596,9 +568,6 @@ class Router
             'method' => $method,
             'data' => $ordererArgs,
         ]);
-
-        $this->currentController = $class;
-        $this->currentMethod = $method;
 
         if (method_exists($controller, 'init')) {
             call_user_func_array([$controller, 'init'], $ordererArgs);
