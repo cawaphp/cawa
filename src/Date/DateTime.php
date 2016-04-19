@@ -97,6 +97,33 @@ class DateTime extends Carbon implements \JsonSerializable
     }
 
     /**
+     * @param int $day
+     * @param bool $short
+     *
+     * @return string
+     */
+    public static function localizeDay(int $day, bool $short = false)
+    {
+        $date = new static();
+        $date->next($day);
+
+        return ucfirst($date->formatLocalized($short ? '%a' : '%A'));
+    }
+
+    /**
+     * @param int $month
+     * @param bool $short
+     *
+     * @return string
+     */
+    public static function localizeMonth(int $month, bool $short = false)
+    {
+        $date = new static('1970-' . $month . '-01');
+
+        return ucfirst($date->formatLocalized($short ? '%b' : '%B'));
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function format($format = null)
