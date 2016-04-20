@@ -547,9 +547,11 @@ class Router
 
         // replace class dynamic args
         if (!class_exists($class)) {
-            $this->logger()->critical(sprintf("Can't load class '%s' on route '%s'", $class, $route->getName()));
-
-            return $this->return404();
+            throw new \BadMethodCallException(sprintf(
+                "Can't load class '%s' on route '%s'",
+                $class,
+                $route->getName()
+            ));
         }
 
         $controller = new $class();
