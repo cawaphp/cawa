@@ -363,7 +363,6 @@ class Router
 
         $count = 0;
         foreach ($this->routes as $route) {
-
             list($result, $args, $regexp) = $this->match($url, $route);
 
             if ($route->getMethod() && $route->getMethod() != $this->request()->getMethod()) {

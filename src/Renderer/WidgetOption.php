@@ -27,8 +27,8 @@ class WidgetOption extends ViewController
      */
     public function __construct(array $data)
     {
-        $this->element = new HtmlElement("<script>");
-        $this->element->addAttribute("type", "application/json");
+        $this->element = new HtmlElement('<script>');
+        $this->element->addAttribute('type', 'application/json');
         $this->data = $data;
     }
 

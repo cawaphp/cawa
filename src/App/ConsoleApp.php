@@ -58,7 +58,6 @@ class ConsoleApp extends AbstractApp
         );
 
         if (!$exception instanceof \Exception) {
-
             $exception = new \ErrorException(
                 $exception->getMessage(),
                 $exception->getCode(),
@@ -81,7 +80,7 @@ class ConsoleApp extends AbstractApp
     public function addCommandDir(string $path, string $namespace)
     {
         $declared = get_declared_classes();
-        foreach(glob(rtrim($path) . "/*.php") as $file) {
+        foreach (glob(rtrim($path) . '/*.php') as $file) {
             require $file;
         }
 
@@ -91,7 +90,6 @@ class ConsoleApp extends AbstractApp
             if (stripos($class, $namespace) === 0) {
                 self::$application->add(new $class);
             }
-
         }
     }
 
