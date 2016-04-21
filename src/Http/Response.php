@@ -26,7 +26,7 @@ class Response
             $explode = explode("\r\n\r\n", $response);
 
             // body
-            $this->body = trim(array_pop($explode));
+            $this->body = array_pop($explode);
 
             // headers & cookies
             $headers = [];
