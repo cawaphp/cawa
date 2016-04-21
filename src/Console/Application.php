@@ -29,7 +29,11 @@ class Application extends \Symfony\Component\Console\Application
             'help',
             'list',
         ])) {
-            $output = new ConsoleOutput();
+            $output = new ConsoleOutput(
+                $output->getVerbosity(),
+                $output->isDecorated(),
+                $output->getFormatter()
+            );
         }
 
         return parent::doRunCommand($command, $input, $output);
@@ -45,8 +49,8 @@ class Application extends \Symfony\Component\Console\Application
         $errorStream = new StreamOutput(
             $memory,
             OutputInterface::VERBOSITY_VERY_VERBOSE,
-            $output->isDecorated(),
-            $output->getFormatter()
+            $output ? $output->isDecorated() : null,
+            $output ? $output->getFormatter() : null
         );
 
         parent::renderException($e, $errorStream);
