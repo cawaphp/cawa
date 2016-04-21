@@ -13,8 +13,22 @@ declare (strict_types=1);
 
 namespace Cawa\Controller;
 
+use ReflectionClass;
+
 abstract class ViewController extends AbstractController
 {
+    /**
+     * @param array ...$args
+     *
+     * @return static
+     */
+    public static function create(... $args) : self
+    {
+        $class = static::class;
+
+        return (new ReflectionClass($class))->newInstanceArgs($args);
+    }
+
     /**
      * @return string|array
      */

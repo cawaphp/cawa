@@ -14,31 +14,17 @@ declare (strict_types = 1);
 namespace Cawa\Renderer;
 
 use Cawa\Controller\ViewController;
-use ReflectionClass;
 
 class Element extends ViewController
 {
     /**
      * HtmlElement constructor.
      *
-     * @param string $tag
      * @param string $content
      */
     public function __construct(string $content = null)
     {
         $this->content = $content;
-    }
-
-    /**
-     * @param array ...$args
-     *
-     * @return static
-     */
-    public static function create(... $args) : self
-    {
-        $class = static::class;
-
-        return (new ReflectionClass($class))->newInstanceArgs($args);
     }
 
     /**
@@ -91,8 +77,6 @@ class Element extends ViewController
     }
 
     /**
-     * @throws \LogicException
-     *
      * @return string
      */
     public function render()
