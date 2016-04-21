@@ -232,7 +232,6 @@ class Router
             if ($route->getUserInput()) {
                 foreach ($route->getUserInput() as $querystring) {
                     $method = $this->request()->getMethod() == 'POST' ? 'getPostOrQuery' : 'getQuery';
-
                     $value = $this->request()->$method($querystring->getName(), $querystring->getType());
 
                     if (is_null($value) && $querystring->isMandatory()) {
@@ -364,7 +363,12 @@ class Router
 
         $count = 0;
         foreach ($this->routes as $route) {
+
             list($result, $args, $regexp) = $this->match($url, $route);
+
+            if ($route->getMethod() && $route->getMethod() != $this->request()->getMethod()) {
+                $result = false;
+            }
 
             $count++;
 
@@ -610,7 +614,14 @@ class Router
             }
 
             if (isset($args[$parameter->getName()]) && $args[$parameter->getName()] != '') {
-                $return[$parameter->getName()] = $args[$parameter->getName()];
+                $value = $args[$parameter->getName()];
+
+                if ($parameter->getClass() && $parameter->getClass()->getName() == 'Cawa\Date\DateTime') {
+                    $class = $parameter->getClass()->getName();
+                    $value = new $class($value);
+                }
+
+                $return[$parameter->getName()] = $value;
             } elseif (!isset($args[$parameter->getName()])) {
                 $return[$parameter->getName()] = null;
             }

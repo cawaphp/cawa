@@ -117,6 +117,31 @@ class Route
     }
 
     /**
+     * @var string
+     */
+    private $method;
+
+    /**
+     * @return string
+     */
+    public function getMethod()
+    {
+        return $this->method;
+    }
+
+    /**
+     * @param string $method
+     *
+     * @return $this
+     */
+    public function setMethod(string $method) : self
+    {
+        $this->method = $method;
+
+        return $this;
+    }
+
+    /**
      * @var UserInput[]
      */
     private $userInput = [];
