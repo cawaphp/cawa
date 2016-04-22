@@ -74,8 +74,8 @@ class Router
         foreach ($routes as $name => $route) {
             if (is_string($route)) {
                 $routesTranform[$name] = Route::create($route);
-            } elseif (is_array($route)) {
-                $routesTranform = array_merge($routesTranform, $this->addRecursiveRoute([$name], $route));
+            } elseif ($route instanceof Group) {
+                $routesTranform = array_merge($routesTranform, $this->addGroup($route));
             } else {
                 $routesTranform[$name] = $route;
             }
@@ -110,36 +110,61 @@ class Router
     }
 
     /**
-     * @param array $path
-     * @param array|Route $routes
+     * @param Group $group
+     * @param array $names
+     * @param array $match
      *
-     * @return Route[]
+     * @return array
      */
-    private function addRecursiveRoute(array $path, $routes) : array
+    private function addGroup(Group $group, array $names = [], array $match = []) : array
     {
+
         $return = [];
-        foreach ($routes as $currentPath => $route) {
+        if ($group->getName()) {
+            $names[] = $group->getName();
+        }
+        if ($group->getMatch()) {
+            $match[] = $group->getMatch();
+        }
+
+        /** @var Route|Group|string $route */
+        foreach ($group->getRoutes() as $name => $route) {
+            $routeName = $names;
+            $routeMatch = $match;
+
             if (is_string($route) || $route instanceof Route) {
                 if (is_string($route)) {
                     $route = Route::create($route)
-                        ->setName($currentPath);
-                } else {
-                    $route->setName($currentPath);
+                        ->setName($name);
+                } else if ($name) {
+                    $route->setName($name);
                 }
 
-                $match = $path;
                 if ($route->getMatch()) {
-                    $match[] = $route->getMatch();
+                    $routeMatch[] = $route->getMatch();
                 }
 
-                $route->setMatch(implode('/', $match));
+                if ($route->getName()) {
+                    $routeName[] = $route->getName();
+                }
+
+                $route
+                    ->setName(implode("/", $routeName))
+                    ->setMatch('/' . implode('/', $routeMatch))
+                ;
+
+                $route->addGroupConfiguration($group);
+
 
                 $return[$route->getName()] = $route;
-            } else {
+
+            } else if ($route instanceof Group) {
                 $return = array_merge(
                     $return,
-                    $this->addRecursiveRoute(array_merge($path, [$currentPath]), $route)
+                    $this->addGroup($route, $names, $match)
                 );
+            } else {
+                throw new \InvalidArgumentException(sprintf("Invalid route type '%s'", gettype($route)));
             }
         }
 
@@ -182,9 +207,9 @@ class Router
         $return = $this->routeRegexp($route, $data);
 
         // append querystring
-        if ($route->getUserInput()) {
+        if ($route->getUserInputs()) {
             $queryToAdd = [];
-            foreach ($route->getUserInput() as $querystring) {
+            foreach ($route->getUserInputs() as $querystring) {
                 if (!isset($data[$querystring->getName()]) && $querystring->isMandatory()) {
                     throw new \InvalidArgumentException(sprintf(
                         "Missing querystring '%s' to generate route '%s'",
@@ -229,8 +254,8 @@ class Router
             $matches = array_diff_key($matches[0], range(0, count($matches[0])));
 
             // control query string
-            if ($route->getUserInput()) {
-                foreach ($route->getUserInput() as $querystring) {
+            if ($route->getUserInputs()) {
+                foreach ($route->getUserInputs() as $querystring) {
                     $method = $this->request()->getMethod() == 'POST' ? 'getPostOrQuery' : 'getQuery';
                     $value = $this->request()->$method($querystring->getName(), $querystring->getType());
 
@@ -319,7 +344,7 @@ class Router
                         }
 
                         if (isset($data[$variable])) {
-                            if ($route->getOption(Route::OPTIONS_URLIZE) === false) {
+                            if ($route->getOption(AbstractRoute::OPTIONS_URLIZE) === false) {
                                 $dest = $data[$variable];
                             } else {
                                 $dest = Transliterator::urlize($data[$variable]);
@@ -380,7 +405,7 @@ class Router
                 'name' => $route->getName(),
                 'regexp' => $regexp,
                 'controller' => is_string($route->getController()) ? $route->getController() : 'Callable',
-                'args' => $args
+                'args' => $args,
             ]);
 
             self::dispatcher()->emit($event);
@@ -456,7 +481,7 @@ class Router
      */
     private function cacheGet(Route $route, string $cacheKey)
     {
-        if ($route->getOption(Route::OPTIONS_CACHE)) {
+        if ($route->getOption(AbstractRoute::OPTIONS_CACHE)) {
             if ($data = self::cache('OUTPUT')->get($cacheKey)) {
                 foreach ($data['headers'] as $name => $header) {
                     $this->response()->addHeader($name, $header);
@@ -480,8 +505,8 @@ class Router
      */
     private function cacheSet(Route $route, string $cacheKey, $return) : bool
     {
-        if ($route->getOption(Route::OPTIONS_CACHE)) {
-            $second = $route->getOption(Route::OPTIONS_CACHE);
+        if ($route->getOption(AbstractRoute::OPTIONS_CACHE)) {
+            $second = $route->getOption(AbstractRoute::OPTIONS_CACHE);
 
             if (self::session()->isStarted()) {
                 throw new \LogicException("Can't set a cache on a route that use session data");
@@ -494,7 +519,7 @@ class Router
 
             $data = [
                 'output' => $return,
-                'headers' => $this->response()->getHeaders()
+                'headers' => $this->response()->getHeaders(),
             ];
 
             self::cache('OUTPUT')->set($cacheKey, $data, $second);
