@@ -35,9 +35,10 @@ class Group extends AbstractRoute
      *
      * @return Group
      */
-    public static function create(string $match = null, string $name = null, array $routes) : self
+    public static function create(string $match = null, string $name = null, array $routes = []) : self
     {
         $return = new static($match, $name, $routes);
+
         return $return;
     }
 
@@ -46,7 +47,7 @@ class Group extends AbstractRoute
      * @param string|null $name
      * @param array $routes
      */
-    public function __construct(string $match = null, string $name = null, array $routes)
+    public function __construct(string $match = null, string $name = null, array $routes = [])
     {
         $this->match = $match;
         $this->name = $name;

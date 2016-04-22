@@ -49,9 +49,9 @@ class Router
     private $currentRoute;
 
     /**
-     * @return string
+     * @return Route|null
      */
-    public function current() : Route
+    public function current()
     {
         return $this->currentRoute;
     }
@@ -118,7 +118,6 @@ class Router
      */
     private function addGroup(Group $group, array $names = [], array $match = []) : array
     {
-
         $return = [];
         if ($group->getName()) {
             $names[] = $group->getName();
@@ -126,6 +125,8 @@ class Router
         if ($group->getMatch()) {
             $match[] = $group->getMatch();
         }
+
+
 
         /** @var Route|Group|string $route */
         foreach ($group->getRoutes() as $name => $route) {
@@ -136,7 +137,7 @@ class Router
                 if (is_string($route)) {
                     $route = Route::create($route)
                         ->setName($name);
-                } else if ($name) {
+                } elseif ($name) {
                     $route->setName($name);
                 }
 
@@ -149,16 +150,16 @@ class Router
                 }
 
                 $route
-                    ->setName(implode("/", $routeName))
+                    ->setName(implode('/', $routeName))
                     ->setMatch('/' . implode('/', $routeMatch))
                 ;
 
                 $route->addGroupConfiguration($group);
 
-
                 $return[$route->getName()] = $route;
+            } elseif ($route instanceof Group) {
+                $route->addGroupConfiguration($group);
 
-            } else if ($route instanceof Group) {
                 $return = array_merge(
                     $return,
                     $this->addGroup($route, $names, $match)
@@ -193,18 +194,22 @@ class Router
     /**
      * @param string $name
      * @param array $data
-     * @param bool $absolute
      *
-     * @return string
+     * @return Uri
      */
-    public function getUri(string $name, array $data = [], bool $absolute = false) : string
+    public function getUri(string $name, array $data = []) : Uri
     {
         if (!isset($this->routes[$name])) {
             throw new \InvalidArgumentException(sprintf("Invalid route name '%s'", $name));
         }
 
         $route = $this->routes[$name];
-        $return = $this->routeRegexp($route, $data);
+
+        $uri = new Uri();
+        $uri->removeAllQueries()
+            ->setFragment(null)
+            ->setPath($this->routeRegexp($route, $data))
+        ;
 
         // append querystring
         if ($route->getUserInputs()) {
@@ -218,25 +223,15 @@ class Router
                     ));
                 }
 
-                $queryToAdd[$querystring->getName()] = $data[$querystring->getName()];
+                if (isset($data[$querystring->getName()])) {
+                    $queryToAdd[$querystring->getName()] = $data[$querystring->getName()];
+                }
             }
 
-            $uri = new Uri();
-            $uri->setPath($return);
             $uri->addQueries($queryToAdd);
-            $return = $uri->get();
         }
 
-        if ($absolute) {
-            $uri = new Uri();
-            $uri
-                ->removeAllQueries()
-                ->setFragment(null)
-                ->setPath($return);
-            $return  = $uri->get(false);
-        }
-
-        return $return;
+        return $uri;
     }
 
     /**
@@ -264,6 +259,16 @@ class Router
                     }
 
                     $matches[$querystring->getName()] = $value;
+                }
+            }
+
+            // control conditions
+            if ($route->getConditions()) {
+                foreach ($route->getConditions() as $condition) {
+                    if (!$condition()) {
+                        return [false, null, $regexp];
+                    }
+
                 }
             }
 

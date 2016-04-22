@@ -27,7 +27,7 @@ trait HttpFactory
     /**
      * @return ServerRequest
      */
-    private static function request() : ServerRequest
+    protected static function request() : ServerRequest
     {
         if ($return = DI::get(__METHOD__)) {
             return $return;
@@ -41,7 +41,7 @@ trait HttpFactory
     /**
      * @return ServerResponse
      */
-    private static function response() : ServerResponse
+    protected static function response() : ServerResponse
     {
         if ($return = DI::get(__METHOD__)) {
             return $return;

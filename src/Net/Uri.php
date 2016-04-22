@@ -371,6 +371,14 @@ class Uri
                 throw new \InvalidArgumentException("Invalid querystring '" . $key . "'");
             }
 
+            if (!is_string($value)) {
+                throw new \InvalidArgumentException(sprintf(
+                    "Invalid querystring value '%s' with type '%s'",
+                    $key,
+                    gettype($value)
+                ));
+            }
+
             $this->uri['query'][$key] = $value;
         }
 

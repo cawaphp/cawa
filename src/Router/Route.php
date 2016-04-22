@@ -36,23 +36,6 @@ class Route extends AbstractRoute
     }
 
     /**
-     * @param Group $group
-     */
-    public function addGroupConfiguration(Group $group)
-    {
-        if ($group->getMethod() && !$this->getMethod()) {
-            $this->setMethod($group->getMethod());
-        }
-
-        if ($group->getResponseCode() && !$this->getResponseCode()) {
-            $this->setResponseCode($group->getResponseCode());
-        }
-
-        $this->options = array_merge($group->getOptions(), $this->options);
-        $this->userInput = array_merge($group->getUserInputs(), $this->userInput);
-    }
-
-    /**
      * @var callable
      */
     private $controller;

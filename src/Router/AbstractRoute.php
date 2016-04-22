@@ -26,8 +26,8 @@ abstract class AbstractRoute
     const OPTIONS_CACHE = 'CACHE';
 
     /**
-      * @var int
-      */
+     * @var int
+     */
     protected $responseCode;
 
      /**
@@ -157,6 +157,43 @@ abstract class AbstractRoute
     }
 
     /**
+     * @var callable[]
+     */
+    protected $conditions = [];
+
+    /**
+     * @return callable[]
+     */
+    public function getConditions() : array
+    {
+        return $this->conditions;
+    }
+
+    /**
+     * @param callable $condition
+     *
+     * @return $this
+     */
+    public function addConditions(callable $condition) : self
+    {
+        $this->conditions[] = $condition;
+
+        return $this;
+    }
+
+    /**
+     * @param callable[] $conditions
+     *
+     * @return $this
+     */
+    public function setConditionns(array $conditions) : self
+    {
+        $this->conditions = $conditions;
+
+        return $this;
+    }
+
+    /**
      * @var array
      */
     protected $options = [];
@@ -206,5 +243,23 @@ abstract class AbstractRoute
         $this->options = $options;
 
         return $this;
+    }
+
+    /**
+     * @param Group $group
+     */
+    public function addGroupConfiguration(Group $group)
+    {
+        if ($group->getMethod() && !$this->getMethod()) {
+            $this->setMethod($group->getMethod());
+        }
+
+        if ($group->getResponseCode() && !$this->getResponseCode()) {
+            $this->setResponseCode($group->getResponseCode());
+        }
+
+        $this->options = array_merge($group->getOptions(), $this->options);
+        $this->userInput = array_merge($group->getUserInputs(), $this->userInput);
+        $this->conditions = array_merge($group->getConditions(), $this->conditions);
     }
 }
