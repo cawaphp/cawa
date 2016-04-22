@@ -25,9 +25,62 @@ class DateTime extends Carbon implements \JsonSerializable
     }
 
     /**
+     * @inheritdoc
+     */
+    public function __construct($time = null, $timezone = null)
+    {
+        parent::__construct($time, $timezone);
+
+        if ($timezone) {
+            $convert = is_string($timezone) && $timezone != date_default_timezone_get();
+            $convert = $timezone instanceof \DateTimeZone && $timezone->getName() != date_default_timezone_get() ?
+                true : $convert;
+
+            if ($convert) {
+                $this->setTimezone(new \DateTimeZone(date_default_timezone_get()));
+            }
+        }
+    }
+
+    /**
      * @var \DateTimeZone
      */
-    private $userTimezone;
+    private static $userTimezone;
+
+    /**
+     * @return \DateTimeZone
+     */
+    public static function getUserTimezone() : \DateTimeZone
+    {
+        if (!self::$userTimezone) {
+            $timezone = DI::config()->get('timezone');
+            self::$userTimezone = new \DateTimeZone($timezone);
+        }
+
+        return self::$userTimezone;
+    }
+
+    /**
+     * @param \DateTimeZone|string $timezone
+     */
+    public static function setUserTimezone($timezone)
+    {
+        if (!$timezone instanceof \DateTimeZone) {
+            $timezone = new \DateTimeZone($timezone);
+        }
+
+        self::$userTimezone = $timezone;
+    }
+
+    /**
+     * @return $this
+     */
+    public function applyUserTimeZone()
+    {
+        $this->setTimezone(self::getUserTimezone());
+
+        return $this;
+    }
 
     /**
      * Intialize the translator instance if necessary.
@@ -84,19 +137,6 @@ class DateTime extends Carbon implements \JsonSerializable
     }
 
     /**
-     * @return \DateTimeZone
-     */
-    protected function getUserTimezone() : \DateTimeZone
-    {
-        if (!$this->userTimezone) {
-            $timezone = DI::config()->get('timezone');
-            $this->userTimezone = new \DateTimeZone($timezone);
-        }
-
-        return $this->userTimezone;
-    }
-
-    /**
      * @param int $day
      * @param bool $short
      *
@@ -143,7 +183,7 @@ class DateTime extends Carbon implements \JsonSerializable
     public function formatTz(string $format = null)
     {
         $clone = clone $this;
-        $clone->setTimezone($this->getUserTimezone());
+        $clone->setTimezone(self::getUserTimezone());
 
         return $clone->format($format);
     }
@@ -157,7 +197,7 @@ class DateTime extends Carbon implements \JsonSerializable
     public function display(bool $day = true, bool $hour = true) : string
     {
         $clone = clone $this;
-        $clone->setTimezone($this->getUserTimezone());
+        $clone->setTimezone(self::getUserTimezone());
 
         if ($day && $hour) {
             $format = '%x %X';

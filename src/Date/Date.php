@@ -44,7 +44,7 @@ class Date extends DateTime
     public function display(bool $day = true, bool $hour = true) : string
     {
         $clone = clone $this;
-        $clone->setTimezone($this->getUserTimezone());
+        $clone->setTimezone(self::getUserTimezone());
 
         return $clone->format('%x');
     }

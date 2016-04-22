@@ -17,6 +17,7 @@ use Behat\Transliterator\Transliterator;
 use Cawa\App\HttpFactory;
 use Cawa\Cache\CacheFactory;
 use Cawa\Controller\AbstractController;
+use Cawa\Date\DateTime;
 use Cawa\Events\DispatcherFactory;
 use Cawa\Events\TimerEvent;
 use Cawa\Intl\TranslatorFactory;
@@ -646,8 +647,7 @@ class Router
                 $value = $args[$parameter->getName()];
 
                 if ($parameter->getClass() && $parameter->getClass()->getName() == 'Cawa\Date\DateTime') {
-                    $class = $parameter->getClass()->getName();
-                    $value = new $class($value);
+                    $value = new DateTime($value, DateTime::getUserTimezone());
                 }
 
                 $return[$parameter->getName()] = $value;
