@@ -68,7 +68,9 @@ $.widget("cawa.widget",
             self.options.initSelector = "." + self.namespace + "-" + self.widgetName;
         }
 
-        if (self.options.initSelector.indexOf('.') === 0) {
+        if (self.options.initSelector instanceof $) {
+            self.enhance(self.options.initSelector);
+        } else if (self.options.initSelector.indexOf('.') === 0) {
             self.enhance(target.getElementsByClassName(self.options.initSelector.slice(1)));
         } else {
             self.enhance($(self.options.initSelector, $(target)));
