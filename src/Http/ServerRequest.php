@@ -20,7 +20,7 @@ class ServerRequest extends Request
     /**
      * @var array
      */
-    private $server;
+    private $server = [];
 
     /**
      * @param string $name
@@ -55,14 +55,54 @@ class ServerRequest extends Request
         $this->method = $_SERVER['REQUEST_METHOD'] ?? null;
         $this->uri = new Uri();
         $this->post = $_POST;
-        $this->files = $_FILES;
         $this->payload = file_get_contents('php://input');
 
         foreach ($_COOKIE as $name => $value) {
             $this->cookies[$name] = new Cookie($name, $value);
         }
 
+        foreach ($_FILES as $name => $value) {
+            if ($value["error"] != 4) {
+                $this->files[$name] = new File($name, $value);
+            }
+        }
+
         $this->handleServerVars();
+
+        if ($this->method == "POST" &&
+            (int)$this->getHeader("Content-Length") > $this->getBytes(ini_get("post_max_size"))
+        ) {
+            throw new \InvalidArgumentException(sprintf(
+                "POST Content-Length of %s bytes exceeds the limit of %s bytes",
+                $this->getHeader("Content-Length"),
+                $this->getBytes(ini_get("post_max_size"))
+            ));
+        }
+    }
+
+    /**
+     * @param string $val
+     *
+     * @return int
+     */
+    private function getBytes(string $val) : int
+    {
+        $val = trim($val);
+        $last = strtolower($val[strlen($val)-1]);
+        switch($last) {
+            // The 'G' modifier is available since PHP 5.1.0
+            case 'g':
+                $val *= 1024 * 1024 * 1024;
+                break;
+            case 'm':
+                $val *= 1024 * 1024;
+                break;
+            case 'k':
+                $val *= 1024;
+                break;
+        }
+
+        return $val;
     }
 
     /**

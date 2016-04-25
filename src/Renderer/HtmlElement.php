@@ -16,8 +16,6 @@ namespace Cawa\Renderer;
 class HtmlElement extends Element
 {
     /**
-     * HtmlElement constructor.
-     *
      * @param string $tag
      * @param string $content
      */

@@ -240,26 +240,24 @@ class Request
     /**
      * @var array
      */
-    protected $files;
+    protected $files = [];
 
     /**
-     * @param $name
+     * @param string $name
      *
-     * @return array
+     * @return File
      */
-    public function getUploadedFile($name)
+    public function getUploadedFile(string $name)
     {
-        // @TODO: Implement this
-        return [];
+        return $this->files[$name] ?? null;
     }
 
     /**
-     * @return array
+     * @return File[]
      */
     public function getUploadedFiles() : array
     {
-        // @TODO: Implement this
-        return [];
+        return $this->files;
     }
 
     /**
