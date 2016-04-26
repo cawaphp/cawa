@@ -302,7 +302,7 @@ class Collection extends Serializable implements CollectionInterface
 
     /**
      * @param string $method property or method
-     * @param mixed  $value  the comparison value
+     * @param mixed $value the comparison value
      *
      * @return static
      */
@@ -315,6 +315,28 @@ class Collection extends Serializable implements CollectionInterface
                 return $item->$method === $value;
             }
         }));
+    }
+
+    /**
+     * @param string $method property or method
+     * @param mixed $value the comparison value
+     *
+     * @return mixed|null
+     */
+    public function findOne(string $method, $value)
+    {
+        $return = $this->find($method, $value);
+
+        if ($return->count() > 1) {
+            throw new \OverflowException(sprintf(
+                "Too many element return (%s), needed only one for '%s' = '%s'",
+                $return->count(),
+                $method,
+                is_object($value) ? get_class($value) : $value
+            ));
+        }
+
+        return $return->count() ? $return->first() : null;
     }
 
     /**
