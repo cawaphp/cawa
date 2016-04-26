@@ -25,7 +25,7 @@ class DateTime extends Carbon implements \JsonSerializable
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function __construct($time = null, $timezone = null)
     {

@@ -23,7 +23,7 @@ class File
      */
     public function __construct(string $name, array $file)
     {
-        switch ($file["error"]) {
+        switch ($file['error']) {
             case UPLOAD_ERR_INI_SIZE:
                 $this->error =  new \OverflowException(sprintf(
                     "The uploaded file '%s' exceeds the upload_max_filesize directive in php.ini",
@@ -74,15 +74,14 @@ class File
                 break;
 
             case UPLOAD_ERR_OK:
-                $this->name = $file["name"];
-                $this->path = $file["tmp_name"];
-                $this->size = $file["size"];
-                $this->type = $file["type"];
+                $this->name = $file['name'];
+                $this->path = $file['tmp_name'];
+                $this->size = $file['size'];
+                $this->type = $file['type'];
                 break;
 
             default:
-                throw new \LogicException(sprintf("Invalid upload error '%s'",  $file["error"]));
-
+                throw new \LogicException(sprintf("Invalid upload error '%s'", $file['error']));
         }
     }
 
@@ -97,16 +96,18 @@ class File
     private $name;
 
     /**
-     * @return string
      * @throws \Exception
+     *
+     * @return string
      */
     public function getName() : string
     {
         if ($this->error && $this->error instanceof \Throwable) {
             throw $this->error;
-        } else if ($this->error) {
+        } elseif ($this->error) {
             throw new \Exception($this->error);
         }
+
         return $this->name;
     }
 
@@ -116,14 +117,15 @@ class File
     private $type;
 
     /**
-     * @return string
      * @throws \Exception
+     *
+     * @return string
      */
     public function getType() : string
     {
         if ($this->error && $this->error instanceof \Throwable) {
             throw $this->error;
-        } else if ($this->error) {
+        } elseif ($this->error) {
             throw new \Exception($this->error);
         }
 
@@ -136,14 +138,15 @@ class File
     private $path;
 
     /**
-     * @return string
      * @throws \Exception
+     *
+     * @return string
      */
     public function getPath() : string
     {
         if ($this->error && $this->error instanceof \Throwable) {
             throw $this->error;
-        } else if ($this->error) {
+        } elseif ($this->error) {
             throw new \Exception($this->error);
         }
 
@@ -156,14 +159,15 @@ class File
     private $size;
 
     /**
-     * @return int
      * @throws \Exception
+     *
+     * @return int
      */
     public function getSize() : int
     {
         if ($this->error && $this->error instanceof \Throwable) {
             throw $this->error;
-        } else if ($this->error) {
+        } elseif ($this->error) {
             throw new \Exception($this->error);
         }
 

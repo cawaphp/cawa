@@ -62,20 +62,20 @@ class ServerRequest extends Request
         }
 
         foreach ($_FILES as $name => $value) {
-            if ($value["error"] != 4) {
+            if ($value['error'] != 4) {
                 $this->files[$name] = new File($name, $value);
             }
         }
 
         $this->handleServerVars();
 
-        if ($this->method == "POST" &&
-            (int)$this->getHeader("Content-Length") > $this->getBytes(ini_get("post_max_size"))
+        if ($this->method == 'POST' &&
+            (int) $this->getHeader('Content-Length') > $this->getBytes(ini_get('post_max_size'))
         ) {
             throw new \InvalidArgumentException(sprintf(
-                "POST Content-Length of %s bytes exceeds the limit of %s bytes",
-                $this->getHeader("Content-Length"),
-                $this->getBytes(ini_get("post_max_size"))
+                'POST Content-Length of %s bytes exceeds the limit of %s bytes',
+                $this->getHeader('Content-Length'),
+                $this->getBytes(ini_get('post_max_size'))
             ));
         }
     }
@@ -89,7 +89,7 @@ class ServerRequest extends Request
     {
         $val = trim($val);
         $last = strtolower($val[strlen($val)-1]);
-        switch($last) {
+        switch ($last) {
             // The 'G' modifier is available since PHP 5.1.0
             case 'g':
                 $val *= 1024 * 1024 * 1024;

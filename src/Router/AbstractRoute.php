@@ -33,22 +33,22 @@ abstract class AbstractRoute
      /**
       * @return int
       */
-     public function getResponseCode()
-     {
-         return $this->responseCode;
-     }
+    public function getResponseCode()
+    {
+        return $this->responseCode;
+    }
 
      /**
       * @param int $code
       *
       * @return $this
       */
-     public function setResponseCode(int $code) : self
-     {
-         $this->responseCode = $code;
+    public function setResponseCode(int $code) : self
+    {
+        $this->responseCode = $code;
 
-         return $this;
-     }
+        return $this;
+    }
 
     /**
      * @var string

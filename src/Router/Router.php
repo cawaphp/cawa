@@ -127,8 +127,6 @@ class Router
             $match[] = $group->getMatch();
         }
 
-
-
         /** @var Route|Group|string $route */
         foreach ($group->getRoutes() as $name => $route) {
             $routeName = $names;
@@ -269,7 +267,6 @@ class Router
                     if (!$condition()) {
                         return [false, null, $regexp];
                     }
-
                 }
             }
 
