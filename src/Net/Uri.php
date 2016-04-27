@@ -55,7 +55,7 @@ class Uri
      */
     private function getCurrentUrl()
     {
-        if (!isset($_SERVER['REQUEST_URI']) || !isset($_SERVER['SERVER_NAME'])) {
+        if (!isset($_SERVER['REQUEST_URI']) || !isset($_SERVER['HTTP_HOST'])) {
             return null;
         }
 
@@ -66,7 +66,7 @@ class Uri
         }
 
         $parseUrl['scheme'] = 'http';
-        $parseUrl['host'] = $_SERVER['SERVER_NAME'];
+        $parseUrl['host'] = $_SERVER['HTTP_HOST'];
 
         if (isset($_SERVER['HTTP_X_FORWARDED_PROTO'])) {
             if ($_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
