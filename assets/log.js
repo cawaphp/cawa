@@ -11,7 +11,7 @@ if (!window.Cawa.Log) {
         return function ()
         {
             var args = Array.from(arguments);
-            args.unshift('background:darkred; color:#FFF;padding:2px;');
+            args.unshift('background:darkred; color:#FFF;padding-left:2px;padding-right:2px;');
             args.unshift('%c ' + loggerName + " ");
 
             rawMethod.apply(this, args);

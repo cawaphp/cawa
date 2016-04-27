@@ -50,6 +50,8 @@ class HtmlFormatter extends AbstractFormatter
             <style type="text/css">
                 .cawaException {
                     background-color:#fff;
+                    z-index: 99999;
+                    position: relative;
                     border-radius: 4px;
                     border:1px solid #ccc;
                     margin: 10px;
