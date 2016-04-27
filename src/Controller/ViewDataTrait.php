@@ -31,7 +31,7 @@ trait ViewDataTrait
      *
      * @return $this
      */
-    public function addData(string $name, $value) : self
+    public function addData(string $name, $value)
     {
         $this->data[$name] = $value;
 
@@ -43,7 +43,7 @@ trait ViewDataTrait
      *
      * @return $this
      */
-    public function addDatas(array $datas) : self
+    public function addDatas(array $datas)
     {
         $this->data = array_merge($this->data, $datas);
 
