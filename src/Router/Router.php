@@ -210,6 +210,8 @@ class Router
             ->setPath($this->routeRegexp($route, $data))
         ;
 
+        $cloneData = $data;
+
         // append querystring
         if ($route->getUserInputs()) {
             $queryToAdd = [];
@@ -223,12 +225,22 @@ class Router
                 }
 
                 if (isset($data[$querystring->getName()])) {
+                    unset($cloneData[$querystring->getName()]);
                     $queryToAdd[$querystring->getName()] = $data[$querystring->getName()];
                 }
             }
 
             $uri->addQueries($queryToAdd);
         }
+
+        if (sizeof($cloneData)) {
+            throw new \InvalidArgumentException(sprintf(
+                "Too many data to generate route '%s' with keys %s",
+                $route->getName(),
+                "'" . implode("', '", array_keys($cloneData)) . "'"
+            ));
+        }
+        trace();
 
         return $uri;
     }
