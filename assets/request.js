@@ -1,6 +1,7 @@
 var $ = require("jquery");
+var log = require("log").getLogger("Cawa Request");
 
-var Request = new (function () {
+var Request = function () {
     /**
      * @callback requestSuccess
      * @param {XMLHttpRequest} xhr
@@ -15,6 +16,7 @@ var Request = new (function () {
      */
     function request(uri, callback, method, data)
     {
+
         var options = {
             url: uri,
             type: method == undefined ? "GET" : method,
@@ -25,11 +27,11 @@ var Request = new (function () {
             }
         };
 
+        log.debug("CawaRequest", uri, "with method",  options.type, "data", data);
+
         if (data instanceof FormData) {
             options.processData = false;
             options.contentType = false;
-
-
 
             options.xhr = function() {
                 var uploadXhr = $.ajaxSettings.xhr();
@@ -123,9 +125,14 @@ var Request = new (function () {
         request(uri, callback,  method, formData);
     }
 
-    // Public methods
-    this.request = request;
-    this.form = form;
-})();
 
-module.exports = Request;
+    return {
+        request: request,
+        form: form
+    };
+};
+
+window.Cawa = window.Cawa || {};
+window.Cawa.Request = window.Cawa.Request || new Request();
+
+module.exports = window.Cawa.Request;
