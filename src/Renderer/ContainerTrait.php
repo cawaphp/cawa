@@ -23,25 +23,29 @@ trait ContainerTrait
     protected $elements = [];
 
     /**
-     * @param ViewController $element
+     * @param ViewController|ViewController[] ...$elements
      *
      * @return $this
      */
-    public function add(ViewController $element)
+    public function add(ViewController ...$elements)
     {
-        $this->elements[] = $element ;
+        foreach ($elements as $element) {
+            $this->elements[] = $element;
+        }
 
         return $this;
     }
 
     /**
-     * @param ViewController $element
+     * @param ViewController|ViewController[] ...$elements
      *
      * @return $this
      */
-    public function addFirst(ViewController $element)
+    public function addFirst(ViewController ...$elements)
     {
-        array_unshift($this->elements, $element);
+        foreach ($elements as $element) {
+            array_unshift($this->elements, $element);
+        }
 
         return $this;
     }
