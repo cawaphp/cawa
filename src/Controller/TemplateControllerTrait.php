@@ -18,24 +18,23 @@ namespace Cawa\Controller;
  */
 trait TemplateControllerTrait
 {
-
     /**
      * @var array
      */
-    private static $path;
+    private $path;
 
     /**
      *
      */
     private function getPath()
     {
-        if (!self::$path) {
+        if (!$this->path) {
             $reflection = new \ReflectionClass($this);
             $filename = $reflection->getFileName();
-            self::$path = pathinfo($filename);
+            $this->path = pathinfo($filename);
         }
 
-        return self::$path;
+        return $this->path;
     }
 
     /**
