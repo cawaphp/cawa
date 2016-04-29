@@ -46,6 +46,19 @@ class WidgetOption extends ViewController
     }
 
     /**
+     * @param string $key
+     * @param mixed $value
+     *
+     * @return $this
+     */
+    public function addData(string $key, $value) : self
+    {
+        $this->data[$key] = $value;
+
+        return $this;
+    }
+
+    /**
      * @param array $data
      *
      * @return $this
