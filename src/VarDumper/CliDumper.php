@@ -18,6 +18,16 @@ class CliDumper extends \Symfony\Component\VarDumper\Dumper\CliDumper
     use DumperTrait;
 
     /**
+     * @inheritdoc
+     */
+    protected function echoLine($line, $depth, $indentPad)
+    {
+        if (-1 !== $depth) {
+            echo str_repeat($indentPad, $depth).$line . "\n";
+        }
+    }
+
+    /**
      * @var int
      */
     protected $lastDepth = -1;

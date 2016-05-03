@@ -28,9 +28,20 @@ if (!function_exists('trace')) {
         if (!$init) {
             $cloner = new VarCloner();
 
+            $isCurl = false;
             $isCli = 'cli' === PHP_SAPI;
 
+            if (isset($_SERVER["HTTP_USER_AGENT"]) && stripos($_SERVER["HTTP_USER_AGENT"], "curl") !== false) {
+                $isCli = true;
+                $isCurl = true;
+            }
+
             $dumper = $isCli ? new CliDumper() : new HtmlDumper();
+
+            if ($isCurl) {
+                $dumper::$defaultColors = true;
+            }
+
             $handler = function ($var) use ($cloner, $dumper) {
                 $dumper->dump($cloner->cloneVar($var));
             };
