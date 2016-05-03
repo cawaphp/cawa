@@ -18,7 +18,7 @@ class Route extends AbstractRoute
     /**
      * @param string $route
      *
-     * @return static
+     * @return $this
      */
     public static function create(string $route = null) : self
     {

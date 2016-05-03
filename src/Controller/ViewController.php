@@ -20,7 +20,7 @@ abstract class ViewController extends AbstractController
     /**
      * @param array ...$args
      *
-     * @return static
+     * @return $this
      */
     public static function create(... $args) : self
     {

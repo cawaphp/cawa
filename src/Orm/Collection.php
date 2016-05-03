@@ -304,7 +304,7 @@ class Collection extends Serializable implements CollectionInterface
      * @param string $method property or method
      * @param mixed $value the comparison value
      *
-     * @return static
+     * @return $this
      */
     public function find(string $method, $value)
     {

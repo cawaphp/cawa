@@ -20,7 +20,7 @@ class Event
      * @param string $name
      * @param array $data
      *
-     * @return static
+     * @return $this
      */
     public static function instance(string $name, array $data = []) : self
     {

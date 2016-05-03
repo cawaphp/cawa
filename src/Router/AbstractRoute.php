@@ -116,7 +116,7 @@ abstract class AbstractRoute
     /**
      * @param string $match
      *
-     * @return static
+     * @return $this
      */
     public function setMatch(string $match) : self
     {
