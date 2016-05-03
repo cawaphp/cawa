@@ -30,19 +30,19 @@ abstract class AbstractRoute
      */
     protected $responseCode;
 
-     /**
-      * @return int
-      */
+    /**
+     * @return int
+     */
     public function getResponseCode()
     {
         return $this->responseCode;
     }
 
-     /**
-      * @param int $code
-      *
-      * @return $this
-      */
+    /**
+     * @param int $code
+     *
+     * @return $this
+     */
     public function setResponseCode(int $code) : self
     {
         $this->responseCode = $code;

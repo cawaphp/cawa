@@ -68,7 +68,6 @@ trait ContainerTrait
         return $this->elements[0] ?? null;
     }
 
-
     /**
      * @return int
      */

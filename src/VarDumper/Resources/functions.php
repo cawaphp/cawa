@@ -31,7 +31,7 @@ if (!function_exists('trace')) {
             $isCurl = false;
             $isCli = 'cli' === PHP_SAPI;
 
-            if (isset($_SERVER["HTTP_USER_AGENT"]) && stripos($_SERVER["HTTP_USER_AGENT"], "curl") !== false) {
+            if (isset($_SERVER['HTTP_USER_AGENT']) && stripos($_SERVER['HTTP_USER_AGENT'], 'curl') !== false) {
                 $isCli = true;
                 $isCurl = true;
             }
