@@ -61,11 +61,41 @@ trait ContainerTrait
     }
 
     /**
+     * @return ViewController
+     */
+    public function first()
+    {
+        return $this->elements[0] ?? null;
+    }
+
+
+    /**
      * @return int
      */
     public function count() : int
     {
         return sizeof($this->elements);
+    }
+
+    /**
+     * @param ViewController $compare
+     *
+     * @return int|null
+     */
+    protected function getIndex(ViewController $compare = null)
+    {
+        if (is_null($compare)) {
+            return null;
+        }
+
+        $index = null;
+        foreach ($this->elements as $i => $element) {
+            if ($element === $compare) {
+                $index = $i;
+            }
+        }
+
+        return $index;
     }
 
     /**

@@ -25,7 +25,7 @@ class WidgetOption extends ViewController
     /**
      * @param array $data
      */
-    public function __construct(array $data)
+    public function __construct(array $data = [])
     {
         $this->element = new HtmlElement('<script>');
         $this->element->addAttribute('type', 'application/json');
@@ -35,7 +35,7 @@ class WidgetOption extends ViewController
     /**
      * @var array
      */
-    protected $data;
+    protected $data = [];
 
     /**
      * @return array
