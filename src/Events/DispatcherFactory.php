@@ -18,11 +18,6 @@ use Cawa\Core\DI;
 trait DispatcherFactory
 {
     /**
-     * @var array
-     */
-    private static $container = [];
-
-    /**
      * @return Dispatcher
      */
     private static function dispatcher() : Dispatcher

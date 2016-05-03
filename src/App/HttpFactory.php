@@ -20,11 +20,6 @@ use Cawa\Http\ServerResponse;
 trait HttpFactory
 {
     /**
-     * @var array
-     */
-    private static $container = [];
-
-    /**
      * @return ServerRequest
      */
     protected static function request() : ServerRequest

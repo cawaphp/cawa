@@ -18,11 +18,6 @@ use Cawa\Core\DI;
 trait LoggerFactory
 {
     /**
-     * @var array
-     */
-    private static $container = [];
-
-    /**
      * @return Logger
      */
     private static function logger() : Logger

@@ -18,11 +18,6 @@ use Cawa\Core\DI;
 trait RouterFactory
 {
     /**
-     * @var array
-     */
-    private static $container = [];
-
-    /**
      * @return Router
      */
     protected static function router() : Router
