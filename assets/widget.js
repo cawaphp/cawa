@@ -44,16 +44,16 @@ $.widget("cawa.widget",
 
     _scriptOptions: function(elem)
     {
-        var options = {},
-            scriptElement;
+        var options = {};
+        var scriptElement;
 
         scriptElement = elem.is('script') ? elem : elem.nextAll('script[type="application/json"]').first();
         if (scriptElement.length > 0) {
             try {
-                // Strict parse (http://www.jslint.com)
                 options = JSON.parse(scriptElement.html());
-            } catch (oException) {
-                throw('Unable to parse (strict) options for element ' + elem.get());
+            } catch (exception) {
+                console.log(scriptElement.html());
+                throw('Unable to parse widget options for element ' + exception);
             }
         }
 
