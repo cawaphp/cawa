@@ -77,6 +77,10 @@ var Request = function () {
             })
             .fail(function (xhr, textStatus, errorThrown)
             {
+                if (textStatus == "abort") {
+                    return true;
+                }
+
                 if (fail) {
                     $(document).one("error.request", fail);
                 }

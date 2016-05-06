@@ -271,7 +271,9 @@ class Router
                         return [false, null, $regexp];
                     }
 
-                    $matches[$querystring->getName()] = $value;
+                    if (!is_null($value)) {
+                        $matches[$querystring->getName()] = $value;
+                    }
                 }
             }
 
@@ -663,7 +665,7 @@ class Router
 
                 $return[$parameter->getName()] = $value;
             } elseif (!isset($args[$parameter->getName()])) {
-                $return[$parameter->getName()] = null;
+                $return[$parameter->getName()] = $parameter->getDefaultValue();
             }
         }
 
