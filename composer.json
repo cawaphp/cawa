@@ -28,6 +28,7 @@
         "ext-intl": "*",
 
         "behat/transliterator": "^1.1",
+        "giggsey/libphonenumber-for-php": "^7.3",
         "jeremykendall/php-domain-parser": "~3.0",
         "nesbot/carbon": "~1.21",
         "psr/log": "^1.0",
