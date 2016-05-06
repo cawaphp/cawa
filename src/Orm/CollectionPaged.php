@@ -17,11 +17,17 @@ class CollectionPaged extends Collection
 {
     /**
      * @param array $elements
+     * @param int $currentPage
+     * @param int $count
+     * @param int $pageSize
      */
-    public function __construct(array $elements)
+    public function __construct(array $elements, int $currentPage, int $count = null, $pageSize = 20)
     {
         parent::__construct($elements);
-        $this->pageSize = sizeof($elements);
+        $this->currentPage = $currentPage;
+        $this->count = $count;
+        $this->pageSize = $pageSize;
+
     }
 
     /**
@@ -40,7 +46,7 @@ class CollectionPaged extends Collection
     /**
      * @var int
      */
-    private $pageSize = 20;
+    private $pageSize;
 
     /**
      * @return int

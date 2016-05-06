@@ -53,7 +53,11 @@ class WidgetOption extends ViewController
      */
     public function addData(string $key, $value) : self
     {
-        $this->data[$key] = $value;
+        if (isset($this->data[$key]) && is_array($value)) {
+            $this->data[$key] = array_merge($value, $this->data[$key]);
+        } else {
+            $this->data[$key] = $value;
+        }
 
         return $this;
     }
@@ -68,6 +72,14 @@ class WidgetOption extends ViewController
         $this->data = $data;
 
         return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function count() : int
+    {
+        return sizeof($this->data);
     }
 
     /**
