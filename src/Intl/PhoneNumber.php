@@ -23,7 +23,6 @@ class PhoneNumber
 {
     use TranslatorFactory;
 
-
     /**
      * House Phone
      */
@@ -96,7 +95,6 @@ class PhoneNumber
      */
     const TYPE_SHORT_CODE = 29;
 
-
     /**
      * @param string $phone
      */
@@ -121,9 +119,10 @@ class PhoneNumber
      */
     public function getDescription() : string
     {
-        list($language, $region) = explode("-", $this->translator()->getIETF());
+        list($language, $region) = explode('-', $this->translator()->getIETF());
 
         $phoneNumberGeocoder = PhoneNumberOfflineGeocoder::getInstance();
+
         return $phoneNumberGeocoder->getDescriptionForNumber(
             $this->number,
             $language,
@@ -176,7 +175,6 @@ class PhoneNumber
      */
     public function getNational() : string
     {
-
         return $this->util->format($this->number, PhoneNumberFormat::NATIONAL);
     }
 
@@ -204,6 +202,7 @@ class PhoneNumber
     public function getCarrier() : string
     {
         $carrierMapper = PhoneNumberToCarrierMapper::getInstance();
+
         return $carrierMapper->getNameForNumber($this->number, $this->translator()->getLocale());
     }
 
@@ -213,6 +212,7 @@ class PhoneNumber
     public function getTimezone() : array
     {
         $timeZoneMapper = PhoneNumberToTimeZonesMapper::getInstance();
+
         return $timeZoneMapper->getTimeZonesForNumber($this->number);
     }
 }

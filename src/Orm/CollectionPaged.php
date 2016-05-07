@@ -27,7 +27,6 @@ class CollectionPaged extends Collection
         $this->currentPage = $currentPage;
         $this->count = $count;
         $this->pageSize = $pageSize;
-
     }
 
     /**

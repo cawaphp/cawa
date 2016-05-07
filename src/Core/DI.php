@@ -44,7 +44,7 @@ abstract class DI
      *
      * @return object
      */
-    public static function set(string $namespace, string $name = null, $object)
+    public static function set(string $namespace, string $name = null, $object = null)
     {
         $name = $name ?: 'default';
 

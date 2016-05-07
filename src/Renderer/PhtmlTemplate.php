@@ -39,12 +39,13 @@ class PhtmlTemplate extends ViewController
      */
     public static function renderTemplate(string $templatePath, array $data = []) : string
     {
-        if (substr($templatePath, 0, 1) != "/") {
-            $templatePath = AbstractApp::getAppRoot() . "/" . $templatePath;
+        if (substr($templatePath, 0, 1) != '/') {
+            $templatePath = AbstractApp::getAppRoot() . '/' . $templatePath;
         }
 
         $phtml = new static($templatePath);
         $phtml->addDatas($data);
+
         return $phtml->render();
     }
 }

@@ -81,11 +81,11 @@ class Translator
     public function getIETF() : string
     {
         $locale = $this->locales[$this->locale];
-        if (strpos($locale, ".") !== false) {
-            $locale = substr($locale, 0, strpos($locale, "."));
+        if (strpos($locale, '.') !== false) {
+            $locale = substr($locale, 0, strpos($locale, '.'));
         }
 
-        $locale = str_replace("_", "-", $locale);
+        $locale = str_replace('_', '-', $locale);
 
         return $locale;
     }
