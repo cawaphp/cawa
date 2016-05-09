@@ -122,17 +122,10 @@ EOF;
         foreach ($stacks as $index => $stack) {
             $out .= "  <li>\n";
 
-            if (isset($stack['function'])) {
-                if (isset($stack['namespace']) && isset($stack['class'])) {
-                    $type = $stack['namespace'] . '\\' .  $stack['class'] . $stack['type'] . $stack['function'];
-                } elseif (isset($stack['namespace'])) {
-                    $type = $stack['namespace'] . '\\' . $stack['function'];
-                } else {
-                    $type = $stack['function'];
-                }
-
+            if ($type = $this->getType($stack)) {
                 $out .= '    at <abbr>' . $type . '</abbr>' . "\n";
             }
+
 
             if (isset($stack['args'])) {
                 $out .= '    <a href="javascript:showFullArgs(' .  $index . ')" class="args">' .

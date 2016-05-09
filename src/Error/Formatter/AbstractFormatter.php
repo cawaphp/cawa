@@ -112,6 +112,26 @@ abstract class AbstractFormatter
     }
 
     /**
+     * @param array $stack
+     * 
+     * @return string
+     */
+    protected function getType(array $stack) 
+    {
+        if (!isset($stack['function'])) {
+            return null;
+        }
+
+        if (isset($stack['namespace']) && isset($stack['class'])) {
+            return $stack['namespace'] . '\\' . $stack['class'] . $stack['type'] . $stack['function'];
+        } elseif (isset($stack['namespace'])) {
+            return $stack['namespace'] . '\\' . $stack['function'];
+        } else {
+            return $stack['function'];
+        }
+    }
+    
+    /**
      * @param string|null $name
      *
      * @return string

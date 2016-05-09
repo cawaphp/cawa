@@ -21,6 +21,7 @@ use Cawa\Error\Exceptions\Fatal;
 use Cawa\Error\Exceptions\Notice;
 use Cawa\Error\Exceptions\Warning;
 use Cawa\Error\Formatter\HtmlFormatter;
+use Cawa\Error\Formatter\CliFormatter;
 use Cawa\Log\LoggerFactory;
 use Cawa\Net\Ip;
 
@@ -171,13 +172,21 @@ class Handler
             return;
         }
 
+        if ('cli' === PHP_SAPI ||
+            (isset($_SERVER['HTTP_USER_AGENT']) && stripos($_SERVER['HTTP_USER_AGENT'], 'curl') !== false)
+        ) {
+            $formatterClass = '\Cawa\Error\Formatter\CliFormatter';
+        } else {
+            $formatterClass = '\Cawa\Error\Formatter\HtmlFormatter';
+        }
+
         if (AbstractApp::isInit()) {
             self::log($exception);
 
             self::response()->setStatus(500);
 
             if (AbstractApp::env() != AbstractApp::PROD || Ip::isAdmin()) {
-                $formatter = new HtmlFormatter();
+                $formatter = new $formatterClass();
                 echo $formatter->render($exception);
             } else {
                 self::clearAllBuffer();
@@ -191,7 +200,7 @@ class Handler
             }
 
             if (AbstractApp::env() != AbstractApp::PROD) {
-                $formatter = new HtmlFormatter();
+                $formatter = new $formatterClass();
                 echo $formatter->render($exception);
             } else {
                 self::clearAllBuffer();
