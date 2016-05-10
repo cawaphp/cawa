@@ -22,7 +22,7 @@ class HtmlElement extends Element
     public function __construct(string $tag = null, string $content = null)
     {
         if (is_null($this->tag) && is_null($tag)) {
-            throw new \InvalidArgumentException(sprintf("Missing tag on %s", get_class($this)));
+            throw new \InvalidArgumentException(sprintf('Missing tag on %s', get_class($this)));
         }
 
         if ($tag) {

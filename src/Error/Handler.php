@@ -20,8 +20,6 @@ use Cawa\Error\Exceptions\Error;
 use Cawa\Error\Exceptions\Fatal;
 use Cawa\Error\Exceptions\Notice;
 use Cawa\Error\Exceptions\Warning;
-use Cawa\Error\Formatter\HtmlFormatter;
-use Cawa\Error\Formatter\CliFormatter;
 use Cawa\Log\LoggerFactory;
 use Cawa\Net\Ip;
 

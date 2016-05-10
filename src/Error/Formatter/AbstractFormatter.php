@@ -113,10 +113,10 @@ abstract class AbstractFormatter
 
     /**
      * @param array $stack
-     * 
+     *
      * @return string
      */
-    protected function getType(array $stack) 
+    protected function getType(array $stack)
     {
         if (!isset($stack['function'])) {
             return null;
@@ -130,7 +130,7 @@ abstract class AbstractFormatter
             return $stack['function'];
         }
     }
-    
+
     /**
      * @param string|null $name
      *

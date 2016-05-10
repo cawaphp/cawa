@@ -126,7 +126,6 @@ EOF;
                 $out .= '    at <abbr>' . $type . '</abbr>' . "\n";
             }
 
-
             if (isset($stack['args'])) {
                 $out .= '    <a href="javascript:showFullArgs(' .  $index . ')" class="args">' .
                     htmlspecialchars($stack['args']) . '</a>' . "\n";

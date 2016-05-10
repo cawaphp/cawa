@@ -13,9 +13,6 @@ declare (strict_types=1);
 
 namespace Cawa\Error\Formatter;
 
-use Symfony\Component\VarDumper\Cloner\VarCloner;
-use Symfony\Component\VarDumper\Dumper\HtmlDumper;
-
 class CliFormatter extends AbstractFormatter
 {
     /**
@@ -29,7 +26,7 @@ class CliFormatter extends AbstractFormatter
     {
         $stacks = $this->exceptionStackTrace($exception);
 
-        $out = "";
+        $out = '';
 
         $out .= "\033[1;37m" . // white foreground
             "\033[41m >>>> " . // red background
@@ -39,7 +36,6 @@ class CliFormatter extends AbstractFormatter
         $out .= "\033[41mType:\033[0;31m " . // light red foreground
             get_class($exception) .
             "\033[0m\n";
-
 
         $out .= "\033[41mCode:\033[0;33m " . // brown foreground
             $exception->getCode() .
@@ -57,13 +53,12 @@ class CliFormatter extends AbstractFormatter
         }
         $out .= "\n\n";
 
-        $stackTxt = "";
+        $stackTxt = '';
         foreach ($stacks as $index => $stack) {
-
             $stackTxt .= '  at ';
             if ($type = $this->getType($stack)) {
                 $stackTxt .= "\033[0;36m" . // light gray foreground
-                    $type . " " .
+                    $type . ' ' .
                     "\033[0m";
             }
 
@@ -90,17 +85,16 @@ class CliFormatter extends AbstractFormatter
         $stackTxt .= "\n";
 
         $data = [
-            "message" => $exception->getMessage(),
-            "code" => $exception->getCode(),
-            "file" => $stacks[0]['file'],
-            "stack" => $stackTxt,
+            'message' => $exception->getMessage(),
+            'code' => $exception->getCode(),
+            'file' => $stacks[0]['file'],
+            'stack' => $stackTxt,
         ];
 
         if (isset($stacks[0]['line'])) {
-            $data["line"] = $stacks[0]['line'];
+            $data['line'] = $stacks[0]['line'];
         }
 
         return $out . $stackTxt;
-
     }
 }
