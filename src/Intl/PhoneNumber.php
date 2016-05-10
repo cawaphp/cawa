@@ -115,6 +115,14 @@ class PhoneNumber
     private $number;
 
     /**
+     * @return bool
+     */
+    public function isValid() : bool
+    {
+        return $this->util->isValidNumber($this->number);
+    }
+
+    /**
      * @return string
      */
     public function getDescription() : string
