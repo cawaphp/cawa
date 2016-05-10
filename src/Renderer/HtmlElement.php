@@ -19,9 +19,15 @@ class HtmlElement extends Element
      * @param string $tag
      * @param string $content
      */
-    public function __construct(string $tag, string $content = null)
+    public function __construct(string $tag = null, string $content = null)
     {
-        $this->tag = $tag;
+        if (is_null($this->tag) && is_null($tag)) {
+            throw new \InvalidArgumentException(sprintf("Missing tag on %s", get_class($this)));
+        }
+
+        if ($tag) {
+            $this->tag = $tag;
+        }
 
         parent::__construct($content);
     }
