@@ -82,7 +82,7 @@ class Handler
         ini_set('display_errors', 'Off');
 
         if (self::$reservedMemory === null) {
-            self::$reservedMemory = str_repeat('x', 10240);
+            self::$reservedMemory = str_repeat('x', 1024 * 20);
             register_shutdown_function(__CLASS__ . '::fatalHandler');
         }
 

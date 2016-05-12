@@ -16,6 +16,7 @@ namespace Cawa\Date;
 use Carbon\Carbon;
 use Cawa\Core\DI;
 use Cawa\Intl\TranslatorFactory;
+use ReflectionClass;
 use Symfony\Component\Translation\TranslatorInterface;
 
 class DateTime extends Carbon implements \JsonSerializable
@@ -40,6 +41,18 @@ class DateTime extends Carbon implements \JsonSerializable
                 $this->setTimezone(new \DateTimeZone(date_default_timezone_get()));
             }
         }
+    }
+
+    /**
+     * @param array ...$args
+     *
+     * @return $this
+     */
+    public static function new(... $args) : self
+    {
+        $class = static::class;
+
+        return (new ReflectionClass($class))->newInstanceArgs($args);
     }
 
     /**
@@ -77,9 +90,10 @@ class DateTime extends Carbon implements \JsonSerializable
      */
     public function applyUserTimeZone()
     {
-        $this->setTimezone(self::getUserTimezone());
+        $clone = clone $this;
+        $clone->setTimezone(self::getUserTimezone());
 
-        return $this;
+        return $clone ;
     }
 
     /**

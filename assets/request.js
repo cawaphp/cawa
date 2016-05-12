@@ -126,7 +126,7 @@ var Request = function () {
         }
 
 
-        request(uri, callback,  method, formData);
+        send(uri, callback,  method, formData);
     }
 
 
