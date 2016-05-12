@@ -14,7 +14,7 @@ var Request = function () {
      * @param {String} method
      * @param {Object} data
      */
-    function request(uri, callback, method, data)
+    function send(uri, callback, method, data)
     {
 
         var options = {
@@ -131,7 +131,7 @@ var Request = function () {
 
 
     return {
-        request: request,
+        send: send,
         form: form
     };
 };

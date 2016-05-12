@@ -200,7 +200,7 @@ class DateTime extends Carbon implements \JsonSerializable
         $clone->setTimezone(self::getUserTimezone());
 
         if ($day && $hour) {
-            $format = '%x %X';
+            $format = '%c';
         } elseif ($day && !$hour) {
             $format = '%x';
         } elseif (!$day && $hour) {
