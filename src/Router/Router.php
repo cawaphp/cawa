@@ -218,9 +218,9 @@ class Router
             foreach ($route->getUserInputs() as $querystring) {
                 if (!isset($data[$querystring->getName()]) &&
                     $querystring->isMandatory() &&
-                    $route->getMethod() != "POST" &&
-                    $route->getMethod() != "PUT" &&
-                    $route->getMethod() != "DELETE"
+                    $route->getMethod() != 'POST' &&
+                    $route->getMethod() != 'PUT' &&
+                    $route->getMethod() != 'DELETE'
                 ) {
                     throw new \InvalidArgumentException(sprintf(
                         "Missing querystring '%s' to generate route '%s'",

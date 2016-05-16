@@ -28,7 +28,7 @@ trait ParameterTrait
             $return = [];
             $hasValue = false;
             foreach ($variable as $key => $current) {
-                $return[$key] = $this->validateType($current,  substr($type, 0, -2));
+                $return[$key] = $this->validateType($current, substr($type, 0, -2));
 
                 if (!is_null($return[$key])) {
                     $hasValue = true;

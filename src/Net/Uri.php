@@ -110,6 +110,7 @@ class Uri
     {
         // $string = str_replace("+", "%2B", $string);
         parse_str($string, $query);
+
         return $query;
     }
 
