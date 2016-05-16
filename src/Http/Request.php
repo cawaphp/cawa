@@ -108,7 +108,9 @@ class Request
             while ($leave == false) {
                 $key = array_shift($names);
 
-                if (is_null($key)) {
+                if ($key == "") {
+                    $leave = true;
+                } else if (is_null($key)) {
                     $leave = true;
                 } else {
                     $ref = &$ref[$key];

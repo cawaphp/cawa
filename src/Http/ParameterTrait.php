@@ -24,6 +24,20 @@ trait ParameterTrait
      */
     private function validateType($variable, string $type = 'string', $default = null)
     {
+        if (substr($type, -2) == '[]') {
+            $return = [];
+            $hasValue = false;
+            foreach ($variable as $key => $current) {
+                $return[$key] = $this->validateType($current,  substr($type, 0, -2));
+
+                if (!is_null($return[$key])) {
+                    $hasValue = true;
+                }
+            }
+
+            return $hasValue ? $return : $default;
+        }
+
         $options = ['flags' => FILTER_NULL_ON_FAILURE];
 
         if ($default) {
