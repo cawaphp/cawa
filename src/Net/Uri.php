@@ -42,8 +42,7 @@ class Uri
             */
 
             if (isset($this->uri['query'])) {
-                parse_str($this->uri['query'], $query);
-                $this->uri['query'] = $query;
+                $this->uri['query'] = $this->parseStr($this->uri['query']);
             } else {
                 $this->uri['query'] = [];
             }
@@ -59,10 +58,15 @@ class Uri
             return null;
         }
 
-        $parseUrl = @parse_url(urldecode($_SERVER['REQUEST_URI']));
+        $parseUrl = @parse_url($_SERVER['REQUEST_URI']);
 
         if (sizeof($parseUrl) == 0) {
             return null;
+        }
+
+        // we decode after parse in order to keep querystring special chars
+        if (isset($parseUrl['path'])) {
+            $parseUrl['path'] = urldecode($parseUrl['path']);
         }
 
         $parseUrl['scheme'] = 'http';
@@ -89,13 +93,24 @@ class Uri
         }
 
         if (isset($parseUrl['query'])) {
-            parse_str($parseUrl['query'], $query);
-            $parseUrl['query'] = $query;
+            $parseUrl['query'] = $this->parseStr($parseUrl['query']);
         } else {
             $parseUrl['query'] = [];
         }
 
         $this->uri = $parseUrl;
+    }
+
+    /**
+     * @param string $string
+     *
+     * @return array
+     */
+    private function parseStr(string $string) : array
+    {
+        // $string = str_replace("+", "%2B", $string);
+        parse_str($string, $query);
+        return $query;
     }
 
     /**
@@ -310,8 +325,7 @@ class Uri
         if (is_null($query)) {
             unset($this->uri['query']);
         } else {
-            parse_str($query, $queries);
-            $this->uri['query'] = $queries;
+            $this->uri['query'] = $this->parseStr($query);
         }
 
         return $this;
