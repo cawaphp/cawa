@@ -21,13 +21,23 @@ class HtmlFormatter extends AbstractFormatter
     /**
      * {@inheritdoc}
      *
-     * @see http://davidbu.ch/mann/blog/2014-05-06/open-php-stack-trace-links-phpstorm.html
-     * @see https://github.com/bcremer/phpstorm-url-handler-PKGBUILD
-     * @see https://github.com/aik099/PhpStormProtocol
+     * /home/[-USER-]/.local/share/applications/pstorm.desktop
+     * [Desktop Entry]
+     * Version=1.0
+     * Type=Application
+     * Name=PhpStorm Url Handler
+     * Icon=/opt/phpstorm/bin/webide.png
+     * Exec=sh -c "echo %u | sed 's/phpstorm:\/\///' | xargs /usr/local/bin/pstorm"
+     * Categories=Development;IDE;
+     * Terminal=false
+     *
+     * /home/[-USER-]/.local/share/applications/mimeapps.list
+     * [Default Applications]
+     * x-scheme-handler/phpstorm=pstorm.desktop
      */
     public function render(\Throwable $exception) : string
     {
-        $fileLinkFormat = ini_get('xdebug.file_link_format') ?: 'pstorm://%f:%l' ;
+        $fileLinkFormat = ini_get('xdebug.file_link_format') ?: 'phpstorm://%f:%l' ;
 
         $stacks = $this->exceptionStackTrace($exception);
         $out = <<<EOF
