@@ -631,7 +631,7 @@ class Router
             call_user_func_array([$controller, 'init'], $ordererArgs);
         }
 
-        $return = $controller->$method($ordererArgs);
+        $return = call_user_func_array([$controller, $method] , $ordererArgs);
 
         self::dispatcher()->emit($event);
 
