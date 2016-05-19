@@ -103,6 +103,14 @@ class Translator
     }
 
     /**
+     * @return mixed
+     */
+    public function getDefaultLocale()
+    {
+        return DI::config()->get('locale/default');
+    }
+
+    /**
      * detect locale & set cookie if neccesary
      */
     private function initLocale()
@@ -151,7 +159,7 @@ class Translator
         if (sizeof($intersect) >= 1) {
             return $intersect[array_keys($intersect)[0]];
         } elseif (sizeof($intersect) == 0) {
-            return DI::config()->get('locale/default');
+            return $this->getDefaultLocale();
         }
 
         return $this->locales;

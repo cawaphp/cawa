@@ -18,11 +18,6 @@ use Cawa\Core\DI;
 trait TranslatorFactory
 {
     /**
-     * @var array
-     */
-    private static $container = [];
-
-    /**
      * @return Translator
      */
     protected static function translator() : Translator
