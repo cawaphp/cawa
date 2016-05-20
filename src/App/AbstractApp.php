@@ -210,7 +210,7 @@ abstract class AbstractApp
     /**
      * @return void
      */
-    public static function end()
+    public function end()
     {
         self::dispatcher()->emit(new Event('app.end'));
     }

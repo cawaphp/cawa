@@ -85,7 +85,7 @@ class HttpApp extends AbstractApp
     /**
      * @return void
      */
-    public static function end()
+    public function end()
     {
         parent::end();
 

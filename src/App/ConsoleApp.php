@@ -104,7 +104,7 @@ class ConsoleApp extends AbstractApp
     /**
      * {@inheritdoc}
      */
-    public static function end()
+    public function end()
     {
         parent::end();
 

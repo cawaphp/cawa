@@ -163,7 +163,7 @@ class ServerResponse extends Response
 
         $this->setStatus($statusCode);
         $this->addHeader('Location', (string) $url);
-        HttpApp::end();
+        HttpApp::instance()->end();
     }
 
     /**
@@ -176,7 +176,7 @@ class ServerResponse extends Response
         $url = $this->router()->getUri($name, $data);
         $this->setStatus($statusCode);
         $this->addHeader('Location', (string) $url);
-        HttpApp::end();
+        HttpApp::instance()->end();
     }
 
     /**
