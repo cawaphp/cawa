@@ -14,6 +14,7 @@ declare (strict_types=1);
 namespace Cawa\Error;
 
 use Cawa\App\AbstractApp;
+use Cawa\App\HttpApp;
 use Cawa\App\HttpFactory;
 use Cawa\Error\Exceptions\Deprecated;
 use Cawa\Error\Exceptions\Error;
@@ -178,7 +179,7 @@ class Handler
             $formatterClass = '\Cawa\Error\Formatter\HtmlFormatter';
         }
 
-        if (AbstractApp::isInit()) {
+        if (AbstractApp::isInit() && AbstractApp::instance() instanceof HttpApp) {
             self::log($exception);
 
             self::response()->setStatus(500);
@@ -191,7 +192,7 @@ class Handler
                 trace('Oups');
             }
 
-            AbstractApp::end();
+            AbstractApp::instance()->end();
         } else {
             if (!headers_sent()) {
                 header('HTTP/1.1 500 Internal Server Error');
