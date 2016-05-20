@@ -45,7 +45,7 @@ class Element extends ViewController
      *
      * @return $this
      */
-    public function setContent(string $content) : self
+    public function setContent($content) : self
     {
         $this->content = $content;
 
