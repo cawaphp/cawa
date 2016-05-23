@@ -86,6 +86,86 @@ class File
     }
 
     /**
+     * @param array $raw
+     * @return array
+     */
+    public static function create(array $raw) : array
+    {
+        $return = [];
+        foreach ($raw as $postName => $fileValue) {
+            if (!is_array($fileValue['error'])) {
+                if ($fileValue['error'] != 4) {
+                    $return[$postName] = new File($postName, $fileValue);
+                }
+            } else {
+                $keys = [$postName];
+
+                $browse = function (\RecursiveArrayIterator $iterator) use (
+                    &$browse,
+                    &$keys,
+                    &$return,
+                    $postName,
+                    $fileValue
+                ) {
+                    while ($iterator->valid()) {
+                        $arrayKeys = array_keys($iterator->getArrayCopy());
+                        $currentKey = $arrayKeys[sizeof($arrayKeys) - 1];
+                        $currentValue = $iterator->getArrayCopy()[$iterator->key()];
+
+                        if ($iterator->hasChildren()) {
+                            $keys[] = $iterator->key();
+                            $browse($iterator->getChildren());
+                        } else {
+                            $names = &$fileValue['name'];
+                            $types = &$fileValue['type'];
+                            $sizes = &$fileValue['size'];
+                            $tmps = &$fileValue['tmp_name'];
+                            $errors = &$fileValue['error'];
+
+                            $clone = array_merge($keys, [$iterator->key()]);
+                            array_shift($clone);
+
+                            $returnRef = &$return[$postName];
+
+                            while (!is_null($key = array_shift($clone))) {
+                                $names = &$names[$key];
+                                $types = &$types[$key];
+                                $sizes = &$sizes[$key];
+                                $tmps = &$tmps[$key];
+                                $errors = &$error[$key];
+
+                                $returnRef = &$returnRef[$key];
+                            }
+
+                            if ($tmps) {
+                                $returnRef = new File(implode("/", $keys), [
+                                    'name' => $names,
+                                    'type' => $types,
+                                    'size' => $sizes,
+                                    'tmp_name' => $tmps,
+                                    'error' => $errors,
+                                ]);
+                            }
+                        }
+
+                        // reset, iterator change tree
+                        if (!is_array($currentValue) && $currentKey == $iterator->key() ) {
+                            $keys = [$postName];
+                        }
+
+                        $iterator->next();
+                    }
+                };
+
+                $iterator = new \RecursiveArrayIterator($fileValue['name']);
+                iterator_apply($iterator, $browse, array($iterator));
+            }
+        }
+
+        return $return;
+    }
+
+    /**
      * @var \Exception
      */
     private $error;

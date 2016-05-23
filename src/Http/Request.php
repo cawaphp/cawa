@@ -117,6 +117,10 @@ class Request
                 }
             }
 
+            if (is_array($ref) && array_key_exists(0, $ref) && is_null($ref[0])) {
+                $ref = [];
+            }
+
             return $ref;
         } else {
             return $input[$name] ?? null;
@@ -251,11 +255,11 @@ class Request
      */
     public function getUploadedFile(string $name)
     {
-        return $this->files[$name] ?? null;
+        return $this->getUserData($this->files, $name);
     }
 
     /**
-     * @return File[]
+     * @return array
      */
     public function getUploadedFiles() : array
     {

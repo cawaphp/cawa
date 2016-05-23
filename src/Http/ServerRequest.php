@@ -61,11 +61,7 @@ class ServerRequest extends Request
             $this->cookies[$name] = new Cookie($name, $value);
         }
 
-        foreach ($_FILES as $name => $value) {
-            if ($value['error'] != 4) {
-                $this->files[$name] = new File($name, $value);
-            }
-        }
+        $this->files = File::create($_FILES);
 
         $this->handleServerVars();
 
