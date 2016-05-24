@@ -352,8 +352,10 @@ class Router
 
                 case 'C':
                 case 'O':
-                    $variable = substr($value, 1, strpos($value, '>') - 1);
+                    $begin = substr($value, 0, strpos($value, '<'));
+                    $variable = substr($value, strpos($value, '<') + 1, strpos($value, '>') - strpos($value, '<') - 1);
                     $capture = substr($value, strpos($value, '>') + 1);
+
                     if (empty($capture)) {
                         $capture = '[^/]+';
                     }
@@ -375,10 +377,18 @@ class Router
                             }
                         }
                     } else {
-                        $dest = '(?<' . $variable . '>' . $capture . ')';
+                        $dest = "(";
+                        if ($begin) {
+                            $dest .= '(?:' . $begin . ')' ;
+                        }
+
+                        $dest .= '(?<' . $variable . '>' . $capture . ')';
+                        $dest .= ")";
+
                         if ($type == 'O') {
                             $dest .= '?';
                         }
+
                     }
 
                     break;
@@ -660,6 +670,8 @@ class Router
                     sprintf("Missing mandatory arguments '%s' on '%s'", $parameter->getName(), get_class($controller))
                 );
             }
+
+            $return[$parameter->getName()] = null;
 
             if (isset($args[$parameter->getName()]) && $args[$parameter->getName()] != '') {
                 $value = $args[$parameter->getName()];
