@@ -17,36 +17,50 @@ interface CollectionInterface extends \Countable, \IteratorAggregate, \ArrayAcce
 {
     /**
      * Adds an element at the end of the collection.
+
+     * @param array $elements The elements to add.
+
      *
-     * @param mixed $element The element to add.
-     *
-     * @return $this
+     * @return $this|CollectionInterface
      */
-    public function add($element);
+    public function add(...$elements) : self;
 
     /**
      * Clears the collection, removing all elements.
      *
      * @return $this
      */
-    public function clear();
+    public function clear() : self;
 
     /**
      * Checks whether an element is contained in the collection.
+     * The comparison is not strict (==), they have the same attributes and values,
+     * and are instances of the same class.
      * This is an O(n) operation, where n is the size of the collection.
      *
      * @param mixed $element The element to search for.
      *
      * @return bool TRUE if the collection contains the element, FALSE otherwise.
      */
-    public function contains($element);
+    public function contains($element) : bool ;
+
+    /**
+     * Checks whether an reference is contained in the collection.
+     * The comparison is strict (===), they refer to the same instance of the same class.
+     * This is an O(n) operation, where n is the size of the collection.
+     *
+     * @param mixed $element The element to search for.
+     *
+     * @return bool TRUE if the collection contains the element, FALSE otherwise.
+     */
+    public function containsInstance($element) : bool ;
 
     /**
      * Checks whether the collection is empty (contains no elements).
      *
      * @return bool TRUE if the collection is empty, FALSE otherwise.
      */
-    public function isEmpty();
+    public function isEmpty() : bool;
 
     /**
      * Removes the element at the specified index from the collection.
@@ -59,12 +73,24 @@ interface CollectionInterface extends \Countable, \IteratorAggregate, \ArrayAcce
 
     /**
      * Removes the specified element from the collection, if it is found.
+     * The comparison is not strict (==), they have the same attributes and values,
+     * and are instances of the same class.
      *
      * @param mixed $element The element to remove.
      *
      * @return bool TRUE if this collection contained the specified element, FALSE otherwise.
      */
-    public function removeElement($element);
+    public function removeElement($element) : bool;
+
+    /**
+     * Removes the specified element from the collection, if it is found.
+     * The comparison is strict (===), they refer to the same instance of the same class.
+     *
+     * @param mixed $element The element to remove.
+     *
+     * @return bool TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeInstance($element) : bool;
 
     /**
      * Checks whether the collection contains an element with the specified key/index.
@@ -74,7 +100,7 @@ interface CollectionInterface extends \Countable, \IteratorAggregate, \ArrayAcce
      * @return bool TRUE if the collection contains an element with the specified key/index,
      *              FALSE otherwise.
      */
-    public function containsKey($key);
+    public function containsKey($key) : bool ;
 
     /**
      * Gets the element at the specified key/index.
@@ -91,7 +117,7 @@ interface CollectionInterface extends \Countable, \IteratorAggregate, \ArrayAcce
      * @return array The keys/indices of the collection, in the order of the corresponding
      *               elements in the collection.
      */
-    public function getKeys();
+    public function getKeys() : array;
 
     /**
      * Gets all values of the collection.
@@ -99,7 +125,7 @@ interface CollectionInterface extends \Countable, \IteratorAggregate, \ArrayAcce
      * @return array The values of all elements in the collection, in the order they
      *               appear in the collection.
      */
-    public function getValues();
+    public function getValues() : array ;
 
     /**
      * Sets an element in the collection at the specified key/index.
@@ -109,14 +135,14 @@ interface CollectionInterface extends \Countable, \IteratorAggregate, \ArrayAcce
      *
      * @return $this
      */
-    public function set($key, $value);
+    public function set($key, $value) : self;
 
     /**
      * Gets a native PHP array representation of the collection.
      *
      * @return array
      */
-    public function toArray();
+    public function toArray() : array ;
 
     /**
      * Sets the internal iterator to the first element in the collection and returns this element.
@@ -160,7 +186,7 @@ interface CollectionInterface extends \Countable, \IteratorAggregate, \ArrayAcce
      *
      * @return bool TRUE if the predicate is TRUE for at least one element, FALSE otherwise.
      */
-    public function exists(callable $callable);
+    public function exists(callable $callable) : bool;
 
     /**
      * Returns all the elements of this collection that satisfy the callable $callable.
@@ -170,7 +196,7 @@ interface CollectionInterface extends \Countable, \IteratorAggregate, \ArrayAcce
      *
      * @return $this A collection with the results of the filter operation.
      */
-    public function filter(callable $callable);
+    public function filter(callable $callable) : self ;
 
     /**
      * Tests whether the given callable $callable holds for all elements of this collection.
@@ -179,7 +205,7 @@ interface CollectionInterface extends \Countable, \IteratorAggregate, \ArrayAcce
      *
      * @return bool TRUE, if the predicate yields TRUE for all elements, FALSE otherwise.
      */
-    public function forAll(callable $callable);
+    public function forAll(callable $callable) : bool ;
 
     /**
      * Applies the given function to each element in the collection and returns
@@ -189,7 +215,7 @@ interface CollectionInterface extends \Countable, \IteratorAggregate, \ArrayAcce
      *
      * @return $this
      */
-    public function apply(callable $callable);
+    public function apply(callable $callable) : self ;
 
     /**
      * Call the given method to each element in the collection and returns
@@ -200,7 +226,7 @@ interface CollectionInterface extends \Countable, \IteratorAggregate, \ArrayAcce
      *
      * @return $this
      */
-    public function call(string $method, ... $vars);
+    public function call(string $method, ... $vars) : self ;
 
     /**
      * Partitions this collection in two collections according to a predicate.
@@ -212,7 +238,7 @@ interface CollectionInterface extends \Countable, \IteratorAggregate, \ArrayAcce
      *               of elements where the predicate returned TRUE, the second element
      *               contains the collection of elements where the predicate returned FALSE.
      */
-    public function partition(callable $callable);
+    public function partition(callable $callable) : array ;
 
     /**
      * Gets the index/key of a given element. The comparison of two elements is strict,
@@ -235,7 +261,7 @@ interface CollectionInterface extends \Countable, \IteratorAggregate, \ArrayAcce
      * @param int      $offset The offset to start from.
      * @param int|null $length The maximum number of elements to return, or null for no limit.
      *
-     * @return array
+     * @return $this
      */
-    public function slice($offset, $length = null);
+    public function slice($offset, $length = null) : self ;
 }

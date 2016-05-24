@@ -20,7 +20,7 @@ class Collection extends Serializable implements CollectionInterface
      *
      * @var array
      */
-    private $elements;
+    protected $elements = [];
 
     /**
      * Initializes a new ArrayCollection.
@@ -35,7 +35,7 @@ class Collection extends Serializable implements CollectionInterface
     /**
      * {@inheritdoc}
      */
-    public function toArray()
+    public function toArray() : array
     {
         return $this->elements;
     }
@@ -98,7 +98,7 @@ class Collection extends Serializable implements CollectionInterface
     /**
      * {@inheritdoc}
      */
-    public function removeElement($element)
+    public function removeElement($element) : bool
     {
         $key = array_search($element, $this->elements, true);
 
@@ -114,7 +114,23 @@ class Collection extends Serializable implements CollectionInterface
     /**
      * {@inheritdoc}
      */
-    public function clear()
+    public function removeInstance($element) : bool
+    {
+        $key = array_search($element, $this->elements);
+
+        if ($key === false) {
+            return false;
+        }
+
+        unset($this->elements[$key]);
+
+        return true;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function clear() : parent
     {
         $this->elements = [];
 
@@ -168,7 +184,7 @@ class Collection extends Serializable implements CollectionInterface
     /**
      * {@inheritdoc}
      */
-    public function containsKey($key)
+    public function containsKey($key) : bool
     {
         return isset($this->elements[$key]) || array_key_exists($key, $this->elements);
     }
@@ -176,7 +192,15 @@ class Collection extends Serializable implements CollectionInterface
     /**
      * {@inheritdoc}
      */
-    public function contains($element)
+    public function contains($element) : bool
+    {
+        return in_array($element, $this->elements);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function containsInstance($element) : bool
     {
         return in_array($element, $this->elements, true);
     }
@@ -184,7 +208,7 @@ class Collection extends Serializable implements CollectionInterface
     /**
      * {@inheritdoc}
      */
-    public function exists(callable $callable)
+    public function exists(callable $callable) : bool
     {
         foreach ($this->elements as $key => $element) {
             if ($callable($key, $element)) {
@@ -193,6 +217,30 @@ class Collection extends Serializable implements CollectionInterface
         }
 
         return false;
+    }
+
+    /**
+     * Compare with current collection, add missing, remove unnecessary on current
+     *
+     * @param Collection $collection
+     *
+     * @return $this
+     */
+    public function diff(Collection $collection) : self
+    {
+        foreach ($this->elements as $element) {
+            if (!$collection->contains($element)) {
+                $this->removeElement($element);
+            }
+        }
+
+        foreach ($collection as $element) {
+            if (!$this->contains($element)) {
+                $this->add($element);
+            }
+        }
+
+        return $this;
     }
 
     /**
@@ -214,7 +262,7 @@ class Collection extends Serializable implements CollectionInterface
     /**
      * {@inheritdoc}
      */
-    public function getKeys()
+    public function getKeys() : array
     {
         return array_keys($this->elements);
     }
@@ -222,7 +270,7 @@ class Collection extends Serializable implements CollectionInterface
     /**
      * {@inheritdoc}
      */
-    public function getValues()
+    public function getValues() : array
     {
         return array_values($this->elements);
     }
@@ -230,7 +278,7 @@ class Collection extends Serializable implements CollectionInterface
     /**
      * {@inheritdoc}
      */
-    public function count()
+    public function count() : int
     {
         return count($this->elements);
     }
@@ -238,7 +286,7 @@ class Collection extends Serializable implements CollectionInterface
     /**
      * {@inheritdoc}
      */
-    public function set($key, $value)
+    public function set($key, $value) : parent
     {
         $this->elements[$key] = $value;
 
@@ -248,9 +296,11 @@ class Collection extends Serializable implements CollectionInterface
     /**
      * {@inheritdoc}
      */
-    public function add($element)
+    public function add(...$elements) : parent
     {
-        $this->elements[] = $element;
+        foreach ($elements as $element) {
+            $this->elements[] = $element;
+        }
 
         return $this;
     }
@@ -258,7 +308,7 @@ class Collection extends Serializable implements CollectionInterface
     /**
      * {@inheritdoc}
      */
-    public function isEmpty()
+    public function isEmpty() : bool
     {
         return empty($this->elements);
     }
@@ -268,7 +318,7 @@ class Collection extends Serializable implements CollectionInterface
      *
      * {@inheritdoc}
      */
-    public function getIterator()
+    public function getIterator() : \ArrayIterator
     {
         return new \ArrayIterator($this->elements);
     }
@@ -276,7 +326,7 @@ class Collection extends Serializable implements CollectionInterface
     /**
      * {@inheritdoc}
      */
-    public function apply(callable $callable)
+    public function apply(callable $callable) : parent
     {
         return new static(array_map($callable, $this->elements));
     }
@@ -284,10 +334,9 @@ class Collection extends Serializable implements CollectionInterface
     /**
      * {@inheritdoc}
      */
-    public function call(string $method, ... $vars)
+    public function call(string $method, ... $vars) : parent
     {
         return new static(array_map(function ($element) use ($method, $vars) {
-
             return call_user_func_array([$element, $method], $vars);
         }, $this->elements));
     }
@@ -295,7 +344,7 @@ class Collection extends Serializable implements CollectionInterface
     /**
      * {@inheritdoc}
      */
-    public function filter(callable $callable)
+    public function filter(callable $callable) : parent
     {
         return new static(array_filter($this->elements, $callable, ARRAY_FILTER_USE_BOTH));
     }
@@ -342,7 +391,7 @@ class Collection extends Serializable implements CollectionInterface
     /**
      * {@inheritdoc}
      */
-    public function forAll(callable $callable)
+    public function forAll(callable $callable) : bool
     {
         foreach ($this->elements as $key => $element) {
             if (!$callable($key, $element)) {
@@ -356,7 +405,7 @@ class Collection extends Serializable implements CollectionInterface
     /**
      * {@inheritdoc}
      */
-    public function partition(callable $callable)
+    public function partition(callable $callable) : array
     {
         $matches = $noMatches = [];
 
@@ -374,8 +423,8 @@ class Collection extends Serializable implements CollectionInterface
     /**
      * {@inheritdoc}
      */
-    public function slice($offset, $length = null)
+    public function slice($offset, $length = null) : parent
     {
-        return array_slice($this->elements, $offset, $length, true);
+        return new static(array_slice($this->elements, $offset, $length, true));
     }
 }

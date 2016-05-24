@@ -13,6 +13,11 @@ declare (strict_types = 1);
 
 namespace Cawa\Orm;
 
+/**
+ * @method insert(...$args)
+ * @method update(...$args)
+ * @method delete(...$args)
+ */
 abstract class Model extends Serializable
 {
     /**
@@ -43,6 +48,20 @@ abstract class Model extends Serializable
     protected function hasChangedProperties() : bool
     {
         return sizeof($this->changedProperties) > 0;
+    }
+
+    /**
+     * @param ModelSaved $model
+     *
+     * @return bool
+     */
+    public function importChangedProperties(ModelSaved $model)
+    {
+        if (sizeof($model->getChangedProperties()) > 0) {
+            $this->changedProperties[$model->getType()][] = $model->getChangedProperties();
+        }
+
+        return true;
     }
 
     /**
