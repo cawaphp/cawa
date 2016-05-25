@@ -141,8 +141,17 @@ EOF;
                     htmlspecialchars($stack['args']) . '</a>' . "\n";
             }
 
-            $link = str_replace(['%f', '%l'], [$stack['file'], $stack['line'] ?? 1], $fileLinkFormat);
-            $out .= '    in <a class="file" href="' . $link . '" title="' . htmlentities($stack['file']) . '">' .
+            $link = '';
+
+            if ($stack['file'] != '[internal function]' && $stack['file'] != '{main}') {
+                $link = ' href="' . str_replace(
+                        ['%f', '%l'],
+                        [$stack['file'], $stack['line'] ?? 1],
+                        $fileLinkFormat
+                    ) . '"';
+            }
+
+            $out .= '    in <a class="file"' . $link . ' title="' . htmlentities($stack['file']) . '">' .
                 basename($stack['file']) .
                 '</a>' . "\n";
 
