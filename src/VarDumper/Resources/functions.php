@@ -11,6 +11,7 @@
 
 declare (strict_types=1);
 
+use Cawa\Error\Formatter\CliFormatter;
 use Cawa\Error\Formatter\HtmlFormatter;
 use Cawa\VarDumper\CliDumper;
 use Cawa\VarDumper\HtmlDumper;
@@ -77,8 +78,13 @@ if (!function_exists('backtrace')) {
      */
     function backtrace($name = null)
     {
-        $formatter = new HtmlFormatter();
+        $isCli = 'cli' === PHP_SAPI;
 
+        if (isset($_SERVER['HTTP_USER_AGENT']) && stripos($_SERVER['HTTP_USER_AGENT'], 'curl') !== false) {
+            $isCli = true;
+        }
+
+        $formatter = $isCli ? new CliFormatter() : new HtmlFormatter();
         echo $formatter->backtrace($name);
     }
 }
