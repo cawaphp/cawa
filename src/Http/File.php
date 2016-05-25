@@ -87,6 +87,7 @@ class File
 
     /**
      * @param array $raw
+     *
      * @return array
      */
     public static function create(array $raw) : array
@@ -138,7 +139,7 @@ class File
                             }
 
                             if ($tmps) {
-                                $returnRef = new File(implode("/", $keys), [
+                                $returnRef = new File(implode('/', $keys), [
                                     'name' => $names,
                                     'type' => $types,
                                     'size' => $sizes,
@@ -149,7 +150,7 @@ class File
                         }
 
                         // reset, iterator change tree
-                        if (!is_array($currentValue) && $currentKey == $iterator->key() ) {
+                        if (!is_array($currentValue) && $currentKey == $iterator->key()) {
                             $keys = [$postName];
                         }
 
@@ -158,7 +159,7 @@ class File
                 };
 
                 $iterator = new \RecursiveArrayIterator($fileValue['name']);
-                iterator_apply($iterator, $browse, array($iterator));
+                iterator_apply($iterator, $browse, [$iterator]);
             }
         }
 

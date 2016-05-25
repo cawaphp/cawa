@@ -377,18 +377,17 @@ class Router
                             }
                         }
                     } else {
-                        $dest = "(";
+                        $dest = '(';
                         if ($begin) {
                             $dest .= '(?:' . $begin . ')' ;
                         }
 
                         $dest .= '(?<' . $variable . '>' . $capture . ')';
-                        $dest .= ")";
+                        $dest .= ')';
 
                         if ($type == 'O') {
                             $dest .= '?';
                         }
-
                     }
 
                     break;

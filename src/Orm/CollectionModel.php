@@ -46,7 +46,7 @@ class CollectionModel extends Collection
     }
 
     /**
-     * @@inheritdoc
+     * @{@inheritdoc}
      */
     public function remove($key)
     {
@@ -59,7 +59,7 @@ class CollectionModel extends Collection
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function removeElement($element) : bool
     {
@@ -72,7 +72,7 @@ class CollectionModel extends Collection
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function removeInstance($element) : bool
     {
@@ -84,9 +84,8 @@ class CollectionModel extends Collection
         return $find;
     }
 
-
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function set($key, $value) : parent
     {
@@ -100,11 +99,12 @@ class CollectionModel extends Collection
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function add(...$elements) : parent
     {
         array_push($this->added, ...$elements);
+
         return parent::add(...$elements);
     }
 

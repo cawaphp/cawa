@@ -14,7 +14,6 @@ declare (strict_types = 1);
 namespace Cawa\Orm;
 
 use ReflectionClass;
-use ReflectionObject;
 
 trait ObjectTrait
 {
@@ -48,7 +47,7 @@ trait ObjectTrait
         return unserialize(
             preg_replace(
                 '/^C:\d+:"[^"]++"/',
-                'C:'.strlen($destination).':"'.$destination.'"',
+                'C:' . strlen($destination) . ':"' . $destination . '"',
                 serialize($this)
             )
         );

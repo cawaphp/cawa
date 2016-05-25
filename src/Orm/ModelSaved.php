@@ -20,7 +20,6 @@ class ModelSaved
      */
     private $model;
 
-
     /**
      * @var array
      */
