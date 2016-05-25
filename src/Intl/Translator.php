@@ -18,6 +18,7 @@ use Cawa\App\HttpFactory;
 use Cawa\Core\DI;
 use Cawa\Http\Cookie;
 use Cawa\Log\LoggerFactory;
+use Punic\Data;
 use Symfony\Component\Translation\MessageSelector;
 
 class Translator
@@ -121,6 +122,9 @@ class Translator
         if (!setlocale(LC_TIME, $this->locales[$this->locale])) {
             throw new \Exception(sprintf("Unable to set locale to '%s'", $this->locales[$this->locale]));
         }
+
+        // punic default value
+        Data::setDefaultLocale($this->getIETF());
 
         if (!$this->request()->getCookie(self::COOKIE_LANGUAGE)) {
             $this->response()->addCookie(new Cookie(self::COOKIE_LANGUAGE, $this->locale, 60*60*24*365));

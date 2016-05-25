@@ -31,6 +31,7 @@
         "giggsey/libphonenumber-for-php": "^7.3",
         "jeremykendall/php-domain-parser": "~3.0",
         "nesbot/carbon": "~1.21",
+        "punic/punic": "^1.6",
         "psr/log": "^1.0",
         "symfony/console": "^3.0",
         "symfony/translation": "~3.0",
