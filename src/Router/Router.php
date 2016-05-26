@@ -352,6 +352,7 @@ class Router
 
                 case 'C':
                 case 'O':
+                case 'S':
                     $begin = substr($value, 0, strpos($value, '<'));
                     $variable = substr($value, strpos($value, '<') + 1, strpos($value, '>') - strpos($value, '<') - 1);
                     $capture = substr($value, strpos($value, '>') + 1);
@@ -382,7 +383,12 @@ class Router
                             $dest .= '(?:' . $begin . ')' ;
                         }
 
-                        $dest .= '(?<' . $variable . '>' . $capture . ')';
+                        if ($type == 'S') {
+                            $dest .= '(?:' . $capture . ')';
+                        } else {
+                            $dest .= '(?<' . $variable . '>' . $capture . ')';
+                        }
+
                         $dest .= ')';
 
                         if ($type == 'O') {
