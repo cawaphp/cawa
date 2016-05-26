@@ -14,10 +14,13 @@ declare (strict_types=1);
 namespace Cawa\Log\Output;
 
 use Cawa\Log\Event;
+use Cawa\Orm\ObjectTrait;
 use Psr\Log\LogLevel;
 
 abstract class AbstractOutput
 {
+    use ObjectTrait;
+
     const LOGLEVEL = [
         LogLevel::DEBUG,
         LogLevel::INFO,
