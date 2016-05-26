@@ -13,7 +13,7 @@ declare (strict_types=1);
 
 namespace Cawa\Http;
 
-class File
+class File implements \Serializable
 {
     /**
      * @param string $name
@@ -133,12 +133,12 @@ class File
                                 $types = &$types[$key];
                                 $sizes = &$sizes[$key];
                                 $tmps = &$tmps[$key];
-                                $errors = &$error[$key];
+                                $errors = &$errors[$key];
 
                                 $returnRef = &$returnRef[$key];
                             }
 
-                            if ($tmps) {
+                            if (!is_null($names)) {
                                 $returnRef = new File(implode('/', $keys), [
                                     'name' => $names,
                                     'type' => $types,
@@ -172,6 +172,18 @@ class File
     private $error;
 
     /**
+     * @throws \Exception
+     */
+    private function raiseException()
+    {
+        if ($this->error && $this->error instanceof \Throwable) {
+            throw $this->error;
+        } elseif ($this->error) {
+            throw new \Exception($this->error);
+        }
+    }
+
+    /**
      * @var string
      */
     private $name;
@@ -183,11 +195,7 @@ class File
      */
     public function getName() : string
     {
-        if ($this->error && $this->error instanceof \Throwable) {
-            throw $this->error;
-        } elseif ($this->error) {
-            throw new \Exception($this->error);
-        }
+        $this->raiseException();
 
         return $this->name;
     }
@@ -204,11 +212,7 @@ class File
      */
     public function getType() : string
     {
-        if ($this->error && $this->error instanceof \Throwable) {
-            throw $this->error;
-        } elseif ($this->error) {
-            throw new \Exception($this->error);
-        }
+        $this->raiseException();
 
         return $this->type;
     }
@@ -225,11 +229,7 @@ class File
      */
     public function getPath() : string
     {
-        if ($this->error && $this->error instanceof \Throwable) {
-            throw $this->error;
-        } elseif ($this->error) {
-            throw new \Exception($this->error);
-        }
+        $this->raiseException();
 
         return $this->path;
     }
@@ -246,11 +246,7 @@ class File
      */
     public function getSize() : int
     {
-        if ($this->error && $this->error instanceof \Throwable) {
-            throw $this->error;
-        } elseif ($this->error) {
-            throw new \Exception($this->error);
-        }
+        $this->raiseException();
 
         return $this->size;
     }
@@ -260,6 +256,8 @@ class File
      */
     public function getContent() : string
     {
+        $this->raiseException();
+
         return file_get_contents($this->path);
     }
 
@@ -271,5 +269,22 @@ class File
         if ($this->error) {
             $this->error = $this->error->getMessage();
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function serialize()
+    {
+        if ($this->error) {
+            $this->error = $this->error->getMessage();
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function unserialize($serialized)
+    {
     }
 }
