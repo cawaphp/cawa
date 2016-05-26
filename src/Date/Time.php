@@ -13,7 +13,6 @@ declare (strict_types=1);
 
 namespace Cawa\Date;
 
-use Punic\Data;
 use Punic\Misc;
 use Punic\Unit;
 
@@ -53,15 +52,15 @@ class Time extends DateTime
         $format = [];
 
         if ($this->hour) {
-            $format[] = Unit::format($this->hour, "duration/hour");
+            $format[] = Unit::format($this->hour, 'duration/hour');
         }
 
         if ($this->minute) {
-            $format[] = Unit::format($this->minute, "duration/minute");
+            $format[] = Unit::format($this->minute, 'duration/minute');
         }
 
         if ($this->second) {
-            $format[] = Unit::format($this->second, "duration/second");
+            $format[] = Unit::format($this->second, 'duration/second');
         }
 
         return Misc::joinUnits($format, 'narrow');

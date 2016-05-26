@@ -145,10 +145,10 @@ EOF;
 
             if ($stack['file'] != '[internal function]' && $stack['file'] != '{main}') {
                 $link = ' href="' . str_replace(
-                        ['%f', '%l'],
-                        [$stack['file'], $stack['line'] ?? 1],
-                        $fileLinkFormat
-                    ) . '"';
+                    ['%f', '%l'],
+                    [$stack['file'], $stack['line'] ?? 1],
+                    $fileLinkFormat
+                ) . '"';
             }
 
             $out .= '    in <a class="file"' . $link . ' title="' . htmlentities($stack['file']) . '">' .
