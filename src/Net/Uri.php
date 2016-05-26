@@ -372,6 +372,7 @@ class Uri
 
     /**
      * Add query string to current url, overwrite the one that allready exists
+     * This method is the only way to add an array as value for a querystring (non standard)
      *
      * @param array $queries
      *
@@ -386,7 +387,7 @@ class Uri
                 throw new \InvalidArgumentException("Invalid querystring '" . $key . "'");
             }
 
-            if (!is_string($value)) {
+            if (!is_string($value) && !is_array($value)) {
                 throw new \InvalidArgumentException(sprintf(
                     "Invalid querystring value '%s' with type '%s'",
                     $key,
