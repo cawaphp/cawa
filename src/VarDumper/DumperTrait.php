@@ -36,17 +36,30 @@ trait DumperTrait
         self::$lastTime = $time;
 
         $from = null;
+        $extract = null;
         $backtraces = array_reverse(debug_backtrace());
         foreach ($backtraces as $backtrace) {
             if (isset($backtrace['function']) && $backtrace['function'] == 'trace') {
                 $from = ' : ' . $backtrace['file'] . ':' . $backtrace['line'];
+               $extract = file($backtrace['file'])[$backtrace['line'] - 1];
             }
         }
 
-        if ($fromLast) {
-            return '' . $fromStart . "ms (+ $fromLast ms)" . $from;
-        } else {
-            return '' . $fromStart . 'ms (+ 0.000 ms)' . $from;
+        if ($extract && $this instanceof HtmlDumper) {
+            $extract = '<span class="sf-dump-ref">' . $extract . '</span>';
         }
+
+        if ($fromLast) {
+            $return = '' . $fromStart . "ms (+ $fromLast ms)" . $from;
+        } else {
+            $return ='' . $fromStart . 'ms (+ 0.000 ms)' . $from;
+        }
+
+        if ($this instanceof HtmlDumper) {
+            $return = '<span class="sf-dump-index ">' . $return . '</span>';
+        }
+
+
+        return $return . $extract;
     }
 }
