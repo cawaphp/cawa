@@ -16,39 +16,43 @@ namespace Cawa\Orm;
 trait SerializableTrait
 {
     /**
-     * Recursive serialize to get parent class property.
+     * Recursive serialize
      *
-     * @param string|object $class
-     * @param string $className
+     * @param object $object
      *
      * @return array
      */
-    private function recursiveSerialize($class, $className = null)
+    private static function getSerializableData($object)
     {
-        $data = [];
-        $reflectionClass = new \ReflectionClass($className ? $className : $class);
+        $data = ['@type' => get_class($object)];
 
-        // parent class
-        $parent = $reflectionClass->getParentClass();
-        if ($parent) {
-            $parentData = $this->recursiveSerialize($class, $parent->getName());
-            if (count($parentData) > 0) {
-                $data = array_merge($data, $parentData);
-            }
-        }
+        $reflectionClass = new \ReflectionObject($object);
 
-        // current class
         foreach ($reflectionClass->getProperties() as $property) {
             $property->setAccessible(true);
-            $value = $property->getValue($class);
+            $value = $property->getValue($object);
+            $name = $property->getName();
 
-            if (is_null($value)) {
-                // optimization: only save null if not the default value
-                if (!is_null($reflectionClass->getDefaultProperties()[$property->getName()])) {
-                    $data[$property->getName()] = $value;
+            // optimization: only save value if not the default value
+            $defaults = $reflectionClass->getDefaultProperties();
+            if (array_key_exists($name, $defaults) && $defaults[$name] === $value) {
+                continue;
+            }
+
+            if (is_array($value)) {
+                foreach ($value as $key => $current) {
+                    if (is_object($current)) {
+                        $currentVal = self::getSerializableData($current);
+                    } else {
+                        $currentVal = $current;
+                    }
+
+                    $data[$name][$key] = $currentVal;
                 }
+            } else if (is_object($value)) {
+                $data[$name] = self::getSerializableData($value);
             } else {
-                $data[$property->getName()] = $value;
+                $data[$name] = $value;
             }
         }
 
@@ -58,30 +62,62 @@ trait SerializableTrait
     /**
      * Recursive unserialize to get parent class property.
      *
-     * @param string|Model $className
-     * @param array        $cacheData
+     * @param object $object
+     * @param array $cacheData
      *
      * @return array
      */
-    protected function recursiveUnserialize($className, $cacheData) : array
+    protected static function unserializeData($object, &$cacheData) : array
     {
-        $reflectionClass = new \ReflectionClass($className);
-
-        // parent class
-        $parent = $reflectionClass->getParentClass();
-
-        if ($parent) {
-            $parentData = $this->recursiveUnserialize($parent->getName(), $cacheData);
-            if (count($parentData) > 0) {
-                $cacheData = array_merge($cacheData, $parentData);
-            }
-        }
+        $reflectionClass = new \ReflectionObject($object);
+        unset($cacheData['@type']);
 
         foreach ($reflectionClass->getProperties() as $property) {
-            if (array_key_exists($property->getName(), $cacheData)) {
+            $name = $property->getName();
+
+            if (array_key_exists($name, $cacheData)) {
+                $currentValue = $cacheData[$name];
+                if (isset($cacheData[$name]['@type'])) {
+                    $reflection = new \ReflectionClass($cacheData[$name]['@type']);
+
+                    $parent = $reflection;
+                    $internal = false;
+
+                    while($parent !== false)
+                    {
+                        $internal = $parent->isInternal() ? true : $internal;
+                        $parent = $parent->getParentClass();
+                    }
+
+                    if ($internal) {
+                        $serialize = preg_replace(
+                            '|^O:\d+:"\w+":|',
+                            'O:' . strlen($cacheData[$name]['@type']) . ':"' . $cacheData[$name]['@type'] . '":',
+                            serialize($cacheData[$name])
+                        );
+                        $currentValue = unserialize($serialize);
+
+                    } else {
+                        $currentValue = $reflection->newInstanceWithoutConstructor();
+                        self::unserializeData($currentValue, $cacheData[$name]);
+                    }
+                } else if (is_array($currentValue)) {
+                    $currentValue = [];
+                    foreach ($cacheData[$name] as $key => $value) {
+                        if (isset($value['@type'])) {
+                            $reflection = new \ReflectionClass($value['@type']);
+                            $currentValue[$key] = $reflection->newInstanceWithoutConstructor();
+                            self::unserializeData($currentValue[$key], $value);
+                        } else {
+                            $currentValue[$key] = $value;
+                        }
+                    }
+                }
+
                 $property->setAccessible(true);
-                $property->setValue($this, $cacheData[$property->getName()]);
-                unset($cacheData[$property->getName()]);
+                $property->setValue($object, $currentValue);
+
+                unset($cacheData[$name]);
             }
         }
 

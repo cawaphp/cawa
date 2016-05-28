@@ -22,7 +22,7 @@ abstract class Serializable implements \Serializable
      */
     public function serialize() : string
     {
-        $data = $this->recursiveSerialize($this);
+        $data = $this->getSerializableData($this);
 
         return serialize(['d' => $data]);
     }
@@ -34,6 +34,6 @@ abstract class Serializable implements \Serializable
     {
         $data = unserialize($serialized);
 
-        $this->recursiveUnserialize($this, $data['d']);
+        $this->unserializeData($this, $data['d']);
     }
 }
