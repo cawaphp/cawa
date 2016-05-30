@@ -49,7 +49,7 @@ trait SerializableTrait
 
                     $data[$name][$key] = $currentVal;
                 }
-            } else if (is_object($value)) {
+            } elseif (is_object($value)) {
                 $data[$name] = self::getSerializableData($value);
             } else {
                 $data[$name] = $value;
@@ -83,8 +83,7 @@ trait SerializableTrait
                     $parent = $reflection;
                     $internal = false;
 
-                    while($parent !== false)
-                    {
+                    while ($parent !== false) {
                         $internal = $parent->isInternal() ? true : $internal;
                         $parent = $parent->getParentClass();
                     }
@@ -96,12 +95,11 @@ trait SerializableTrait
                             serialize($cacheData[$name])
                         );
                         $currentValue = unserialize($serialize);
-
                     } else {
                         $currentValue = $reflection->newInstanceWithoutConstructor();
                         self::unserializeData($currentValue, $cacheData[$name]);
                     }
-                } else if (is_array($currentValue)) {
+                } elseif (is_array($currentValue)) {
                     $currentValue = [];
                     foreach ($cacheData[$name] as $key => $value) {
                         if (isset($value['@type'])) {

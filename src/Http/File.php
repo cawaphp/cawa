@@ -138,7 +138,7 @@ class File implements \Serializable
                                 $returnRef = &$returnRef[$key];
                             }
 
-                            if (!is_null($names)) {
+                            if (!is_null($names) && $errors != 4) {
                                 $returnRef = new File(implode('/', $keys), [
                                     'name' => $names,
                                     'type' => $types,

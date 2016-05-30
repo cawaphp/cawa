@@ -143,14 +143,15 @@ EOF;
 
         if ($stacks[0]['file'] && isset($stacks[0]['line'])) {
             $files =  file($stacks[0]['file']);
-            $extract = array_merge(
-                array_slice($files, $stacks[0]['line'] - 3, 2),
-                ['<span class="current">' . array_slice($files, $stacks[0]['line'] - 1, 1)[0] . '</span>'],
-                array_slice($files, $stacks[0]['line'], 2)
-            );
-            $out .= '<pre class="extract">' . implode("", $extract) .  "</pre>\n";
+            if (isset($files[$stacks[0]['line'] - 1 ])) {
+                $extract = array_merge(
+                    array_slice($files, max(0, $stacks[0]['line'] - 3), 2),
+                    ['<span class="current">' . array_slice($files, $stacks[0]['line'] - 1, 1)[0] . '</span>'],
+                    array_slice($files, $stacks[0]['line'], 2)
+                );
+                $out .= '<pre class="extract">' . implode('', $extract) .  "</pre>\n";
+            }
         }
-
 
         $out .= "<ol>\n";
 

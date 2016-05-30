@@ -41,7 +41,7 @@ trait DumperTrait
         foreach ($backtraces as $backtrace) {
             if (isset($backtrace['function']) && $backtrace['function'] == 'trace') {
                 $from = ' : ' . $backtrace['file'] . ':' . $backtrace['line'];
-               $extract = file($backtrace['file'])[$backtrace['line'] - 1];
+                $extract = file($backtrace['file'])[$backtrace['line'] - 1];
             }
         }
 
@@ -58,7 +58,6 @@ trait DumperTrait
         if ($this instanceof HtmlDumper) {
             $return = '<span class="sf-dump-index ">' . $return . '</span>';
         }
-
 
         return $return . $extract;
     }
