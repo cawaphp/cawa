@@ -46,7 +46,7 @@ trait DumperTrait
         }
 
         if ($extract && $this instanceof HtmlDumper) {
-            $extract = '<span class="sf-dump-ref">' . $extract . '</span>';
+            $extract = '<br /><span class="sf-dump-ref">' . trim($extract) . '</span>';
         }
 
         if ($fromLast) {
