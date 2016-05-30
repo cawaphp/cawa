@@ -75,7 +75,7 @@ class HtmlFormatter extends AbstractFormatter
                     color: #333;
                 }
 
-                .cawaException h1, .cawaException h2 {
+                .cawaException h1, .cawaException h2, .cawaException h3 {
                     background-color: FireBrick ;
                     color: white;
                     text-shadow: -1px 0 #333, 0 1px #333, 1px 0 #333, 0 -1px #333;
@@ -87,6 +87,20 @@ class HtmlFormatter extends AbstractFormatter
                 .cawaException h2 {
                     border-bottom:1px solid #ccc;
                     font-size: 13px;
+                }
+
+                .cawaException pre.extract {
+                    background-color:#2b2b2b; 
+                    color:#a1acb2;
+                    font-size: 11px;
+                    margin-top: 0;
+                    padding: 5 10px;
+                }
+
+                .cawaException pre.extract span {
+                    background-color:#323232;
+                    color:#a1acb2;
+                    display: block;
                 }
 
                 .cawaException ol {
@@ -126,6 +140,17 @@ EOF;
             $out .= ' line ' . $stacks[0]['line'];
         }
         $out .= "</h2>\n";
+
+        if ($stacks[0]['file'] && isset($stacks[0]['line'])) {
+            $files =  file($stacks[0]['file']);
+            $extract = array_merge(
+                array_slice($files, $stacks[0]['line'] - 3, 2),
+                ['<span class="current">' . array_slice($files, $stacks[0]['line'] - 1, 1)[0] . '</span>'],
+                array_slice($files, $stacks[0]['line'], 2)
+            );
+            $out .= '<pre class="extract">' . implode("", $extract) .  "</pre>\n";
+        }
+
 
         $out .= "<ol>\n";
 
