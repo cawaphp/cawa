@@ -63,6 +63,12 @@ trait ParameterTrait
                 $variable = trim(filter_var($variable, FILTER_SANITIZE_STRING, $options));
                 break;
 
+            case 'array':
+                if (!is_array($variable)) {
+                    $variable = null;
+                }
+                break;
+
             default:
                 throw new \LogicException(sprintf("Invalid filter type '%s'", $type));
         }
