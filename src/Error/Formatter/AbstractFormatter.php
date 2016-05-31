@@ -44,7 +44,7 @@ abstract class AbstractFormatter
 
                         if (preg_match('`([^\\(]+)\\(([0-9]+)\\)`', $stack['file'], $matches)) {
                             $stack['file'] = $matches[1];
-                            $stack['line'] = $matches[2];
+                            $stack['line'] = (int) $matches[2];
                         }
                     } else {
                         $buffer .= $current . ' ';
@@ -93,7 +93,7 @@ abstract class AbstractFormatter
             if (isset($stack['function']) && $stack['function'] == 'backtrace') {
                 $skip = true;
                 $file = $stack['file'];
-                $line = $stack['line'];
+                $line = (int) $stack['line'];
             }
 
             if ($skip == false) {
@@ -143,7 +143,7 @@ abstract class AbstractFormatter
             0,
             1,
             debug_backtrace()[0]['file'],
-            debug_backtrace()[0]['line']
+            (int) debug_backtrace()[0]['line']
         );
 
         return $this->render($exception);
