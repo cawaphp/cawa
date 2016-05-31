@@ -678,7 +678,7 @@ class Router
 
             $return[$parameter->getName()] = null;
 
-            if (isset($args[$parameter->getName()]) && $args[$parameter->getName()] != '') {
+            if (array_key_exists($parameter->getName(), $args) && $args[$parameter->getName()] !== '') {
                 $value = $args[$parameter->getName()];
 
                 if ($parameter->getClass() && $parameter->getClass()->getName() == 'Cawa\Date\DateTime') {
@@ -686,7 +686,7 @@ class Router
                 }
 
                 $return[$parameter->getName()] = $value;
-            } elseif (!isset($args[$parameter->getName()])) {
+            } elseif (array_key_exists($parameter->getName(), $args)) {
                 $return[$parameter->getName()] = $parameter->getDefaultValue();
             }
         }

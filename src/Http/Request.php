@@ -186,7 +186,7 @@ class Request
     public function getPostOrQuery(string $name, string $type = null, $default = null)
     {
         $post = $this->getPost($name, $type, $default);
-        if ($post) {
+        if (!is_null($post)) {
             return $post;
         }
 
