@@ -157,6 +157,31 @@ abstract class AbstractRoute
     }
 
     /**
+     * @var array
+     */
+    protected $args = [];
+
+    /**
+     * @return array
+     */
+    public function getArgs() : array
+    {
+        return $this->args;
+    }
+
+    /**
+     * @param array $args
+     *
+     * @return $this
+     */
+    public function setArgs(array $args) : self
+    {
+        $this->args = $args;
+
+        return $this;
+    }
+
+    /**
      * @var callable[]
      */
     protected $conditions = [];
@@ -261,5 +286,6 @@ abstract class AbstractRoute
         $this->options = array_merge($group->getOptions(), $this->options);
         $this->userInput = array_merge($group->getUserInputs(), $this->userInput);
         $this->conditions = array_merge($group->getConditions(), $this->conditions);
+        $this->args = array_merge($group->getArgs(), $this->args);
     }
 }

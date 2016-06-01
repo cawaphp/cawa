@@ -612,6 +612,9 @@ class Router
         $class = $this->replaceDynamicArgs($find[1], $route, $args);
         $method = isset($find[2]) ? $this->replaceDynamicArgs($find[2], $route, $args) : null;
 
+        // route args
+        $args = array_merge($route->getArgs(), $args);
+
         // replace class dynamic args
         if (!class_exists($class)) {
             throw new \BadMethodCallException(sprintf(
