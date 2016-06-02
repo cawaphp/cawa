@@ -37,7 +37,6 @@ abstract class Serializable implements \Serializable
         self::unserializeData($this, $data);
     }
 
-
     /**
      * @param string $destination
      *
@@ -54,9 +53,9 @@ abstract class Serializable implements \Serializable
         }
 
         $data = self::getSerializableData($this);
-        $data["@type"] = $destination;
+        $data['@type'] = $destination;
 
-        /** @var Serializable $return */
+        /* @var Serializable $return */
         $reflection = new \ReflectionClass($destination);
         $return = $reflection->newInstanceWithoutConstructor();
         self::unserializeData($return, $data);
