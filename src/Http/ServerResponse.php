@@ -14,12 +14,14 @@ declare (strict_types=1);
 namespace Cawa\Http;
 
 use Cawa\App\HttpApp;
+use Cawa\App\HttpFactory;
 use Cawa\Net\Uri;
 use Cawa\Router\RouterFactory;
 
 class ServerResponse extends Response
 {
     use RouterFactory;
+    use HttpFactory;
 
     /**
      * @param string|null $file
@@ -176,6 +178,16 @@ class ServerResponse extends Response
         $url = $this->router()->getUri($name, $data);
         $this->setStatus($statusCode);
         $this->addHeader('Location', (string) $url);
+        HttpApp::instance()->end();
+    }
+
+    /**
+     * @param int $statusCode
+     */
+    public function redirectSelf(int $statusCode = 302)
+    {
+        $this->setStatus($statusCode);
+        $this->addHeader('Location', (string) $this->request()->getUri());
         HttpApp::instance()->end();
     }
 
