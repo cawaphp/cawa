@@ -39,7 +39,7 @@ class CliDumper extends \Symfony\Component\VarDumper\Dumper\CliDumper
     {
         if (-1 === $this->lastDepth && isset($_SERVER['REQUEST_TIME_FLOAT'])) {
             if ($this->colors) {
-                echo sprintf("\033[%sm%s\033[m", $this->styles['default'], $this->prefix());
+                echo sprintf("\033[%sm%s\033[m", $this->styles['ref'], $this->prefix());
             } else {
                 echo $this->prefix();
             }

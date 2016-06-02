@@ -41,12 +41,12 @@ trait DumperTrait
         foreach ($backtraces as $backtrace) {
             if (isset($backtrace['function']) && $backtrace['function'] == 'trace') {
                 $from = ' : ' . $backtrace['file'] . ':' . $backtrace['line'];
-                $extract = file($backtrace['file'])[$backtrace['line'] - 1];
+                $extract = "\n" . trim(file($backtrace['file'])[$backtrace['line'] - 1]) . "\n";
             }
         }
 
         if ($extract && $this instanceof HtmlDumper) {
-            $extract = '<br /><span class="sf-dump-ref">' . trim($extract) . '</span>';
+            $extract = '<span class="sf-dump-ref">' . $extract . '</span>';
         }
 
         if ($fromLast) {
