@@ -22,9 +22,9 @@ abstract class Serializable implements \Serializable
      */
     public function serialize() : string
     {
-        $data = $this->getSerializableData($this);
+        $data = self::getSerializableData($this);
 
-        return serialize(['d' => $data]);
+        return serialize($data);
     }
 
     /**
@@ -34,6 +34,33 @@ abstract class Serializable implements \Serializable
     {
         $data = unserialize($serialized);
 
-        $this->unserializeData($this, $data['d']);
+        self::unserializeData($this, $data);
+    }
+
+
+    /**
+     * @param string $destination
+     *
+     * @return object
+     */
+    public function cast(string $destination)
+    {
+        if (!is_subclass_of($destination, get_class($this))) {
+            throw new \InvalidArgumentException(sprintf(
+                '%s is not a descendant of $object class: %s.',
+                $destination,
+                get_class($this)
+            ));
+        }
+
+        $data = self::getSerializableData($this);
+        $data["@type"] = $destination;
+
+        /** @var Serializable $return */
+        $reflection = new \ReflectionClass($destination);
+        $return = $reflection->newInstanceWithoutConstructor();
+        self::unserializeData($return, $data);
+
+        return $return;
     }
 }

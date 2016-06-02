@@ -28,28 +28,4 @@ trait ObjectTrait
 
         return (new ReflectionClass($class))->newInstanceArgs($args);
     }
-
-    /**
-     * @param string $destination
-     *
-     * @return object
-     */
-    public function cast(string $destination)
-    {
-        if (!is_subclass_of($destination, get_class($this))) {
-            throw new \InvalidArgumentException(sprintf(
-                '%s is not a descendant of $object class: %s.',
-                $destination,
-                get_class($this)
-            ));
-        }
-
-        return unserialize(
-            preg_replace(
-                '/^C:\d+:"[^"]++"/',
-                'C:' . strlen($destination) . ':"' . $destination . '"',
-                serialize($this)
-            )
-        );
-    }
 }

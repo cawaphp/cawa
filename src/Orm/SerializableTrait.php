@@ -19,15 +19,26 @@ trait SerializableTrait
      * Recursive serialize
      *
      * @param object $object
+     * @param string $className
      *
      * @return array
      */
-    private static function getSerializableData($object)
+    protected static function getSerializableData($object, string $className = null)
     {
         $data = ['@type' => get_class($object)];
 
-        $reflectionClass = new \ReflectionObject($object);
+        $reflectionClass = new \ReflectionClass($className ? $className : $object);
 
+        // parent class
+        $parent = $reflectionClass->getParentClass();
+        if ($parent) {
+            $parentData = self::getSerializableData($object, $parent->getName());
+            if (count($parentData) > 0) {
+                $data = array_merge($data, $parentData);
+            }
+        }
+
+        // current $object
         foreach ($reflectionClass->getProperties() as $property) {
             $property->setAccessible(true);
             $value = $property->getValue($object);
@@ -64,13 +75,20 @@ trait SerializableTrait
      *
      * @param object $object
      * @param array $cacheData
+     * @param string $className
      *
      * @return array
      */
-    protected static function unserializeData($object, &$cacheData) : array
+    protected static function unserializeData($object, &$cacheData, string $className = null) : array
     {
-        $reflectionClass = new \ReflectionObject($object);
+        $reflectionClass = new \ReflectionClass($className ? $className : $object);
         unset($cacheData['@type']);
+
+        // parent class
+        $parent = $reflectionClass->getParentClass();
+        if ($parent) {
+            self::unserializeData($object, $cacheData, $parent->getName());
+        }
 
         foreach ($reflectionClass->getProperties() as $property) {
             $name = $property->getName();
