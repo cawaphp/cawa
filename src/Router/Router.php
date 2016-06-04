@@ -74,7 +74,7 @@ class Router
 
         foreach ($routes as $name => $route) {
             if (is_string($route)) {
-                $routesTranform[$name] = Route::create($route);
+                $routesTranform[$name] = new Route($route);
             } elseif ($route instanceof Group) {
                 $routesTranform = array_merge($routesTranform, $this->addGroup($route));
             } else {
@@ -134,7 +134,7 @@ class Router
 
             if (is_string($route) || $route instanceof Route) {
                 if (is_string($route)) {
-                    $route = Route::create($route)
+                    $route = (new Route($route))
                         ->setName($name);
                 } elseif ($name) {
                     $route->setName($name);

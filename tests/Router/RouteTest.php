@@ -32,9 +32,9 @@ class RouteTest extends TestCase
      */
     public function testFluentInterface($method, $params)
     {
-        $uri = Route::create();
-        $ret = call_user_func_array([$uri, $method], $params);
-        $this->assertSame($uri, $ret);
+        $route = new Route();
+        $ret = call_user_func_array([$route, $method], $params);
+        $this->assertSame($route, $ret);
     }
 
     /**
@@ -47,9 +47,9 @@ class RouteTest extends TestCase
      */
     public function testFluentInterfaceGetter($method, $params, $getParam = null)
     {
-        $uri = new Route();
-        call_user_func_array([$uri, $method], $params);
-        $get = call_user_func_array([$uri, 'g' . substr($method, 1)], $params);
+        $route = new Route();
+        call_user_func_array([$route, $method], $params);
+        $get = call_user_func_array([$route, 'g' . substr($method, 1)], $params);
         $this->assertSame($get, !is_null($getParam) ? $getParam : $params[0]);
     }
 

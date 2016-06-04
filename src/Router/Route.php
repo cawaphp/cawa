@@ -17,22 +17,16 @@ class Route extends AbstractRoute
 {
     /**
      * @param string $route
-     *
-     * @return $this
      */
-    public static function create(string $route = null) : self
+    public function __construct(string $route = null)
     {
-        $return = new static();
-
         if (is_string($route)) {
             $explode = explode(' >>> ', $route);
             if (sizeof($explode) == 2) {
-                $return->setMatch($explode[0])
+                $this->setMatch($explode[0])
                     ->setController($explode[1]);
             }
         }
-
-        return $return;
     }
 
     /**
