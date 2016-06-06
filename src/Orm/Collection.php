@@ -427,4 +427,20 @@ class Collection extends Serializable implements CollectionInterface
     {
         return new static(array_slice($this->elements, $offset, $length, true));
     }
+
+    /**
+     * Merge current collection and passed collection.
+     * Return a new collection instance and don't alter current one.
+     *
+     * @param Collection $collection
+     *
+     * @return $this
+     */
+    public function merge(Collection $collection) : self
+    {
+        $return = clone $this;
+        $return->elements = array_merge($return->elements, $collection->elements);
+
+        return $return;
+    }
 }
