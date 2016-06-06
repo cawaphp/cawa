@@ -88,7 +88,7 @@ class File implements \Serializable
     /**
      * @param array $raw
      *
-     * @return array
+     * @return File[]
      */
     public static function create(array $raw) : array
     {

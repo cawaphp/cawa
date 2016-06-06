@@ -42,19 +42,7 @@ class DateTime extends Carbon implements \JsonSerializable
             }
         }
     }
-
-    /**
-     * @param array ...$args
-     *
-     * @return $this
-     */
-    public static function new(... $args) : self
-    {
-        $class = static::class;
-
-        return (new ReflectionClass($class))->newInstanceArgs($args);
-    }
-
+    
     /**
      * @var \DateTimeZone
      */

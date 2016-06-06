@@ -13,12 +13,8 @@ declare (strict_types=1);
 
 namespace Cawa\Controller;
 
-use Cawa\Orm\ObjectTrait;
-
 abstract class ViewController extends AbstractController
 {
-    use ObjectTrait;
-
     /**
      * @return string|array
      */

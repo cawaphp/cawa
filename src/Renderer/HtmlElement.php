@@ -310,7 +310,7 @@ class HtmlElement extends Element
      *
      * @return string
      */
-    final public static function htmlAttribute(array $attributes = []) : string
+    public static function htmlAttribute(array $attributes = []) : string
     {
         $return = '';
         foreach ($attributes as $attribute => $value) {
