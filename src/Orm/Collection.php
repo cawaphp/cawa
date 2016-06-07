@@ -443,4 +443,49 @@ class Collection extends Serializable implements CollectionInterface
 
         return $return;
     }
+
+    /**
+     * Sort current collection with a callable base on values
+     * Key association is not maintains
+     *
+     * @param callable $sortFunction
+     *
+     * @return $this|Collection
+     */
+    public function sort(callable $sortFunction) : self
+    {
+        usort($this->elements, $sortFunction);
+
+        return $this;
+    }
+
+    /**
+     * Sort current collection with a callable base on values
+     * Key association is maintains
+     *
+     * @param callable $sortFunction
+     *
+     * @return $this|Collection
+     */
+    public function sortByKey(callable $sortFunction) : self
+    {
+        uksort($this->elements, $sortFunction);
+
+        return $this;
+    }
+
+    /**
+     * Sort current collection with a callable base on values
+     * Key association is maintains
+     *
+     * @param callable $sortFunction
+     *
+     * @return $this|Collection
+     */
+    public function sortAssociative(callable $sortFunction) : self
+    {
+        uasort($this->elements, $sortFunction);
+
+        return $this;
+    }
 }
