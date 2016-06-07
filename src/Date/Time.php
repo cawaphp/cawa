@@ -39,6 +39,16 @@ class Time extends DateTime
     }
 
     /**
+     * @return int
+     */
+    public function getDuration() : int
+    {
+        return ($this->hour * 60 * 60) +
+            ($this->minute * 60) +
+            $this->second;
+    }
+    
+    /**
      * @param bool $day
      * @param bool $hour
      *

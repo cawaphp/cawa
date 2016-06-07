@@ -42,7 +42,7 @@ class DateTime extends Carbon implements \JsonSerializable
             }
         }
     }
-    
+
     /**
      * @var \DateTimeZone
      */
@@ -82,6 +82,27 @@ class DateTime extends Carbon implements \JsonSerializable
         $clone->setTimezone(self::getUserTimezone());
 
         return $clone ;
+    }
+
+    /**
+     * @param string $time
+     * @param bool $applyTimezone
+     *
+     * @return static
+     */
+    public function setTimeFromTimeString($time, $applyTimezone = false)
+    {
+        if ($applyTimezone) {
+            $this->setTimezone(self::getUserTimezone());
+        }
+
+        $return = parent::setTimeFromTimeString($time);
+
+        if ($applyTimezone) {
+            $this->setTimezone('UTC');
+        }
+
+        return $return;
     }
 
     /**
@@ -202,7 +223,7 @@ class DateTime extends Carbon implements \JsonSerializable
         $clone->setTimezone(self::getUserTimezone());
 
         if ($day && $hour) {
-            $format = '%c';
+            $format = '%x %X';
         } elseif ($day && !$hour) {
             $format = '%x';
         } elseif (!$day && $hour) {
