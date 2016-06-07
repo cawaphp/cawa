@@ -35,11 +35,18 @@ class DatePeriod implements \Iterator
     /**
      * @return DateTime[]
      */
-    private function getPeriods()
+    protected function getPeriods()
     {
         if (!$this->periods) {
+
             foreach ($this->period as $datetime) {
-                $this->periods[] = new DateTime($datetime);
+                $start = new DateTime($datetime);
+                $end = (clone $start)->add($this->period->getDateInterval());
+                if ($end->getTimestamp() > $this->period->getEndDate()->getTimestamp()) {
+                    $end = new DateTime($this->period->getEndDate());
+                }
+
+                $this->periods[] = new DatePeriodDateTime($start, $end);
             }
         }
 
@@ -49,11 +56,54 @@ class DatePeriod implements \Iterator
     /**
      * @inheritdoc
      */
-    public function __construct(...$params)
+    public function __construct(...$args)
     {
+        $this->initPeriod(...$args);
+    }
+
+    /**
+     *
+     */
+    private function initPeriod()
+    {
+        $params = func_get_args();
+
+        // we had 1 second in order to include end date on iterator
+        if ($params[2] instanceof \DateTime) {
+            $params[2] = $params[2]->add(new \DateInterval('PT1S'));
+        }
+
         $reflection_class = new ReflectionClass('DatePeriod');
         $this->period = $reflection_class->newInstanceArgs($params);
+        $this->periods = [];
+    }
 
+    /**
+     * @param array ...$args The same args used for new instasnce
+     *
+     * @return DatePeriod
+     */
+    public function changePeriod(...$args) : self
+    {
+        $this->initPeriod(...$args);
+
+        return $this;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getStartDate() : DateTime
+    {
+        return new DateTime($this->period->getStartDate());
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getEndDate() : DateTime
+    {
+        return (new DateTime($this->period->getEndDate()))->addSecond(-1);
     }
 
     /**
