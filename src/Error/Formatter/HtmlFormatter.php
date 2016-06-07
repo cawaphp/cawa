@@ -144,10 +144,14 @@ EOF;
         if ($stacks[0]['file'] && isset($stacks[0]['line'])) {
             $files =  file($stacks[0]['file']);
             if (isset($files[$stacks[0]['line'] - 1 ])) {
+                $begin = array_map('htmlspecialchars', array_slice($files, max(0, $stacks[0]['line'] - 3), 2));
+                $current = htmlspecialchars(array_slice($files, $stacks[0]['line'] - 1, 1)[0]);
+                $end = array_map('htmlspecialchars', array_slice($files, $stacks[0]['line'], 2));
+
                 $extract = array_merge(
-                    array_slice($files, max(0, $stacks[0]['line'] - 3), 2),
-                    ['<span class="current">' . array_slice($files, $stacks[0]['line'] - 1, 1)[0] . '</span>'],
-                    array_slice($files, $stacks[0]['line'], 2)
+                    $begin,
+                    ['<span class="current">' . $current . '</span>'],
+                    $end
                 );
                 $out .= '<pre class="extract">' . implode('', $extract) .  "</pre>\n";
             }

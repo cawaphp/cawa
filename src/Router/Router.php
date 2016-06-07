@@ -689,7 +689,7 @@ class Router
                 }
 
                 $return[$parameter->getName()] = $value;
-            } elseif (array_key_exists($parameter->getName(), $args)) {
+            } elseif (!array_key_exists($parameter->getName(), $args)) {
                 $return[$parameter->getName()] = $parameter->getDefaultValue();
             }
         }
