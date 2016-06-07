@@ -603,7 +603,7 @@ class Router
 
         // simple function
         if (is_callable($callback) && is_object($callback)) {
-            return $callback(...$args);
+            return call_user_func_array($callback, [$args]);
         }
 
         // controller
@@ -646,10 +646,10 @@ class Router
         ]);
 
         if (method_exists($controller, 'init')) {
-            ([$controller, 'init'])(...$ordererArgs);
+            call_user_func_array([$controller, 'init'], $ordererArgs);
         }
 
-        $return = ([$controller, $method])(...array_values($ordererArgs));
+        $return = call_user_func_array([$controller, $method], $ordererArgs);
 
         self::dispatcher()->emit($event);
 
