@@ -117,7 +117,7 @@ class Request
                 }
             }
 
-            if (is_array($ref) && array_key_exists(0, $ref) && is_null($ref[0])) {
+            if (is_array($ref) && array_key_exists(0, $ref) && (is_null($ref[0]) || $ref[0] === '')) {
                 $ref = [];
             }
 
