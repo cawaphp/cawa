@@ -15,7 +15,7 @@ use Cawa\Error\Formatter\CliFormatter;
 use Cawa\Error\Formatter\HtmlFormatter;
 use Cawa\VarDumper\CliDumper;
 use Cawa\VarDumper\HtmlDumper;
-use Symfony\Component\VarDumper\Cloner\VarCloner;
+use Cawa\VarDumper\VarCloner;
 use Symfony\Component\VarDumper\VarDumper;
 
 if (!function_exists('trace')) {
