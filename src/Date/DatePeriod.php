@@ -38,7 +38,6 @@ class DatePeriod implements \Iterator
     protected function getPeriods()
     {
         if (!$this->periods) {
-
             foreach ($this->period as $datetime) {
                 $start = new DateTime($datetime);
                 $end = (clone $start)->add($this->period->getDateInterval());
@@ -54,7 +53,7 @@ class DatePeriod implements \Iterator
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function __construct(...$args)
     {
@@ -91,7 +90,7 @@ class DatePeriod implements \Iterator
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getStartDate() : DateTime
     {
@@ -99,7 +98,7 @@ class DatePeriod implements \Iterator
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getEndDate() : DateTime
     {
@@ -107,7 +106,7 @@ class DatePeriod implements \Iterator
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function current()
     {
@@ -115,7 +114,7 @@ class DatePeriod implements \Iterator
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function next()
     {
@@ -124,7 +123,7 @@ class DatePeriod implements \Iterator
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function key()
     {
@@ -132,7 +131,7 @@ class DatePeriod implements \Iterator
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function valid()
     {
@@ -140,7 +139,7 @@ class DatePeriod implements \Iterator
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function rewind()
     {

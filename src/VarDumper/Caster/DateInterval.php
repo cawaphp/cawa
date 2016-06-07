@@ -51,7 +51,6 @@ class DateInterval
             }
         }
 
-
         return [
             $prefix . 'format' => $return
         ];

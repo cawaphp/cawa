@@ -18,7 +18,7 @@ use Cawa\Core\DI;
 class VarCloner extends \Symfony\Component\VarDumper\Cloner\VarCloner
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function __construct(array $casters = null)
     {

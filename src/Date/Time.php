@@ -47,7 +47,7 @@ class Time extends DateTime
             ($this->minute * 60) +
             $this->second;
     }
-    
+
     /**
      * @param bool $day
      * @param bool $hour
