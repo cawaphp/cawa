@@ -12,12 +12,15 @@ declare (strict_types = 1);
 
 namespace Cawa\Renderer;
 
+use Cawa\Events\DispatcherFactory;
+use Cawa\Events\TimerEvent;
 use Cawa\Intl\TranslatorFactory;
 
 class HtmlPage extends HtmlContainer
 {
     use TranslatorFactory;
     use AssetTrait;
+    use DispatcherFactory;
 
     /**
      *
@@ -223,7 +226,12 @@ class HtmlPage extends HtmlContainer
      */
     public function render()
     {
-        $sout = '<!DOCTYPE html lang="' . self::translator()->getLocale() . '">' . "\n";
+        $timerEvent = new TimerEvent('router.htmlPage', [
+            'elements' => sizeof($this->elements),
+
+        ]);
+
+        $out = '<!DOCTYPE html lang="' . self::translator()->getLocale() . '">' . "\n";
 
         // default seo
         if (!$this->headTitle && $title = self::translator()->trans('seo.default/title')) {
@@ -251,8 +259,12 @@ class HtmlPage extends HtmlContainer
             $this->body->setContent($content . $this->footer->render());
         }
 
-        $sout .= parent::render();
+        $parent = parent::render();
+        $out .= $parent;
 
-        return $sout;
+        $timerEvent->addData(['size' => $this->getContent() ? strlen($this->getContent()) : strlen($parent)]);
+        $this->dispatcher()->emit($timerEvent);
+
+        return $out;
     }
 }
