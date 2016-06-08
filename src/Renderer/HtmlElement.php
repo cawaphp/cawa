@@ -243,7 +243,7 @@ class HtmlElement extends Element
             throw new \LogicException('Missing tag');
         }
 
-        return self::htmlTag($this->tag, $this->attributes, $this->content);
+        return $this->isRenderable() ? self::htmlTag($this->tag, $this->attributes, $this->content) : '';
     }
 
     /**

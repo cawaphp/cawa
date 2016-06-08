@@ -77,10 +77,35 @@ class Element extends ViewController
     }
 
     /**
+     * @var bool
+     */
+    private $renderable = true;
+
+    /**
+     * @return bool
+     */
+    public function isRenderable() : bool
+    {
+        return $this->renderable;
+    }
+
+    /**
+     * @param bool $renderable
+     *
+     * @return $this
+     */
+    public function setRenderable(bool $renderable) : self
+    {
+        $this->renderable = $renderable;
+
+        return $this;
+    }
+
+    /**
      * @return string
      */
     public function render()
     {
-        return $this->content;
+        return $this->renderable ? $this->content : '';
     }
 }
