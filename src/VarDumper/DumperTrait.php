@@ -41,7 +41,11 @@ trait DumperTrait
         foreach ($backtraces as $backtrace) {
             if (isset($backtrace['function']) && $backtrace['function'] == 'trace') {
                 $from = ' : ' . $backtrace['file'] . ':' . $backtrace['line'];
-                $extract = "\n" . trim(file($backtrace['file'])[$backtrace['line'] - 1]) . "\n";
+
+                // replace % in order to avoid sprintf failure
+                $extract = "\n" .
+                    str_replace('%', '&#' . ord('%') . ';', trim(file($backtrace['file'])[$backtrace['line'] - 1])) .
+                    "\n";
             }
         }
 
