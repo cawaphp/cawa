@@ -95,6 +95,7 @@ class Time extends DateTime
             if ($this->second) {
                 $format[] = Unit::format($this->second, 'duration/second');
             }
+
             return Misc::joinUnits($format, 'narrow');
         }
 

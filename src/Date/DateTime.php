@@ -294,7 +294,7 @@ class DateTime extends Carbon implements \JsonSerializable
 
         if (is_null($type)) {
             $type = [self::DISPLAY_SHORT, self::DISPLAY_SHORT];
-        } else if (!is_array($type)) {
+        } elseif (!is_array($type)) {
             $type = [$type, $type];
         }
 
