@@ -16,19 +16,58 @@ namespace Cawa\Date;
 use Carbon\Carbon;
 use Cawa\Core\DI;
 use Cawa\Intl\TranslatorFactory;
+use Punic\Calendar;
 use Symfony\Component\Translation\TranslatorInterface;
 
 class DateTime extends Carbon implements \JsonSerializable
 {
+    /**
+     * 15 hours, 2 minutes
+     */
+    const DISPLAY_DURATION = 'duration';
+
+    /**
+     * Date : 'EEEE, MMMM d, y' - 'Wednesday, August 20, 2014'
+     * Time : 'h:mm:ss a zzzz' - '11:42:13 AM GMT+2:00'
+     */
+    const DISPLAY_FULL = 'medium';
+
+    /**
+     * Date : 'MMMM d, y' - 'August 20, 2014'
+     * Time : 'h:mm:ss a z' - '11:42:13 AM GMT+2:00'
+     */
+    const DISPLAY_LONG = 'long';
+
+    /**
+     * Date : 'MMM d, y' - 'August 20, 2014'
+     * Time : 'h:mm:ss a' - '11:42:13 AM'
+     */
+    const DISPLAY_MEDIUM = 'medium';
+
+    /**
+     * Date : 'M/d/yy' - '8/20/14'
+     * Time : 'h:mm a' - '11:42 AM'
+     */
+    const DISPLAY_SHORT = 'short';
+
     use TranslatorFactory {
         TranslatorFactory::translator as private cawaTranslator;
     }
+
+    /**
+     * @var bool
+     */
+    private static $init = false;
 
     /**
      * {@inheritdoc}
      */
     public function __construct($time = null, $timezone = null)
     {
+        if (!self::$init) {
+            self::init();
+        }
+
         parent::__construct($time, $timezone);
 
         if ($timezone) {
@@ -40,6 +79,35 @@ class DateTime extends Carbon implements \JsonSerializable
                 $this->setTimezone(new \DateTimeZone(date_default_timezone_get()));
             }
         }
+    }
+
+    /**
+     * Reorder the days property based on current language
+     */
+    private static function init()
+    {
+        $day = Calendar::getFirstWeekday();
+
+        while (array_keys(self::$days)[0] != $day) {
+            $key = array_keys(self::$days)[0];
+            $value = self::$days[$key];
+            unset(self::$days[$key]);
+            self::$days[$key] = $value;
+        }
+
+        self::$init = true;
+    }
+
+    /**
+     * @return array
+     */
+    public static function getDays() : array
+    {
+        if (!self::$init) {
+            self::init();
+        }
+
+        return self::$days;
     }
 
     /**
@@ -211,26 +279,25 @@ class DateTime extends Carbon implements \JsonSerializable
     }
 
     /**
-     * @param bool $day
-     * @param bool $hour
+     * @param string|array $type
      *
      * @return string
      */
-    public function display(bool $day = true, bool $hour = true) : string
+    public function display($type = null) : string
     {
         $clone = clone $this;
         $clone->setTimezone(self::getUserTimezone());
 
-        if ($day && $hour) {
-            $format = '%x %X';
-        } elseif ($day && !$hour) {
-            $format = '%x';
-        } elseif (!$day && $hour) {
-            $format = '%X';
-        } else {
-            throw new \InvalidArgumentException("Can't display date with no format");
+        if ($type == self::DISPLAY_DURATION) {
+            return $this->diffForHumans(DateTime::now(), true);
         }
 
-        return $clone->formatLocalized($format);
+        if (is_null($type)) {
+            $type = [self::DISPLAY_SHORT, self::DISPLAY_SHORT];
+        } else if (!is_array($type)) {
+            $type = [$type, $type];
+        }
+
+        return Calendar::formatDatetime($clone, implode('|', $type));
     }
 }

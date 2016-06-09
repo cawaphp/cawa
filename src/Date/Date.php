@@ -13,8 +13,35 @@ declare (strict_types=1);
 
 namespace Cawa\Date;
 
+use Punic\Calendar;
+
 class Date extends DateTime
 {
+    /**
+     * 15 hours, 2 minutes
+     */
+    const DISPLAY_DURATION = 'duration';
+
+    /**
+     * 'EEEE, MMMM d, y' - 'Wednesday, August 20, 2014'
+     */
+    const DISPLAY_FULL = 'medium';
+
+    /**
+     * 'MMMM d, y' - 'August 20, 2014'
+     */
+    const DISPLAY_LONG = 'long';
+
+    /**
+     * 'MMM d, y' - 'August 20, 2014'
+     */
+    const DISPLAY_MEDIUM = 'medium';
+
+    /**
+     * 'M/d/yy' - '8/20/14'
+     */
+    const DISPLAY_SHORT = 'short';
+
     /**
      * {@inheritdoc}
      */
@@ -36,16 +63,12 @@ class Date extends DateTime
     }
 
     /**
-     * @param bool $day
-     * @param bool $hour
+     * @param string $type
      *
      * @return string
      */
-    public function display(bool $day = true, bool $hour = true) : string
+    public function display($type = self::DISPLAY_SHORT) : string
     {
-        $clone = clone $this;
-        $clone->setTimezone(self::getUserTimezone());
-
-        return $clone->format('%x');
+        return Calendar::formatDate($this, $type);
     }
 }
