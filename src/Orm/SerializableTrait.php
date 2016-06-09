@@ -13,6 +13,8 @@ declare (strict_types = 1);
 
 namespace Cawa\Orm;
 
+use Cawa\Date\DateTime;
+
 trait SerializableTrait
 {
     /**
@@ -107,10 +109,15 @@ trait SerializableTrait
                     }
 
                     if ($internal) {
+
+                        $data = $cacheData[$name];
+                        $currentType = $cacheData[$name]['@type'];
+                        unset($data['@type']);
+
                         $serialize = preg_replace(
-                            '|^O:\d+:"\w+":|',
-                            'O:' . strlen($cacheData[$name]['@type']) . ':"' . $cacheData[$name]['@type'] . '":',
-                            serialize($cacheData[$name])
+                            '`^a:`',
+                            'O:' . strlen($currentType) . ':"' . $currentType . '":',
+                            serialize($data)
                         );
                         $currentValue = unserialize($serialize);
                     } else {
