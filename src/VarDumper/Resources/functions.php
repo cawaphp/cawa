@@ -49,9 +49,10 @@ if (!function_exists('trace')) {
 
             VarDumper::setHandler($handler);
         }
-
-        foreach ($vars as $var) {
-            VarDumper::dump($var);
+        if (sizeof($vars) == 1) {
+            VarDumper::dump($vars[0]);
+        } else {
+            VarDumper::dump($vars);
         }
     }
 }

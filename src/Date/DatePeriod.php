@@ -22,18 +22,25 @@ use ReflectionClass;
  */
 class DatePeriod implements \Iterator
 {
+    const EXCLUDE_END_DATE = 2;
+
     /**
      * @var \DatePeriod
      */
     private $period;
 
     /**
-     * @var DateTime[]
+     * @var DatePeriodDateTime[]
      */
     private $periods = [];
 
     /**
-     * @return DateTime[]
+     * @var bool
+     */
+    protected $includeEndDate = true;
+
+    /**
+     * @return DatePeriodDateTime[]
      */
     protected function getPeriods()
     {
@@ -48,6 +55,7 @@ class DatePeriod implements \Iterator
                 $this->periods[] = new DatePeriodDateTime($start, $end);
             }
         }
+
 
         return $this->periods;
     }
@@ -67,8 +75,12 @@ class DatePeriod implements \Iterator
     {
         $params = func_get_args();
 
+        if (isset($params[3]) && ($params[3] & self::EXCLUDE_END_DATE)) {
+            $this->includeEndDate = false;
+        }
+
         // we had 1 second in order to include end date on iterator
-        if ($params[2] instanceof \DateTime) {
+        if ($this->includeEndDate && isset($params[2]) && $params[2] instanceof \DateTime) {
             $params[2] = $params[2]->add(new \DateInterval('PT1S'));
         }
 
@@ -102,7 +114,7 @@ class DatePeriod implements \Iterator
      */
     public function getEndDate() : DateTime
     {
-        return (new DateTime($this->period->getEndDate()))->addSecond(-1);
+        return (new DateTime($this->period->getEndDate()))->addSecond($this->includeEndDate ? -1 : 0 );
     }
 
     /**
