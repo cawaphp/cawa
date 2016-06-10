@@ -23,13 +23,14 @@ class DateTime
         $clone = clone $dateTime;
         $clone->setTimezone(\Cawa\Date\DateTime::getUserTimezone());
         $date = strftime('%x %X', strtotime($clone->format('Y-m-d H:i:s')));
+        $dateInternal = strftime('%x %X', strtotime($dateTime->format('Y-m-d H:i:s')));
 
         unset($a[Caster::PREFIX_DYNAMIC . 'timezone_type']);
 
         return [
-            Caster::PREFIX_DYNAMIC . 'date' => $date,
-            Caster::PREFIX_DYNAMIC . 'timezone' => $dateTime->format('T'),
-            Caster::PREFIX_DYNAMIC . 'userTimezone' => $clone->format('T'),
+            Caster::PREFIX_VIRTUAL . 'userDate' => $date,
+            Caster::PREFIX_VIRTUAL . 'userTimezone' => $clone->format('T'),
+            Caster::PREFIX_DYNAMIC . 'date' => $dateInternal,
         ] + $a;
     }
 }
