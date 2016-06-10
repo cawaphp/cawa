@@ -193,7 +193,7 @@ interface CollectionInterface extends \Countable, \IteratorAggregate, \ArrayAcce
      *
      * @param callable $callable The predicate used for filtering.
      *
-     * @return $this A collection with the results of the filter operation.
+     * @return static A collection with the results of the filter operation.
      */
     public function filter(callable $callable) : self ;
 
@@ -212,7 +212,7 @@ interface CollectionInterface extends \Countable, \IteratorAggregate, \ArrayAcce
      *
      * @param callable $callable
      *
-     * @return $this
+     * @return static
      */
     public function apply(callable $callable) : self ;
 
@@ -223,7 +223,7 @@ interface CollectionInterface extends \Countable, \IteratorAggregate, \ArrayAcce
      * @param string $method
      * @param mixed ...$vars
      *
-     * @return $this
+     * @return static
      */
     public function call(string $method, ... $vars) : self ;
 
@@ -233,9 +233,9 @@ interface CollectionInterface extends \Countable, \IteratorAggregate, \ArrayAcce
      *
      * @param callable $callable $p The predicate on which to partition.
      *
-     * @return array An array with two elements. The first element contains the collection
-     *               of elements where the predicate returned TRUE, the second element
-     *               contains the collection of elements where the predicate returned FALSE.
+     * @return static[] An array with two elements. The first element contains the collection
+     *     of elements where the predicate returned TRUE, the second element
+     *     contains the collection of elements where the predicate returned FALSE.
      */
     public function partition(callable $callable) : array ;
 
@@ -260,7 +260,7 @@ interface CollectionInterface extends \Countable, \IteratorAggregate, \ArrayAcce
      * @param int      $offset The offset to start from.
      * @param int|null $length The maximum number of elements to return, or null for no limit.
      *
-     * @return $this
+     * @return static
      */
     public function slice($offset, $length = null) : self ;
 }
