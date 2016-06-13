@@ -357,8 +357,14 @@ class Collection extends Serializable implements CollectionInterface
      */
     public function find(string $method, $value)
     {
-        return new static(array_filter($this->elements, function ($item) use ($method, $value) {
-            if (method_exists($item, $method)) {
+        $isMethod = null;
+
+        return new static(array_filter($this->elements, function ($item) use ($method, $value, &$isMethod) {
+            if (is_null($isMethod)) {
+                $isMethod = method_exists($item, $method);
+            }
+
+            if ($isMethod) {
                 return call_user_func([$item, $method]) === $value;
             } else {
                 return $item->$method === $value;
@@ -488,4 +494,35 @@ class Collection extends Serializable implements CollectionInterface
 
         return $this;
     }
+
+    /**
+     * @param string $method property or method
+     *
+     * @return $this
+     */
+    public function getDistinct(string $method)
+    {
+        $isMethod = null;
+
+        $array = [];
+
+        foreach ($this->elements as $item) {
+            if (is_null($isMethod)) {
+                $isMethod = method_exists($item, $method);
+            }
+
+            if ($isMethod) {
+                $value = call_user_func([$item, $method]);
+            } else {
+                $value = $item->$method;
+            }
+
+            if (!in_array($value, $array, true)) {
+                $array[] = $value;
+            }
+        }
+
+        return new static(array_unique($array, SORT_REGULAR));
+    }
+
 }
