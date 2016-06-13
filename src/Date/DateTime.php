@@ -87,6 +87,7 @@ class DateTime extends Carbon implements \JsonSerializable
     private static function init()
     {
         $day = Calendar::getFirstWeekday();
+        DateTime::$weekStartsAt = $day;
 
         while (array_keys(self::$days)[0] != $day) {
             $key = array_keys(self::$days)[0];
@@ -296,6 +297,12 @@ class DateTime extends Carbon implements \JsonSerializable
             $type = [self::DISPLAY_SHORT, self::DISPLAY_SHORT];
         } elseif (!is_array($type)) {
             $type = [$type, $type];
+        } elseif (is_array($type)) {
+            if (is_null($type[1])) {
+                return Calendar::formatDate($clone, $type[0]);
+            } else if (is_null($type[0])) {
+                return Calendar::formatTime($clone, $type[1]);
+            }
         }
 
         return Calendar::formatDatetime($clone, implode('|', $type));

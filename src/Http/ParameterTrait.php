@@ -13,6 +13,10 @@ declare (strict_types=1);
 
 namespace Cawa\Http;
 
+use Cawa\Date\Date;
+use Cawa\Date\DateTime;
+use Cawa\Date\Time;
+
 trait ParameterTrait
 {
     /**
@@ -69,10 +73,49 @@ trait ParameterTrait
                 }
                 break;
 
+            case 'date':
+            case 'datetime':
+            case 'time':
+                $variable = $this->parseDate($type, $variable);
+            break;
+
             default:
                 throw new \LogicException(sprintf("Invalid filter type '%s'", $type));
         }
 
         return $variable;
+    }
+
+    /**
+     * @param string $type
+     * @param $value
+     *
+     * @return null|DateTime
+     */
+    private function parseDate(string $type, $value)
+    {
+        try {
+            switch ($type)
+            {
+                case 'datetime':
+                    $datetime = DateTime::createFromFormat('Y-m-dTH:i:s', $value, DateTime::getUserTimezone());
+                    break;
+
+                case 'date':
+                    $datetime = Date::createFromFormat('Y-m-d', $value, DateTime::getUserTimezone());
+                    break;
+
+                case 'time':
+                    $datetime = Time::createFromFormat('H:i:s', $value, DateTime::getUserTimezone());
+                    break;
+
+                default:
+                    throw new \InvalidArgumentException(sprintf("Invalid parse date type '%s'", $type));
+            }
+        } catch (\Exception $exception) {
+            return null;
+        }
+
+        return $datetime;
     }
 }
