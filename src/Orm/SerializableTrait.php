@@ -50,24 +50,45 @@ trait SerializableTrait
                 continue;
             }
 
-            if (is_array($value)) {
-                foreach ($value as $key => $current) {
-                    if (is_object($current)) {
-                        $currentVal = self::getSerializableData($current);
-                    } else {
-                        $currentVal = $current;
-                    }
+            self::serializeValue($name, $value, $data);
+        }
 
-                    $data[$name][$key] = $currentVal;
+        // ugly hack for public undeclared properties and
+        // for datetime for example that can be accessed by reflection
+        // @see http://news.php.net/php.internals/93826%20view%20original
+        if (!$className) {
+            foreach (get_object_vars($object) as $key => $value) {
+                if (!isset($data[$key])) {
+                    self::serializeValue($key, $value, $data);
                 }
-            } elseif (is_object($value)) {
-                $data[$name] = self::getSerializableData($value);
-            } else {
-                $data[$name] = $value;
             }
         }
 
         return $data;
+    }
+
+    /**
+     * @param string $name
+     * @param $value
+     * @param array $data
+     */
+    private static function serializeValue(string $name, $value, array &$data)
+    {
+        if (is_array($value)) {
+            foreach ($value as $key => $current) {
+                if (is_object($current)) {
+                    $currentVal = self::getSerializableData($current);
+                } else {
+                    $currentVal = $current;
+                }
+
+                $data[$name][$key] = $currentVal;
+            }
+        } elseif (is_object($value)) {
+            $data[$name] = self::getSerializableData($value);
+        } else {
+            $data[$name] = $value;
+        }
     }
 
     /**
