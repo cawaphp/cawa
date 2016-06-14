@@ -296,7 +296,7 @@ class Translator
         $text = $this->getKey($key);
 
         if (is_null($text) && $warmIfMissing) {
-            self::logger()->warning("Missing translation '" . $key . "'");
+            throw new \DomainException("Missing translation '" . $key . "'");
         } elseif (!is_null($text) && !is_string($text)) {
             throw new \LogicException(sprintf(
                 "Invalid translation '%s' with type '%s'",
