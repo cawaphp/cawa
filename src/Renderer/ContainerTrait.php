@@ -53,7 +53,7 @@ trait ContainerTrait
     /**
      * @return $this
      */
-    public function clear() : self
+    public function clear()
     {
         $this->elements = [];
 
