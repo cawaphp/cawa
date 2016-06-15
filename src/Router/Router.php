@@ -362,7 +362,7 @@ class Router
                     }
 
                     if (!is_null($data)) {
-                        if (!array_key_exists($variable, $data) && $type == 'C') {
+                        if (!array_key_exists($variable, $data) && ($type == 'C' || $type == 'S')) {
                             throw new \InvalidArgumentException(sprintf(
                                 "Missing variable route '%s' to generate route '%s'",
                                 $variable,

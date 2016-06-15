@@ -14,6 +14,7 @@ declare (strict_types = 1);
 namespace Cawa\Router;
 
 use Cawa\Core\DI;
+use Cawa\Net\Uri;
 
 trait RouterFactory
 {
@@ -29,5 +30,16 @@ trait RouterFactory
         $item = new Router();
 
         return DI::set(__METHOD__, null, $item);
+    }
+
+    /**
+     * @param string $name
+     * @param array $data
+     *
+     * @return Uri
+     */
+    protected static function uri(string $name, array $data = []) : Uri
+    {
+        return self::router()->getUri($name, $data);
     }
 }
