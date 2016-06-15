@@ -33,6 +33,6 @@ class IntlException extends \Exception
      */
     public function __toString()
     {
-        return self::translator()->trans($this->message);
+        return self::trans($this->message);
     }
 }

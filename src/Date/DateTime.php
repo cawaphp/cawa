@@ -182,7 +182,7 @@ class DateTime extends Carbon implements \JsonSerializable
     {
         if (static::$translator === null) {
             static::$translator = new Translator();
-            static::setLocale(self::cawalocale());
+            static::setLocale(self::cawaTranslator()->getLocale());
         }
 
         return static::$translator;
@@ -212,7 +212,7 @@ class DateTime extends Carbon implements \JsonSerializable
         $reflection = new \ReflectionClass(get_class());
 
         $path = dirname($reflection->getParentClass()->getFileName()) . '/Lang/';
-        self::cawaTranslator()->addFile($path . '/' . parent::locale(), 'carbon', false);
+        self::cawaTranslator()->addFile($path . '/' . parent::translator()->getLocale(), 'carbon', false);
     }
 
     /**

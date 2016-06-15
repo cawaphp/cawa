@@ -234,11 +234,11 @@ class HtmlPage extends HtmlContainer
         $out = '<!DOCTYPE html lang="' . self::locale() . '">' . "\n";
 
         // default seo
-        if (!$this->headTitle && $title = self::translator()->trans('seo.default/title')) {
+        if (!$this->headTitle && $title = self::trans('seo.default/title')) {
             $this->setHeadTitle($title);
         }
 
-        if (!$this->headDescription && $description = self::translator()->trans('seo.default/description')) {
+        if (!$this->headDescription && $description = self::trans('seo.default/description')) {
             $this->setHeadDescription($description);
         }
 

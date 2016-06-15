@@ -46,4 +46,39 @@ trait TranslatorFactory
     {
         return self::translator()->getLocales();
     }
+
+    /**
+     * @param string $key
+     * @param array $data
+     * @param bool $warmIfMissing
+     *
+     * @return string|null
+     */
+    protected static function trans(string $key, array $data = null, bool $warmIfMissing = true)
+    {
+        return self::translator()->trans($key, $data, $warmIfMissing);
+    }
+
+    /**
+     * @param string $key
+     * @param int $number
+     * @param array|null $data
+     * @param bool $warmIfMissing
+     *
+     * @return string
+     */
+    protected static function transChoice(string $key, int $number, array $data = null, bool $warmIfMissing = true)
+    {
+        return self::translator()->transChoice($key, $number, $data, $warmIfMissing);
+    }
+
+    /**
+     * @param string $key
+     *
+     * @return array
+     */
+    protected static function transArray(string $key) : array
+    {
+        return self::translator()->transArray($key);
+    }
 }
