@@ -45,6 +45,11 @@ class Router
     private $routes = [];
 
     /**
+     * @var Route[]
+     */
+    private $errors = [];
+
+    /**
      * @var Route
      */
     private $currentRoute;
@@ -58,9 +63,19 @@ class Router
     }
 
     /**
-     * @var Route[]
+     * @var array
      */
-    private $errors = [];
+    private $args = [];
+
+    /**
+     * @param string $name
+     *
+     * @return mixed|null
+     */
+    public function getArg(string $name)
+    {
+        return $this->args[$name] ?? null;
+    }
 
     /**
      * @param array $routes
@@ -601,6 +616,10 @@ class Router
 
         $this->currentRoute = $route;
 
+        // route args
+        $args = array_merge($route->getArgs(), $args);
+        $this->args = $args;
+
         // simple function
         if (is_callable($callback) && is_object($callback)) {
             return call_user_func_array($callback, [$args]);
@@ -611,9 +630,6 @@ class Router
 
         $class = $this->replaceDynamicArgs($find[1], $route, $args);
         $method = isset($find[2]) ? $this->replaceDynamicArgs($find[2], $route, $args) : null;
-
-        // route args
-        $args = array_merge($route->getArgs(), $args);
 
         // replace class dynamic args
         if (!class_exists($class)) {
