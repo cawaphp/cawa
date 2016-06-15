@@ -26,7 +26,7 @@ class PhtmlHtmlContainer extends HtmlContainer
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function render()
     {

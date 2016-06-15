@@ -77,7 +77,7 @@ trait ParameterTrait
             case 'datetime':
             case 'time':
                 $variable = $this->parseDate($type, $variable);
-            break;
+                break;
 
             default:
                 throw new \LogicException(sprintf("Invalid filter type '%s'", $type));
@@ -95,8 +95,7 @@ trait ParameterTrait
     private function parseDate(string $type, $value)
     {
         try {
-            switch ($type)
-            {
+            switch ($type) {
                 case 'datetime':
                     $datetime = DateTime::createFromFormat('Y-m-dTH:i:s', $value, DateTime::getUserTimezone());
                     break;

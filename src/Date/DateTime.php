@@ -300,7 +300,7 @@ class DateTime extends Carbon implements \JsonSerializable
         } elseif (is_array($type)) {
             if (is_null($type[1])) {
                 return Calendar::formatDate($clone, $type[0]);
-            } else if (is_null($type[0])) {
+            } elseif (is_null($type[0])) {
                 return Calendar::formatTime($clone, $type[1]);
             }
         }

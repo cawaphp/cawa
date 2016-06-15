@@ -56,7 +56,6 @@ class DatePeriod implements \Iterator
             }
         }
 
-
         return $this->periods;
     }
 
@@ -114,7 +113,7 @@ class DatePeriod implements \Iterator
      */
     public function getEndDate() : DateTime
     {
-        return (new DateTime($this->period->getEndDate()))->addSecond($this->includeEndDate ? -1 : 0 );
+        return (new DateTime($this->period->getEndDate()))->addSecond($this->includeEndDate ? -1 : 0);
     }
 
     /**

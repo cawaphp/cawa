@@ -13,7 +13,6 @@ declare (strict_types = 1);
 
 namespace Cawa\Renderer;
 
-
 class PhtmlHtmlElement extends HtmlElement
 {
     use PhtmlTrait {
@@ -21,11 +20,12 @@ class PhtmlHtmlElement extends HtmlElement
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function render()
     {
         $this->content = $this->phtmlRender();
+
         return parent::render();
     }
 }

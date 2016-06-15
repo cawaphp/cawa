@@ -524,5 +524,4 @@ class Collection extends Serializable implements CollectionInterface
 
         return new static(array_unique($array, SORT_REGULAR));
     }
-
 }
