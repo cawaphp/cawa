@@ -30,4 +30,20 @@ trait TranslatorFactory
 
         return DI::set(__METHOD__, null, $item);
     }
+
+    /**
+     * @return string
+     */
+    protected static function locale() : string
+    {
+        return self::translator()->getLocale();
+    }
+
+    /**
+     * @return array
+     */
+    protected static function locales() : array
+    {
+        return self::translator()->getLocales();
+    }
 }

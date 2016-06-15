@@ -231,7 +231,7 @@ class HtmlPage extends HtmlContainer
 
         ]);
 
-        $out = '<!DOCTYPE html lang="' . self::translator()->getLocale() . '">' . "\n";
+        $out = '<!DOCTYPE html lang="' . self::locale() . '">' . "\n";
 
         // default seo
         if (!$this->headTitle && $title = self::translator()->trans('seo.default/title')) {
@@ -246,7 +246,7 @@ class HtmlPage extends HtmlContainer
         $language = new HtmlElement('<meta />');
         $language->addAttributes([
             'http-equiv' => 'Content-Language',
-            'content' => self::translator()->getLocale()
+            'content' => self::locale()
         ]);
         $this->head->addFirst($language);
 

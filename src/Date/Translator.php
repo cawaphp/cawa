@@ -68,6 +68,6 @@ class Translator implements TranslatorInterface
      */
     public function getLocale()
     {
-        return self::translator()->getLocale();
+        return self::locale();
     }
 }

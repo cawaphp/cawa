@@ -211,7 +211,7 @@ class PhoneNumber
     {
         $carrierMapper = PhoneNumberToCarrierMapper::getInstance();
 
-        return $carrierMapper->getNameForNumber($this->number, $this->translator()->getLocale());
+        return $carrierMapper->getNameForNumber($this->number, $this->locale());
     }
 
     /**

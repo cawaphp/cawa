@@ -336,7 +336,7 @@ class Router
                     }
 
                     if (!is_null($data)) {
-                        $dest = $this->uris[$value][self::translator()->getLocale()];
+                        $dest = $this->uris[$value][self::locale()];
                     } else {
                         $dest = '(?:' . implode('|', $this->uris[$value]) . ')';
                     }
@@ -344,7 +344,7 @@ class Router
 
                 case 'L':
                     if (!is_null($data)) {
-                        $dest = self::translator()->getLocale();
+                        $dest = self::locale();
                     } else {
                         $dest = '(?:' . implode('|', self::translator()->getLocales()) . ')';
                     }
