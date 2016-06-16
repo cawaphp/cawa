@@ -47,7 +47,7 @@ class HtmlFormatter extends AbstractFormatter
                     var args = document.getElementsByClassName("fullargs");
                     for (var key in args) {
                         if (args.hasOwnProperty(key)) {
-                            if (args[key].className.indexOf("args-" + index) != -1) {
+                            if (args[key].className.indexOf("args-" + index + "-index") != -1) {
                                 args[key].style.display = "block";
                             } else {
                                 args[key].style.display = "none";
@@ -203,7 +203,7 @@ EOF;
                     $dumper = new HtmlDumper();
                     $dumper->dump($cloner->cloneVar($args));
 
-                    $out .= '<div class="fullargs args-' . $index . '">' . ob_get_clean() . '</div>' .
+                    $out .= '<div class="fullargs args-' . $index . '-index">' . ob_get_clean() . '</div>' .
                         "\n";
                 }
             }
