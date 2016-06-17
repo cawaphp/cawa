@@ -65,6 +65,22 @@ class Time extends DateTime
     }
 
     /**
+     * @param int|DateTime $duration if datetime, start date, if int duration in second
+     * @param DateTime $end
+     *
+     * @return Time
+     */
+    public static function createFromDuration($duration, DateTime $end = null) : self
+    {
+        if ($duration instanceof DateTime && $end) {
+            $duration = $end->getTimestamp() - $duration->getTimestamp();
+        }
+
+        return static::create(null, null, null, 0, 0, 0)
+            ->addSeconds($duration);
+    }
+
+    /**
      * @return int
      */
     public function getDuration() : int

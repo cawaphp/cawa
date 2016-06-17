@@ -151,6 +151,26 @@ class DateTime extends Carbon implements \JsonSerializable
 
         return $clone ;
     }
+    /**
+     * @param Time $time
+     * @param bool $applyTimezone
+     *
+     * @return static
+     */
+    public function setTimeFromTime(Time $time, $applyTimezone = false)
+    {
+        if ($applyTimezone) {
+            $this->setTimezone(self::getUserTimezone());
+        }
+
+        $return = parent::setTimeFromTimeString($time->format());
+
+        if ($applyTimezone) {
+            $this->setTimezone('UTC');
+        }
+
+        return $return;
+    }
 
     /**
      * @param string $time
@@ -298,7 +318,7 @@ class DateTime extends Carbon implements \JsonSerializable
         } elseif (!is_array($type)) {
             $type = [$type, $type];
         } elseif (is_array($type)) {
-            if (is_null($type[1])) {
+            if (!isset($type[1])) {
                 return Calendar::formatDate($clone, $type[0]);
             } elseif (is_null($type[0])) {
                 return Calendar::formatTime($clone, $type[1]);
