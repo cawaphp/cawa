@@ -33,6 +33,18 @@ class Collection extends Serializable implements CollectionInterface
     }
 
     /**
+     * Reset ArrayCollection with this array.
+     *
+     * @param array $elements
+     *
+     * @return $this
+     */
+    public function fromArray(array $elements = []) : self
+    {
+        $this->elements = $elements;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function toArray() : array
@@ -456,7 +468,7 @@ class Collection extends Serializable implements CollectionInterface
      *
      * @param callable $sortFunction
      *
-     * @return $this|Collection
+     * @return $this
      */
     public function sort(callable $sortFunction) : self
     {
@@ -471,7 +483,7 @@ class Collection extends Serializable implements CollectionInterface
      *
      * @param callable $sortFunction
      *
-     * @return $this|Collection
+     * @return $this
      */
     public function sortByKey(callable $sortFunction) : self
     {
@@ -486,7 +498,7 @@ class Collection extends Serializable implements CollectionInterface
      *
      * @param callable $sortFunction
      *
-     * @return $this|Collection
+     * @return $this
      */
     public function sortAssociative(callable $sortFunction) : self
     {
@@ -523,5 +535,16 @@ class Collection extends Serializable implements CollectionInterface
         }
 
         return new static(array_unique($array, SORT_REGULAR));
+    }
+
+    /**
+     * @return $this
+     */
+    public function shuffle() : self
+    {
+        $return = new static($this->elements);
+        shuffle($return->elements);
+
+        return $return;
     }
 }
