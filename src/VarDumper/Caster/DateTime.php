@@ -18,7 +18,13 @@ use Symfony\Component\VarDumper\Cloner\Stub;
 
 class DateTime
 {
-    public static function cast(\DateTime $dateTime, array $a, Stub $stub, bool $isNested)
+    /**
+     * @param \DateTime $dateTime
+     * @param array $a
+     *
+     * @return array
+     */
+    public static function cast(\DateTime $dateTime, array $a)
     {
         $clone = clone $dateTime;
         $clone->setTimezone(\Cawa\Date\DateTime::getUserTimezone());

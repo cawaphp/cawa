@@ -13,21 +13,27 @@ declare (strict_types=1);
 
 namespace Cawa\VarDumper\Caster;
 
+use Cawa\Orm\Model as ModelBase;
 use Symfony\Component\VarDumper\Caster\Caster;
 use Symfony\Component\VarDumper\Cloner\Stub;
 
-class Collection
+class Model
 {
     /**
-     * @param \Cawa\Orm\Collection $item
+     * @param ModelBase $model
      * @param array $a
+     * @param Stub $stub
+     * @param bool $isNested
      *
      * @return array
      */
-    public static function cast(\Cawa\Orm\Collection $item, array $a)
+    public static function cast(ModelBase $model, array $a, Stub $stub, bool $isNested)
     {
-        return [
-            Caster::PREFIX_VIRTUAL . 'count' => $item->count(),
-        ] + $a;
+        if ($isNested) {
+            $a = Caster::filter($a, Caster::EXCLUDE_VERBOSE, [
+                "\0" . '*' . "\0" . 'changedProperties',
+            ]);
+        }
+        return $a;
     }
 }

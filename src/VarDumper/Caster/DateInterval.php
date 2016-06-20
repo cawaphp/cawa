@@ -17,6 +17,11 @@ use Symfony\Component\VarDumper\Caster\Caster;
 
 class DateInterval
 {
+    /**
+     * @param \DateInterval $dateInterval
+     *
+     * @return array
+     */
     public static function cast(\DateInterval $dateInterval)
     {
         $prefix = Caster::PREFIX_VIRTUAL;

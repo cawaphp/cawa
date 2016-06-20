@@ -30,7 +30,7 @@ class VarCloner extends \Symfony\Component\VarDumper\Cloner\VarCloner
             'Cawa\Orm\Collection' => 'Cawa\VarDumper\Caster\Collection::cast',
         ]);
 
-        if ($casters = DI::config()->getIfExists('vardumper/casters')) {
+        if ($casters = DI::config()->getIfExists('varDumper/casters')) {
             $this->addCasters($casters);
         }
     }
