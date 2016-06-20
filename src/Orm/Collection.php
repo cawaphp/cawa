@@ -166,6 +166,26 @@ class Collection implements \Countable, \IteratorAggregate, \ArrayAccess
         return true;
     }
 
+
+    /**
+     * Remove from current all element find by property or method value
+     *
+     * @param string $method property or method
+     * @param mixed $value the comparison value
+     *
+     * @return $this a new collection with remove element
+     */
+    public function removeFind(string $method, $value) : self
+    {
+        $list = $this->find($method, $value);
+        foreach ($list as $element) {
+            $this->removeInstance($element);
+        }
+
+        return $list;
+    }
+
+
     /**
      * Clears the collection, removing all elements.
      *
@@ -458,6 +478,8 @@ class Collection implements \Countable, \IteratorAggregate, \ArrayAccess
     }
 
     /**
+     * Return a new collection find by property or method value
+     *
      * @param string $method property or method
      * @param mixed $value the comparison value
      *
@@ -481,6 +503,8 @@ class Collection implements \Countable, \IteratorAggregate, \ArrayAccess
     }
 
     /**
+     * Return one element find by property or method value
+     *
      * @param string $method property or method
      * @param mixed $value the comparison value
      *
