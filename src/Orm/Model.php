@@ -13,12 +13,14 @@ declare (strict_types = 1);
 
 namespace Cawa\Orm;
 
+use Cawa\Serializer\Serializer;
+
 /**
  * @method insert(...$args)
  * @method update(...$args)
  * @method delete(...$args)
  */
-abstract class Model extends Serializable
+abstract class Model
 {
     /**
      * @var array
@@ -76,4 +78,30 @@ abstract class Model extends Serializable
      * @param array $result
      */
     abstract public function map(array $result);
+
+
+    /**
+     * @param string $destination
+     *
+     * @return object
+     */
+    public function cast(string $destination)
+    {
+        if (!is_subclass_of($destination, get_class($this))) {
+            throw new \InvalidArgumentException(sprintf(
+                '%s is not a descendant of $object class: %s.',
+                $destination,
+                get_class($this)
+            ));
+        }
+
+        $data = Serializer::serialize($this);
+        $data['@type'] = $destination;
+
+        $reflection = new \ReflectionClass($destination);
+        $return = $reflection->newInstanceWithoutConstructor();
+        Serializer::unserialize($return, $data);
+
+        return $return;
+    }
 }
