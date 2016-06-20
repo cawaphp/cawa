@@ -208,10 +208,11 @@ class Router
     /**
      * @param string $name
      * @param array $data
+     * @param bool $warnData
      *
      * @return Uri
      */
-    public function getUri(string $name, array $data = []) : Uri
+    public function getUri(string $name, array $data = [], $warnData = true) : Uri
     {
         if (!isset($this->routes[$name])) {
             throw new \InvalidArgumentException(sprintf("Invalid route name '%s'", $name));
@@ -233,6 +234,7 @@ class Router
             foreach ($route->getUserInputs() as $querystring) {
                 if (!isset($data[$querystring->getName()]) &&
                     $querystring->isMandatory() &&
+                    $warnData &&
                     $route->getMethod() != 'POST' &&
                     $route->getMethod() != 'PUT' &&
                     $route->getMethod() != 'DELETE'

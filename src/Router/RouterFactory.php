@@ -35,11 +35,12 @@ trait RouterFactory
     /**
      * @param string $name
      * @param array $data
+     * @param bool $warnData
      *
      * @return Uri
      */
-    protected static function uri(string $name, array $data = []) : Uri
+    protected static function uri(string $name, array $data = [], $warnData = true) : Uri
     {
-        return self::router()->getUri($name, $data);
+        return self::router()->getUri($name, $data, $warnData);
     }
 }
