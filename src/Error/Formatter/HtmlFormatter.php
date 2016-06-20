@@ -42,12 +42,14 @@ class HtmlFormatter extends AbstractFormatter
         $stacks = $this->exceptionStackTrace($exception);
         $out = <<<EOF
             <script type="text/javascript">
-                function showFullArgs(index)
+                function showFullArgs(uid, index)
                 {
                     var args = document.getElementsByClassName("fullargs");
                     for (var key in args) {
                         if (args.hasOwnProperty(key)) {
-                            if (args[key].className.indexOf("args-" + index + "-index") != -1) {
+                            if (args[key].className.indexOf("args-" + index + "-index") != -1 && 
+                                args[key].className.indexOf("args-" + uid + "-uid") != -1
+                            ) {
                                 args[key].style.display = "block";
                             } else {
                                 args[key].style.display = "none";
@@ -159,6 +161,8 @@ EOF;
 
         $out .= "<ol>\n";
 
+        $uid = uniqid();
+
         foreach ($stacks as $index => $stack) {
             $out .= "  <li>\n";
 
@@ -167,7 +171,7 @@ EOF;
             }
 
             if (isset($stack['args'])) {
-                $out .= '    <a href="javascript:showFullArgs(' .  $index . ')" class="args">' .
+                $out .= '    <a href="javascript:showFullArgs(\'' . $uid . '\', ' .  $index . ')" class="args">' .
                     htmlspecialchars($stack['args']) . '</a>' . "\n";
             }
 
@@ -203,7 +207,9 @@ EOF;
                     $dumper = new HtmlDumper();
                     $dumper->dump($cloner->cloneVar($args));
 
-                    $out .= '<div class="fullargs args-' . $index . '-index">' . ob_get_clean() . '</div>' .
+                    $out .= '<div class="fullargs args-' . $uid . '-uid args-' . $index . '-index">' .
+                        ob_get_clean() .
+                        '</div>' .
                         "\n";
                 }
             }
