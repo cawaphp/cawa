@@ -13,7 +13,7 @@ declare (strict_types = 1);
 
 namespace Cawa\Orm;
 
-class Collection extends Serializable implements CollectionInterface
+class Collection implements \Countable, \IteratorAggregate, \ArrayAccess
 {
     /**
      * An array containing the entries of this collection.
@@ -45,7 +45,9 @@ class Collection extends Serializable implements CollectionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Gets a native PHP array representation of the collection.
+     *
+     * @return array
      */
     public function toArray() : array
     {
@@ -53,7 +55,9 @@ class Collection extends Serializable implements CollectionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Sets the internal iterator to the first element in the collection and returns this element.
+     *
+     * @return mixed
      */
     public function first()
     {
@@ -61,7 +65,9 @@ class Collection extends Serializable implements CollectionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Sets the internal iterator to the last element in the collection and returns this element.
+     *
+     * @return mixed
      */
     public function last()
     {
@@ -69,7 +75,9 @@ class Collection extends Serializable implements CollectionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Gets the key/index of the element at the current iterator position.
+     *
+     * @return int|string
      */
     public function key()
     {
@@ -77,7 +85,9 @@ class Collection extends Serializable implements CollectionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Moves the internal iterator position to the next element and returns this element.
+     *
+     * @return mixed
      */
     public function next()
     {
@@ -85,7 +95,9 @@ class Collection extends Serializable implements CollectionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Gets the element of the collection at the current iterator position.
+     *
+     * @return mixed
      */
     public function current()
     {
@@ -93,7 +105,11 @@ class Collection extends Serializable implements CollectionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Removes the element at the specified index from the collection.
+     *
+     * @param string|int $key The kex/index of the element to remove.
+     *
+     * @return mixed The removed element or NULL, if the collection did not contain the element.
      */
     public function remove($key)
     {
@@ -108,7 +124,13 @@ class Collection extends Serializable implements CollectionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Removes the specified element from the collection, if it is found.
+     * The comparison is not strict (==), they have the same attributes and values,
+     * and are instances of the same class.
+     *
+     * @param mixed $element The element to remove.
+     *
+     * @return bool TRUE if this collection contained the specified element, FALSE otherwise.
      */
     public function removeElement($element) : bool
     {
@@ -124,7 +146,12 @@ class Collection extends Serializable implements CollectionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Removes the specified element from the collection, if it is found.
+     * The comparison is strict (===), they refer to the same instance of the same class.
+     *
+     * @param mixed $element The element to remove.
+     *
+     * @return bool TRUE if this collection contained the specified element, FALSE otherwise.
      */
     public function removeInstance($element) : bool
     {
@@ -140,9 +167,11 @@ class Collection extends Serializable implements CollectionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Clears the collection, removing all elements.
+     *
+     * @return $this
      */
-    public function clear() : parent
+    public function clear() : self
     {
         $this->elements = [];
 
@@ -194,7 +223,12 @@ class Collection extends Serializable implements CollectionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Checks whether the collection contains an element with the specified key/index.
+     *
+     * @param string|int $key The key/index to check for.
+     *
+     * @return bool TRUE if the collection contains an element with the specified key/index,
+     *              FALSE otherwise.
      */
     public function containsKey($key) : bool
     {
@@ -202,7 +236,14 @@ class Collection extends Serializable implements CollectionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Checks whether an element is contained in the collection.
+     * The comparison is not strict (==), they have the same attributes and values,
+     * and are instances of the same class.
+     * This is an O(n) operation, where n is the size of the collection.
+     *
+     * @param mixed $element The element to search for.
+     *
+     * @return bool TRUE if the collection contains the element, FALSE otherwise.
      */
     public function contains($element) : bool
     {
@@ -210,7 +251,13 @@ class Collection extends Serializable implements CollectionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Checks whether an reference is contained in the collection.
+     * The comparison is strict (===), they refer to the same instance of the same class.
+     * This is an O(n) operation, where n is the size of the collection.
+     *
+     * @param mixed $element The element to search for.
+     *
+     * @return bool TRUE if the collection contains the element, FALSE otherwise.
      */
     public function containsInstance($element) : bool
     {
@@ -218,7 +265,11 @@ class Collection extends Serializable implements CollectionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Tests for the existence of an element that satisfies the given predicate.
+     *
+     * @param callable $callable The predicate.
+     *
+     * @return bool TRUE if the predicate is TRUE for at least one element, FALSE otherwise.
      */
     public function exists(callable $callable) : bool
     {
@@ -256,15 +307,26 @@ class Collection extends Serializable implements CollectionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Gets the index/key of a given element. The comparison of two elements is strict,
+     * that means not only the value but also the type must match.
+     * For objects this means reference equality.
+     *
+     * @param mixed $element The element to search for.
+     *
+     * @return int|string|bool The key/index of the element or FALSE if the element was not found.
      */
+
     public function indexOf($element)
     {
         return array_search($element, $this->elements, true);
     }
 
     /**
-     * {@inheritdoc}
+     * Gets the element at the specified key/index.
+     *
+     * @param string|int $key The key/index of the element to retrieve.
+     *
+     * @return mixed
      */
     public function get($key)
     {
@@ -272,7 +334,10 @@ class Collection extends Serializable implements CollectionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Gets all keys/indices of the collection.
+     *
+     * @return array The keys/indices of the collection, in the order of the corresponding
+     *               elements in the collection.
      */
     public function getKeys() : array
     {
@@ -280,7 +345,10 @@ class Collection extends Serializable implements CollectionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Gets all values of the collection.
+     *
+     * @return array The values of all elements in the collection, in the order they
+     *               appear in the collection.
      */
     public function getValues() : array
     {
@@ -296,9 +364,14 @@ class Collection extends Serializable implements CollectionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Sets an element in the collection at the specified key/index.
+     *
+     * @param string|int $key   The key/index of the element to set.
+     * @param mixed      $value The element to set.
+     *
+     * @return $this
      */
-    public function set($key, $value) : parent
+    public function set($key, $value) : self
     {
         $this->elements[$key] = $value;
 
@@ -306,9 +379,13 @@ class Collection extends Serializable implements CollectionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Adds an element at the end of the collection.
+
+     * @param array $elements The elements to add.
+     *
+     * @return $this
      */
-    public function add(...$elements) : parent
+    public function add(...$elements) : self
     {
         foreach ($elements as $element) {
             $this->elements[] = $element;
@@ -317,8 +394,11 @@ class Collection extends Serializable implements CollectionInterface
         return $this;
     }
 
+
     /**
-     * {@inheritdoc}
+     * Checks whether the collection is empty (contains no elements).
+     *
+     * @return bool TRUE if the collection is empty, FALSE otherwise.
      */
     public function isEmpty() : bool
     {
@@ -336,17 +416,28 @@ class Collection extends Serializable implements CollectionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Applies the given function to each element in the collection and returns
+     * a new collection with the elements returned by the function.
+     *
+     * @param callable $callable
+     *
+     * @return static
      */
-    public function apply(callable $callable) : parent
+    public function apply(callable $callable) : self
     {
         return new static(array_map($callable, $this->elements));
     }
 
     /**
-     * {@inheritdoc}
+     * Call the given method to each element in the collection and returns
+     * a new collection with return values for each call
+     *
+     * @param string $method
+     * @param mixed ...$vars
+     *
+     * @return static
      */
-    public function call(string $method, ... $vars) : parent
+    public function call(string $method, ... $vars) : self
     {
         return new static(array_map(function ($element) use ($method, $vars) {
             return call_user_func_array([$element, $method], $vars);
@@ -354,9 +445,14 @@ class Collection extends Serializable implements CollectionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Returns all the elements of this collection that satisfy the callable $callable.
+     * The order of the elements is preserved.
+     *
+     * @param callable $callable The predicate used for filtering.
+     *
+     * @return static A collection with the results of the filter operation.
      */
-    public function filter(callable $callable) : parent
+    public function filter(callable $callable) : self
     {
         return new static(array_filter($this->elements, $callable, ARRAY_FILTER_USE_BOTH));
     }
@@ -407,7 +503,11 @@ class Collection extends Serializable implements CollectionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Tests whether the given callable $callable holds for all elements of this collection.
+     *
+     * @param callable $callable The predicate.
+     *
+     * @return bool TRUE, if the predicate yields TRUE for all elements, FALSE otherwise.
      */
     public function forAll(callable $callable) : bool
     {
@@ -421,7 +521,14 @@ class Collection extends Serializable implements CollectionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Partitions this collection in two collections according to a predicate.
+     * Keys are preserved in the resulting collections.
+     *
+     * @param callable $callable $p The predicate on which to partition.
+     *
+     * @return static[] An array with two elements. The first element contains the collection
+     *     of elements where the predicate returned TRUE, the second element
+     *     contains the collection of elements where the predicate returned FALSE.
      */
     public function partition(callable $callable) : array
     {
@@ -439,9 +546,18 @@ class Collection extends Serializable implements CollectionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Extracts a slice of $length elements starting at position $offset from the Collection.
+     *
+     * If $length is null it returns all elements from $offset to the end of the Collection.
+     * Keys have to be preserved by this method. Calling this method will only return the
+     * selected slice and NOT change the elements contained in the collection slice is called on.
+     *
+     * @param int      $offset The offset to start from.
+     * @param int|null $length The maximum number of elements to return, or null for no limit.
+     *
+     * @return static
      */
-    public function slice($offset, $length = null) : parent
+    public function slice($offset, $length = null) : self
     {
         return new static(array_slice($this->elements, $offset, $length, true));
     }
