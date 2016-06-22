@@ -20,7 +20,7 @@ use Symfony\Component\VarDumper\VarDumper;
 
 if (!function_exists('trace')) {
     /**
-     * @param mixed $var
+     * @param mixed $vars
      */
     function trace(... $vars)
     {
@@ -49,6 +49,7 @@ if (!function_exists('trace')) {
 
             VarDumper::setHandler($handler);
         }
+
         if (sizeof($vars) == 1) {
             VarDumper::dump($vars[0]);
         } else {
@@ -56,22 +57,37 @@ if (!function_exists('trace')) {
         }
     }
 }
-if (!function_exists('traceDie')) {
+
+if (!function_exists('systrace')) {
     /**
-     * @param mixed $var
+     * @param mixed $vars
      */
-    function traceDie(... $vars)
+    function systrace(... $vars)
     {
-        while (ob_get_level() > 1) {
-            ob_get_clean();
+        openlog ('php', LOG_PID , LOG_USER);
+
+        $cloner = new VarCloner();
+        $dumper = new \Symfony\Component\VarDumper\Dumper\CliDumper();
+        $dumper::$defaultColors = true;
+        $handler = function ($var) use ($cloner, $dumper) {
+            $dumper->dump($cloner->cloneVar($var), function($line, $depth, $indentPad)
+            {
+                syslog(LOG_DEBUG, str_repeat($indentPad, $depth < 0 ? 0 : $depth) . $line);
+            });
+        };
+        $prevHandler = VarDumper::setHandler($handler);
+
+        if (sizeof($vars) == 1) {
+            VarDumper::dump($vars[0]);
+        } else {
+            VarDumper::dump($vars);
         }
 
-        foreach ($vars as $var) {
-            trace($var);
-        }
-        exit();
+        VarDumper::setHandler($prevHandler);
+        closelog();
     }
 }
+
 
 if (!function_exists('backtrace')) {
     /**
