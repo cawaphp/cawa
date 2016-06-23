@@ -29,6 +29,10 @@ trait ParameterTrait
     private function validateType($variable, string $type = 'string', $default = null)
     {
         if (substr($type, -2) == '[]') {
+            if (!is_array($variable)) {
+                return $default;
+            }
+
             $return = [];
             $hasValue = false;
             foreach ($variable as $key => $current) {

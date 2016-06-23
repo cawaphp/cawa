@@ -692,9 +692,11 @@ class Router
 
         foreach ($method->getParameters() as $parameter) {
             if (!isset($args[$parameter->getName()]) && $parameter->isOptional() === false) {
-                throw new \InvalidArgumentException(
-                    sprintf("Missing mandatory arguments '%s' on '%s'", $parameter->getName(), get_class($controller))
-                );
+                throw new \InvalidArgumentException(sprintf(
+                    "Missing mandatory arguments on controller definition '%s' on '%s'",
+                    $parameter->getName(),
+                    get_class($controller)
+                ));
             }
 
             $return[$parameter->getName()] = null;
