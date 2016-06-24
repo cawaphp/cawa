@@ -48,10 +48,6 @@ class DatePeriod implements \Iterator
             foreach ($this->period as $datetime) {
                 $start = new DateTime($datetime);
                 $end = (clone $start)->add($this->period->getDateInterval());
-                if ($end->getTimestamp() > $this->period->getEndDate()->getTimestamp()) {
-                    $end = new DateTime($this->period->getEndDate());
-                }
-
                 $this->periods[] = new DatePeriodDateTime($start, $end);
             }
         }
@@ -80,7 +76,8 @@ class DatePeriod implements \Iterator
 
         // we had 1 second in order to include end date on iterator
         if ($this->includeEndDate && isset($params[2]) && $params[2] instanceof \DateTime) {
-            $params[2] = $params[2]->add(new \DateInterval('PT1S'));
+            $params[2] = (clone $params[2])
+                ->add(new \DateInterval('PT1S'));
         }
 
         $reflection_class = new ReflectionClass('DatePeriod');

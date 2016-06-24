@@ -122,7 +122,10 @@ class DateTime extends Carbon implements \JsonSerializable
     public static function getUserTimezone() : \DateTimeZone
     {
         if (!self::$userTimezone) {
-            $timezone = DI::config()->get('timezone');
+            $timezone = DI::config()->getIfExists('timezone');
+            if (!$timezone) {
+                $timezone = date_default_timezone_get();
+            }
             self::$userTimezone = new \DateTimeZone($timezone);
         }
 

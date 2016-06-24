@@ -36,18 +36,6 @@ class UriTest extends TestCase
     }
 
     /**
-     * Test that invalid URI returns an exception
-     *
-     * @param string $uriString
-     * @dataProvider invalidUriStringProvider
-     */
-    public function testInvalidUri(string $uriString)
-    {
-        $this->setExpectedException('InvalidArgumentException');
-        new Uri($uriString);
-    }
-
-    /**
      * Test the fluent interface
      *
      * @param string $method
@@ -56,7 +44,7 @@ class UriTest extends TestCase
      */
     public function testFluentInterface($method, $params)
     {
-        $uri = new Uri;
+        $uri = new Uri();
         $ret = call_user_func_array([$uri, $method], $params);
         $this->assertSame($uri, $ret);
     }
@@ -252,7 +240,7 @@ class UriTest extends TestCase
     public function testQueryFromArray(array $data, $querystring)
     {
         $uri = new Uri('http://example.com/');
-        $uri->setQuerystring($data);
+        $uri->setQueries($data);
         $this->assertEquals($querystring, $uri->getQuerystring());
     }
 
@@ -354,19 +342,6 @@ class UriTest extends TestCase
     }
 
     /**
-     * Data provider for valid URIs, not necessarily complete
-     *
-     * @return array
-     */
-    public function invalidUriStringProvider()
-    {
-        return [
-            ['://www.example.com'],
-            ['https://example.com:80000/foo/bar?query'],
-        ];
-    }
-
-    /**
      * Return all methods that are expected to return the same object they
      * are called on, to test that the fluent interface is not broken
      *
@@ -381,8 +356,8 @@ class UriTest extends TestCase
             ['setHost', ['host']],
             ['setPort', [80]],
             ['setPath', ['/path']],
-            ['setQuery', []],
-            ['setQuery', ['file=name']],
+            ['setQuerystring', []],
+            ['setQuerystring', ['file=name']],
             ['setQueries', [['file' => 'name']]],
             ['addQueries', [['file' => 'name']]],
             ['removeQueries', [['file' => 'name']]],
@@ -462,7 +437,7 @@ class UriTest extends TestCase
             ], 'some%20key=some%20crazy%20value%3F%21%23%5B%5D%26%3D%25%2B&q1='],
             [[
                 'array'        => ['foo', 'bar', 'baz'],
-                'otherstuff[]' => 1234
+                'otherstuff[]' => (string) 1234
             ], 'array%5B0%5D=foo&array%5B1%5D=bar&array%5B2%5D=baz&otherstuff%5B%5D=1234']
         ];
     }

@@ -60,7 +60,7 @@ class RouteTest extends TestCase
      */
     public function testSetMatchException()
     {
-        $this->setExpectedException('InvalidArgumentException');
+        $this->expectException(\InvalidArgumentException::class);
         $route = new Route();
         $route->setMatch('^/fr$');
     }
