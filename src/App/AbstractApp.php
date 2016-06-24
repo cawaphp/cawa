@@ -139,6 +139,7 @@ abstract class AbstractApp
         }
 
         $this->addLoggerListeners();
+        $this->addConfigListeners();
 
         $this->init = true;
     }
@@ -167,6 +168,24 @@ abstract class AbstractApp
         }
 
         return !$loggers;
+    }
+
+    /**
+     *
+     */
+    private function addConfigListeners()
+    {
+        foreach (DI::config()->getIfExists('listeners/byClass') ?? [] as $class => $listeners) {
+            foreach ($listeners as $listener) {
+                $this->dispatcher()->addListenerByClass($class, $listener);
+            }
+        }
+
+        foreach (DI::config()->getIfExists('listeners/byName') ?? [] as $name => $listeners) {
+            foreach ($listeners as $listener) {
+                $this->dispatcher()->addListener($name, $listener);
+            }
+        }
     }
 
     /**
