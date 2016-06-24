@@ -303,6 +303,19 @@ class DateTime extends Carbon implements \JsonSerializable
     }
 
     /**
+     * @param string $format
+     *
+     * @return string
+     */
+    public function formatLocalizedTz(string $format) : string
+    {
+        $clone = clone $this;
+        $clone->setTimezone(self::getUserTimezone());
+
+        return $clone->formatLocalized($format);
+    }
+
+    /**
      * @param string|array $type
      *
      * @return string
