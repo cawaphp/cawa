@@ -14,13 +14,14 @@ declare (strict_types=1);
 namespace Cawa\Date;
 
 use ReflectionClass;
+use Traversable;
 
 /**
  * Simple Wrapper due to a php bug
  *
  * @see http://stackoverflow.com/questions/24476185/writing-to-dateperiod-properties-is-unsupported
  */
-class DatePeriod implements \Iterator
+class DatePeriod implements \IteratorAggregate
 {
     const EXCLUDE_END_DATE = 2;
 
@@ -48,12 +49,27 @@ class DatePeriod implements \Iterator
             foreach ($this->period as $datetime) {
                 $start = new DateTime($datetime);
                 $end = (clone $start)->add($this->period->getDateInterval());
+
+                // we truncate end date to end date of period if needed
+                if ($end->getTimestamp() > $this->period->getEndDate()->getTimestamp()) {
+                    $end = new DateTime($this->period->getEndDate());
+                }
+
                 $this->periods[] = new DatePeriodDateTime($start, $end);
+            }
+
+            // we remove end date if needed
+            if ($this->includeEndDate == false &&
+                $this->periods[sizeof($this->periods) -1]->getEndDate()->getTimestamp() ==
+                    $this->period->getEndDate()->getTimestamp()
+            ) {
+                array_pop($this->periods);
             }
         }
 
         return $this->periods;
     }
+
 
     /**
      * {@inheritdoc}
@@ -72,12 +88,6 @@ class DatePeriod implements \Iterator
 
         if (isset($params[3]) && ($params[3] & self::EXCLUDE_END_DATE)) {
             $this->includeEndDate = false;
-        }
-
-        // we had 1 second in order to include end date on iterator
-        if ($this->includeEndDate && isset($params[2]) && $params[2] instanceof \DateTime) {
-            $params[2] = (clone $params[2])
-                ->add(new \DateInterval('PT1S'));
         }
 
         $reflection_class = new ReflectionClass('DatePeriod');
@@ -110,7 +120,7 @@ class DatePeriod implements \Iterator
      */
     public function getEndDate() : DateTime
     {
-        return (new DateTime($this->period->getEndDate()))->addSecond($this->includeEndDate ? -1 : 0);
+        return (new DateTime($this->period->getEndDate()));
     }
 
     /**
@@ -153,5 +163,13 @@ class DatePeriod implements \Iterator
     {
         $this->getPeriods();
         reset($this->periods);
+    }
+
+    /**
+     * @return \ArrayIterator|Traversable|DatePeriodDateTime[]
+     */
+    public function getIterator() : \ArrayIterator
+    {
+        return new \ArrayIterator($this->getPeriods());
     }
 }

@@ -69,6 +69,7 @@ trait ParameterTrait
 
             case 'string':
                 $variable = trim(filter_var($variable, FILTER_SANITIZE_STRING, $options));
+                $variable = $variable === '' ? null : $variable;
                 break;
 
             case 'array':
