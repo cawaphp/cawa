@@ -112,6 +112,23 @@ class DateTime extends Carbon implements \JsonSerializable
     }
 
     /**
+     * @return array
+     */
+    public static function getLocalizeDays() : array
+    {
+        if (!self::$init) {
+            self::init();
+        }
+
+        $return = [];
+        foreach (self::getDays() as $i => $name) {
+            $return[$i] = DateTime::localizeDay($i);
+        }
+
+        return $return;
+    }
+
+    /**
      * @var \DateTimeZone
      */
     private static $userTimezone;
