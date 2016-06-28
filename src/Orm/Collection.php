@@ -365,6 +365,19 @@ class Collection implements \Countable, \IteratorAggregate, \ArrayAccess
     }
 
     /**
+     * Reset all keys/indices of the collection.
+     * To used only on numeric index !
+     *
+     * @return $this
+     */
+    public function resetIndex() : self
+    {
+        $this->elements = array_values($this->elements);
+
+        return $this;
+    }
+
+    /**
      * Gets all values of the collection.
      *
      * @return array The values of all elements in the collection, in the order they

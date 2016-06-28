@@ -46,6 +46,16 @@ class CollectionModel extends Collection
     }
 
     /**
+     * @return $this
+     */
+    public function clearRemoved() : self
+    {
+        $this->removed = [];
+
+        return $this;
+    }
+
+    /**
      * @{@inheritdoc}
      */
     public function remove($key)
