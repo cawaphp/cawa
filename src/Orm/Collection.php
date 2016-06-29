@@ -166,7 +166,6 @@ class Collection implements \Countable, \IteratorAggregate, \ArrayAccess
         return true;
     }
 
-
     /**
      * Remove from current all element find by property or method value
      *
@@ -184,7 +183,6 @@ class Collection implements \Countable, \IteratorAggregate, \ArrayAccess
 
         return $list;
     }
-
 
     /**
      * Clears the collection, removing all elements.
@@ -335,7 +333,6 @@ class Collection implements \Countable, \IteratorAggregate, \ArrayAccess
      *
      * @return int|string|bool The key/index of the element or FALSE if the element was not found.
      */
-
     public function indexOf($element)
     {
         return array_search($element, $this->elements, true);
@@ -413,7 +410,7 @@ class Collection implements \Countable, \IteratorAggregate, \ArrayAccess
 
     /**
      * Adds an element at the end of the collection.
-
+     
      * @param array $elements The elements to add.
      *
      * @return $this
@@ -426,7 +423,6 @@ class Collection implements \Countable, \IteratorAggregate, \ArrayAccess
 
         return $this;
     }
-
 
     /**
      * Checks whether the collection is empty (contains no elements).

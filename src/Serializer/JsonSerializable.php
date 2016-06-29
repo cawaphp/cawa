@@ -32,5 +32,4 @@ trait JsonSerializable
     {
         Serializer::unserialize($this, json_decode($serialized, true));
     }
-
 }

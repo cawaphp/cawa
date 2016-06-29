@@ -34,6 +34,7 @@ class Model
                 "\0" . '*' . "\0" . 'changedProperties',
             ]);
         }
+
         return $a;
     }
 }

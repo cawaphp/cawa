@@ -64,14 +64,13 @@ if (!function_exists('systrace')) {
      */
     function systrace(... $vars)
     {
-        openlog ('php', LOG_PID , LOG_USER);
+        openlog('php', LOG_PID, LOG_USER);
 
         $cloner = new VarCloner();
         $dumper = new \Symfony\Component\VarDumper\Dumper\CliDumper();
         $dumper::$defaultColors = true;
         $handler = function ($var) use ($cloner, $dumper) {
-            $dumper->dump($cloner->cloneVar($var), function($line, $depth, $indentPad)
-            {
+            $dumper->dump($cloner->cloneVar($var), function ($line, $depth, $indentPad) {
                 syslog(LOG_DEBUG, str_repeat($indentPad, $depth < 0 ? 0 : $depth) . $line);
             });
         };
@@ -87,7 +86,6 @@ if (!function_exists('systrace')) {
         closelog();
     }
 }
-
 
 if (!function_exists('backtrace')) {
     /**

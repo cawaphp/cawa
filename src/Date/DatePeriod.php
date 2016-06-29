@@ -70,7 +70,6 @@ class DatePeriod implements \IteratorAggregate
         return $this->periods;
     }
 
-
     /**
      * {@inheritdoc}
      */

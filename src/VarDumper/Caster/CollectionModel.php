@@ -35,6 +35,7 @@ class CollectionModel
                 "\0" . Base::class . "\0" . 'removed',
             ]);
         }
+
         return $a;
     }
 }

@@ -14,7 +14,6 @@ declare (strict_types=1);
 namespace Cawa\VarDumper\Caster;
 
 use Symfony\Component\VarDumper\Caster\Caster;
-use Symfony\Component\VarDumper\Cloner\Stub;
 
 class DateTime
 {

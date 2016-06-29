@@ -179,7 +179,7 @@ class DateTime extends Carbon implements \JsonSerializable
      *
      * @return mixed
      */
-    protected function _callWithTimezone(bool $applyTimezone = false, string $method , array $args = [])
+    protected function callWithTimezone(bool $applyTimezone, string $method, array $args = [])
     {
         if ($applyTimezone) {
             $this->setTimezone(self::getUserTimezone());
@@ -202,7 +202,7 @@ class DateTime extends Carbon implements \JsonSerializable
      */
     public function setTimeFromTime(Time $time, bool $applyTimezone = false)
     {
-        return $this->_callWithTimezone($applyTimezone, 'setTimeFromTimeString', [$time->format()]);
+        return $this->callWithTimezone($applyTimezone, 'setTimeFromTimeString', [$time->format()]);
     }
 
     /**
@@ -213,7 +213,7 @@ class DateTime extends Carbon implements \JsonSerializable
      */
     public function setTimeFromTimeString($time, bool $applyTimezone = false)
     {
-        return $this->_callWithTimezone($applyTimezone, 'setTimeFromTimeString', [$time]);
+        return $this->callWithTimezone($applyTimezone, 'setTimeFromTimeString', [$time]);
     }
 
     /**
@@ -223,7 +223,7 @@ class DateTime extends Carbon implements \JsonSerializable
      */
     public function startOfWeek(bool $applyTimezone = false)
     {
-        return $this->_callWithTimezone($applyTimezone, 'startOfWeek');
+        return $this->callWithTimezone($applyTimezone, 'startOfWeek');
     }
 
     /**
@@ -233,9 +233,8 @@ class DateTime extends Carbon implements \JsonSerializable
      */
     public function endOfWeek(bool $applyTimezone = false)
     {
-        return $this->_callWithTimezone($applyTimezone, 'endOfWeek');
+        return $this->callWithTimezone($applyTimezone, 'endOfWeek');
     }
-
 
     /**
      * Intialize the translator instance if necessary.

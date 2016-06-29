@@ -28,6 +28,7 @@ class Number
     public static function formatCurrency(float $value, string $currency) : string
     {
         $formatter = new NumberFormatter(self::translator()->getIETF(), NumberFormatter::CURRENCY);
+
         return $formatter->formatCurrency($value, $currency);
     }
 }

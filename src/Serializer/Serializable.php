@@ -32,5 +32,4 @@ trait Serializable
     {
         Serializer::unserialize($this, unserialize($serialized));
     }
-
 }

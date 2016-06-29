@@ -13,9 +13,6 @@ declare (strict_types = 1);
 
 namespace Cawa\Serializer;
 
-
-use Cawa\GoogleMaps\Models\AddressComponent;
-
 class Serializer
 {
     /**
@@ -33,7 +30,6 @@ class Serializer
      */
     private function __construct()
     {
-
     }
 
     /**
@@ -191,7 +187,7 @@ class Serializer
 
                 if (isset($data[$name]['@ref'])) {
                     $currentValue = $this->references[$data[$name]['@ref']];
-                } else if (isset($data[$name]['@type'])) {
+                } elseif (isset($data[$name]['@type'])) {
                     $reflection = new \ReflectionClass($data[$name]['@type']);
 
                     $parent = $reflection;

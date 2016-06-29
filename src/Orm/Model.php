@@ -79,7 +79,6 @@ abstract class Model
      */
     abstract public function map(array $result);
 
-
     /**
      * @param string $destination
      *

@@ -38,8 +38,7 @@ class HtmlDumper extends \Symfony\Component\VarDumper\Dumper\HtmlDumper
         $header = parent::getDumpHeader();
 
         $header = str_replace(
-            "function toggle(a, recursive) {",
-
+            'function toggle(a, recursive) {',
             "function getLevel(elt) {\n" .
             "    var exit = false, level = 0, element = elt;\n" .
             "\n" .
@@ -51,12 +50,12 @@ class HtmlDumper extends \Symfony\Component\VarDumper\Dumper\HtmlDumper
             "        element = element.parentNode;\n" .
             "        level++;\n" .
             "        exit = !element.parentNode || element.parentNode.className == 'sf-dump';\n" .
-            "    }\n".
+            "    }\n" .
 
             "    return level;\n" .
             "}\n" .
             "\n" .
-            "function toggle(a, recursive) {",
+            'function toggle(a, recursive) {',
             $header
         );
 
@@ -67,7 +66,7 @@ class HtmlDumper extends \Symfony\Component\VarDumper\Dumper\HtmlDumper
 
         $header = preg_replace(
             "/if \\('sf-dump' != elt.parentNode.className\\) \\{.*\\}/mU",
-            $expandLevel == false ? '' : "if (getLevel(elt) > " . $expandLevel . ") {toggle(a);}",
+            $expandLevel == false ? '' : 'if (getLevel(elt) > ' . $expandLevel . ') {toggle(a);}',
             $header,
             -1,
             $count
