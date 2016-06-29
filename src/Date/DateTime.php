@@ -171,25 +171,38 @@ class DateTime extends Carbon implements \JsonSerializable
 
         return $clone ;
     }
+
     /**
-     * @param Time $time
      * @param bool $applyTimezone
+     * @param string $method
+     * @param array $args
      *
-     * @return static
+     * @return mixed
      */
-    public function setTimeFromTime(Time $time, $applyTimezone = false)
+    protected function _callWithTimezone(bool $applyTimezone = false, string $method , array $args = [])
     {
         if ($applyTimezone) {
             $this->setTimezone(self::getUserTimezone());
         }
 
-        $return = parent::setTimeFromTimeString($time->format());
+        $return = call_user_func_array('parent::' . $method, $args);
 
         if ($applyTimezone) {
             $this->setTimezone('UTC');
         }
 
         return $return;
+    }
+
+    /**
+     * @param Time $time
+     * @param bool $applyTimezone
+     *
+     * @return static
+     */
+    public function setTimeFromTime(Time $time, bool $applyTimezone = false)
+    {
+        return $this->_callWithTimezone($applyTimezone, 'setTimeFromTimeString', [$time->format()]);
     }
 
     /**
@@ -198,20 +211,31 @@ class DateTime extends Carbon implements \JsonSerializable
      *
      * @return static
      */
-    public function setTimeFromTimeString($time, $applyTimezone = false)
+    public function setTimeFromTimeString($time, bool $applyTimezone = false)
     {
-        if ($applyTimezone) {
-            $this->setTimezone(self::getUserTimezone());
-        }
-
-        $return = parent::setTimeFromTimeString($time);
-
-        if ($applyTimezone) {
-            $this->setTimezone('UTC');
-        }
-
-        return $return;
+        return $this->_callWithTimezone($applyTimezone, 'setTimeFromTimeString', [$time]);
     }
+
+    /**
+     * @param bool $applyTimezone
+     *
+     * @return static
+     */
+    public function startOfWeek(bool $applyTimezone = false)
+    {
+        return $this->_callWithTimezone($applyTimezone, 'startOfWeek');
+    }
+
+    /**
+     * @param bool $applyTimezone
+     *
+     * @return static
+     */
+    public function endOfWeek(bool $applyTimezone = false)
+    {
+        return $this->_callWithTimezone($applyTimezone, 'endOfWeek');
+    }
+
 
     /**
      * Intialize the translator instance if necessary.
