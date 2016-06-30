@@ -46,13 +46,16 @@ class CollectionModel extends Collection
     }
 
     /**
-     * @return $this
+     * @param Model $model
      */
-    public function clearRemoved() : self
+    private function removeFromHistory(Model $model)
     {
-        $this->removed = [];
-
-        return $this;
+        $index = array_search($model, $this->added, true);
+        if ($index !== false) {
+            unset($this->added[$index]);
+        } else {
+            $this->removed[] = $model;
+        }
     }
 
     /**
@@ -62,7 +65,7 @@ class CollectionModel extends Collection
     {
         $return = parent::remove($key);
         if ($return) {
-            $this->removed[] = $return;
+            $this->removeFromHistory($return);
         }
 
         return $return;
@@ -73,12 +76,12 @@ class CollectionModel extends Collection
      */
     public function removeElement($element) : bool
     {
-        $find = parent::removeElement($element);
-        if ($find) {
-            $this->removed[] = $element;
+        $return = parent::removeElement($element);
+        if ($return) {
+            $this->removeFromHistory($element);
         }
 
-        return $find;
+        return $return;
     }
 
     /**
@@ -86,12 +89,12 @@ class CollectionModel extends Collection
      */
     public function removeInstance($element) : bool
     {
-        $find = parent::removeInstance($element);
-        if ($find) {
-            $this->removed[] = $element;
+        $return = parent::removeInstance($element);
+        if ($return) {
+            $this->removeFromHistory($element);
         }
 
-        return $find;
+        return $return;
     }
 
     /**
@@ -100,7 +103,7 @@ class CollectionModel extends Collection
     public function set($key, $value) : parent
     {
         if (isset($this->elements[$key])) {
-            $this->removed[] = $value;
+            $this->removeFromHistory($this->elements[$key]);
         }
 
         $this->added[] = $value;
