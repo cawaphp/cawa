@@ -23,6 +23,7 @@ var Request = function () {
             dataType: "json",
             beforeSend: function (xhr)
             {
+                xhr.url = uri;
                 $(document).trigger("before.request", [xhr]);
             }
         };
