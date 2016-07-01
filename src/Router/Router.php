@@ -688,6 +688,15 @@ class Router
         $return = [];
 
         $reflection = new \ReflectionClass($controller);
+        if (!$reflection->hasMethod($method)) {
+            throw new \InvalidArgumentException(sprintf(
+                "Method '%s' does not exist on '%s' for route '%s'",
+                $method,
+                get_class($controller),
+                $this->currentRoute->getName()
+            ));
+        }
+
         $method = $reflection->getMethod($method);
 
         foreach ($method->getParameters() as $parameter) {
