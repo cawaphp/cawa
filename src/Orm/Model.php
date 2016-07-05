@@ -103,4 +103,25 @@ abstract class Model
 
         return $return;
     }
+
+    /**
+     * @param mixed $data
+     *
+     * @return string
+     */
+    protected static function encodeData($data)
+    {
+        return json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+    }
+
+
+    /**
+     * @param mixed $data
+     *
+     * @return string
+     */
+    protected static function decodeData(string $data)
+    {
+        return json_decode($data, true);
+    }
 }
