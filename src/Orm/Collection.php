@@ -568,7 +568,7 @@ class Collection implements \Countable, \IteratorAggregate, \ArrayAccess
         $matches = $noMatches = [];
 
         foreach ($this->elements as $key => $element) {
-            if ($callable($key, $element)) {
+            if ($callable($element, $key)) {
                 $matches[$key] = $element;
             } else {
                 $noMatches[$key] = $element;
