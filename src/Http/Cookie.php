@@ -280,7 +280,7 @@ class Cookie
      */
     public function __construct(
         string $name,
-        string $value = null,
+        string $value = '',
         $expire = 0,
         string $path = '/',
         string $domain = null,
