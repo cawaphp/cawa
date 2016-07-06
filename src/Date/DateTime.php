@@ -129,111 +129,13 @@ class DateTime extends Carbon implements \JsonSerializable
     }
 
     /**
-     * @var \DateTimeZone
-     */
-    private static $userTimezone;
-
-    /**
-     * @return \DateTimeZone
-     */
-    public static function getUserTimezone() : \DateTimeZone
-    {
-        if (!self::$userTimezone) {
-            $timezone = DI::config()->getIfExists('timezone');
-            if (!$timezone) {
-                $timezone = date_default_timezone_get();
-            }
-            self::$userTimezone = new \DateTimeZone($timezone);
-        }
-
-        return self::$userTimezone;
-    }
-
-    /**
-     * @param \DateTimeZone|string $timezone
-     */
-    public static function setUserTimezone($timezone)
-    {
-        if (!$timezone instanceof \DateTimeZone) {
-            $timezone = new \DateTimeZone($timezone);
-        }
-
-        self::$userTimezone = $timezone;
-    }
-
-    /**
-     * @return $this
-     */
-    public function applyUserTimeZone()
-    {
-        $clone = clone $this;
-        $clone->setTimezone(self::getUserTimezone());
-
-        return $clone ;
-    }
-
-    /**
-     * @param bool $applyTimezone
-     * @param string $method
-     * @param array $args
-     *
-     * @return mixed
-     */
-    protected function callWithTimezone(bool $applyTimezone, string $method, array $args = [])
-    {
-        if ($applyTimezone) {
-            $this->setTimezone(self::getUserTimezone());
-        }
-
-        $return = call_user_func_array('parent::' . $method, $args);
-
-        if ($applyTimezone) {
-            $this->setTimezone('UTC');
-        }
-
-        return $return;
-    }
-
-    /**
      * @param Time $time
-     * @param bool $applyTimezone
      *
      * @return static
      */
-    public function setTimeFromTime(Time $time, bool $applyTimezone = false)
+    public function setTimeFromTime(Time $time)
     {
-        return $this->callWithTimezone($applyTimezone, 'setTimeFromTimeString', [$time->format()]);
-    }
-
-    /**
-     * @param string $time
-     * @param bool $applyTimezone
-     *
-     * @return static
-     */
-    public function setTimeFromTimeString($time, bool $applyTimezone = false)
-    {
-        return $this->callWithTimezone($applyTimezone, 'setTimeFromTimeString', [$time]);
-    }
-
-    /**
-     * @param bool $applyTimezone
-     *
-     * @return static
-     */
-    public function startOfWeek(bool $applyTimezone = false)
-    {
-        return $this->callWithTimezone($applyTimezone, 'startOfWeek');
-    }
-
-    /**
-     * @param bool $applyTimezone
-     *
-     * @return static
-     */
-    public function endOfWeek(bool $applyTimezone = false)
-    {
-        return $this->callWithTimezone($applyTimezone, 'endOfWeek');
+        return $this->setTimeFromTimeString($time->format());
     }
 
     /**
@@ -284,9 +186,9 @@ class DateTime extends Carbon implements \JsonSerializable
     public function jsonSerialize()
     {
         if ($this->micro) {
-            return $this->format('Y-m-d\\TH:i:s.uP');
+            return gmdate('Y-m-d\\TH:i:s.uP', $this->getTimestamp());
         } else {
-            return $this->format('Y-m-d\\TH:i:sP');
+            return gmdate('Y-m-d\\TH:i:sP', $this->getTimestamp());
         }
     }
 
@@ -330,41 +232,12 @@ class DateTime extends Carbon implements \JsonSerializable
     }
 
     /**
-     * @param string|null $format
-     *
-     * @return string
-     */
-    public function formatTz(string $format = null)
-    {
-        $clone = clone $this;
-        $clone->setTimezone(self::getUserTimezone());
-
-        return $clone->format($format);
-    }
-
-    /**
-     * @param string $format
-     *
-     * @return string
-     */
-    public function formatLocalizedTz(string $format) : string
-    {
-        $clone = clone $this;
-        $clone->setTimezone(self::getUserTimezone());
-
-        return $clone->formatLocalized($format);
-    }
-
-    /**
      * @param string|array $type
      *
      * @return string
      */
     public function display($type = null) : string
     {
-        $clone = clone $this;
-        $clone->setTimezone(self::getUserTimezone());
-
         if ($type == self::DISPLAY_DURATION) {
             return $this->diffForHumans(DateTime::now(), true);
         }
@@ -375,12 +248,12 @@ class DateTime extends Carbon implements \JsonSerializable
             $type = [$type, $type];
         } elseif (is_array($type)) {
             if (!isset($type[1])) {
-                return Calendar::formatDate($clone, $type[0]);
+                return Calendar::formatDate($this, $type[0]);
             } elseif (is_null($type[0])) {
-                return Calendar::formatTime($clone, $type[1]);
+                return Calendar::formatTime($this, $type[1]);
             }
         }
 
-        return Calendar::formatDatetime($clone, implode('|', $type));
+        return Calendar::formatDatetime($this, implode('|', $type));
     }
 }

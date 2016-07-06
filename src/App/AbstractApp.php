@@ -138,6 +138,8 @@ abstract class AbstractApp
             DI::config()->add(require $this->appRoot . '/config/config.php');
         }
 
+        date_default_timezone_set(DI::config()->get('timezone'));
+
         $this->addLoggerListeners();
         $this->addConfigListeners();
 

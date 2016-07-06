@@ -714,7 +714,7 @@ class Router
                 $value = $args[$parameter->getName()];
 
                 if ($parameter->getClass() && $parameter->getClass()->getName() == 'Cawa\Date\DateTime') {
-                    $value = new DateTime($value, DateTime::getUserTimezone());
+                    $value = new DateTime($value);
                 }
 
                 $return[$parameter->getName()] = $value;

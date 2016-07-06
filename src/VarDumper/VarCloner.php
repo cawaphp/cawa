@@ -25,7 +25,6 @@ class VarCloner extends \Symfony\Component\VarDumper\Cloner\VarCloner
         parent::__construct($casters);
 
         $this->addCasters([
-            'DateTime' => 'Cawa\VarDumper\Caster\DateTime::cast',
             'DateInterval' => 'Cawa\VarDumper\Caster\DateInterval::cast',
             'Cawa\Orm\Collection' => 'Cawa\VarDumper\Caster\Collection::cast',
         ]);
