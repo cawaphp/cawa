@@ -30,7 +30,7 @@ class DateTime extends Carbon implements \JsonSerializable
      * Date : 'EEEE, MMMM d, y' - 'Wednesday, August 20, 2014'
      * Time : 'h:mm:ss a zzzz' - '11:42:13 AM GMT+2:00'
      */
-    const DISPLAY_FULL = 'medium';
+    const DISPLAY_FULL = 'full';
 
     /**
      * Date : 'MMMM d, y' - 'August 20, 2014'
