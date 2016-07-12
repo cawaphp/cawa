@@ -6,8 +6,7 @@
         "tchiotludo"
     ],
     "main": [
-        "assets/widget.js",
-        "assets/functions.js"
+
     ],
     "moduleType": [
         "amd"

@@ -1,24 +1,28 @@
-var loglevel = require('loglevel');
+define([
+    "loglevel"
+], function(loglevel)
+{
+    window.Cawa = window.Cawa || {};
+    if (!window.Cawa.Log) {
 
-window.Cawa = window.Cawa || {};
-if (!window.Cawa.Log) {
-
-    var originalFactory = loglevel.methodFactory;
-    loglevel.methodFactory = function (methodName, logLevel, loggerName)
-    {
-        var rawMethod = originalFactory(methodName, logLevel, loggerName);
-
-        return function ()
+        var originalFactory = loglevel.methodFactory;
+        loglevel.methodFactory = function (methodName, logLevel, loggerName)
         {
-            var args = Array.from(arguments);
-            args.unshift('background:darkred; color:#FFF;padding-left:2px;padding-right:2px;');
-            args.unshift('%c ' + loggerName + " ");
+            var rawMethod = originalFactory(methodName, logLevel, loggerName);
 
-            rawMethod.apply(this, args);
+            return function ()
+            {
+                var args = Array.from(arguments);
+                args.unshift('background:darkred; color:#FFF;padding-left:2px;padding-right:2px;');
+                args.unshift('%c ' + loggerName + " ");
+
+                rawMethod.apply(this, args);
+            };
         };
-    };
 
-    window.Cawa.Log = loglevel;
-}
+        window.Cawa.Log = loglevel;
+    }
 
-module.exports = window.Cawa.Log;
+    return window.Cawa.Log;
+});
+
