@@ -383,6 +383,10 @@ class Uri
     public function addQueries(array $queries) : self
     {
         foreach ($queries as $key => $value) {
+            if (is_null($value)) {
+                continue;
+            }
+
             if (!is_string($key)) {
                 throw new \InvalidArgumentException("Invalid querystring '" . $key . "'");
             }
@@ -491,6 +495,26 @@ class Uri
     }
 
     /**
+     * @param bool $auth
+     *
+     * @return string
+     */
+    public function getHostFull(bool $auth = false) : string
+    {
+        $out = (isset($this->uri['scheme']) ? $this->uri['scheme'] . '://' : '');
+
+        if ($auth !== false && isset($this->uri['user'])) {
+            $out .= $this->uri['user'] .
+              (isset($this->uri['pass']) ? ':' . $this->uri['pass'] : '') . '@';
+        }
+
+        $out .= (isset($this->uri['host']) ? $this->uri['host'] : '') .
+            (isset($this->uri['port']) ? ':' . $this->uri['port'] : '');
+
+        return $out;
+    }
+
+    /**
      * @param bool $relative
      * @param bool $auth
      *
@@ -500,15 +524,7 @@ class Uri
     {
         $out = '';
         if ($relative === false) {
-            $out .= (isset($this->uri['scheme']) ? $this->uri['scheme'] . '://' : '');
-
-            if ($auth !== false && isset($this->uri['user'])) {
-                $out .= $this->uri['user'] .
-                  (isset($this->uri['pass']) ? ':' . $this->uri['pass'] : '') . '@';
-            }
-
-            $out .= (isset($this->uri['host']) ? $this->uri['host'] : '') .
-                (isset($this->uri['port']) ? ':' . $this->uri['port'] : '');
+            $out .= $this->getHostFull($auth);
         }
 
         $out .= (isset($this->uri['path']) ? $this->uri['path'] : '');

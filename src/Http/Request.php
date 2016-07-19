@@ -13,6 +13,9 @@ declare (strict_types=1);
 
 namespace Cawa\Http;
 
+use Cawa\Date\Date;
+use Cawa\Date\DateTime;
+use Cawa\Date\Time;
 use Cawa\Net\Uri;
 
 class Request
@@ -132,7 +135,7 @@ class Request
      * @param string $type
      * @param mixed $default
      *
-     * @return string|null
+     * @return string|int|float|bool|DateTime|Date|Time|array|null
      */
     public function getQuery(string $name, string $type = null, $default = null)
     {
@@ -163,7 +166,7 @@ class Request
      * @param string $type
      * @param mixed $default
      *
-     * @return string|null
+     * @return string|int|float|bool|DateTime|Date|Time|array|null
      */
     public function getPost(string $name, string $type = null, $default = null)
     {
@@ -181,7 +184,7 @@ class Request
      * @param string|null $type
      * @param null $default
      *
-     * @return null|string
+     * @return string|int|float|bool|DateTime|Date|Time|array|null
      */
     public function getPostOrQuery(string $name, string $type = null, $default = null)
     {

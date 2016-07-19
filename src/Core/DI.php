@@ -42,7 +42,7 @@ abstract class DI
      * @param string $name
      * @param object $object
      *
-     * @return object
+     * @return mixed
      */
     public static function set(string $namespace, string $name = null, $object = null)
     {

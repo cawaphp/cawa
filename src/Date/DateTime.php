@@ -14,7 +14,6 @@ declare (strict_types=1);
 namespace Cawa\Date;
 
 use Carbon\Carbon;
-use Cawa\Core\DI;
 use Cawa\Intl\TranslatorFactory;
 use Punic\Calendar;
 use Symfony\Component\Translation\TranslatorInterface;

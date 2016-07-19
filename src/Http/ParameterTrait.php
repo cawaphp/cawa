@@ -69,12 +69,12 @@ trait ParameterTrait
 
             case 'string':
                 $variable = trim(filter_var($variable, FILTER_SANITIZE_STRING, $options));
-                $variable = $variable === '' ? null : $variable;
+                $variable = $variable === '' ? $default : $variable;
                 break;
 
             case 'array':
                 if (!is_array($variable)) {
-                    $variable = null;
+                    $variable = $default;
                 }
                 break;
 
@@ -102,7 +102,7 @@ trait ParameterTrait
         try {
             switch ($type) {
                 case 'datetime':
-                    $datetime = DateTime::createFromFormat('Y-m-dTH:i:s', $value);
+                    $datetime = DateTime::createFromFormat('Y-m-d\TH:i:s', $value);
                     break;
 
                 case 'date':

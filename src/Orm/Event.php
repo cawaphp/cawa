@@ -33,10 +33,11 @@ class Event extends EventBase
     /**
      * @param string $name
      * @param Model $model
+     * @param array $data
      */
-    public function __construct($name, Model $model)
+    public function __construct($name, Model $model, array $data = [])
     {
         $this->model = $model;
-        parent::__construct($name);
+        parent::__construct($name, $data);
     }
 }
