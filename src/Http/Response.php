@@ -109,6 +109,16 @@ class Response
     ];
 
     /**
+     * @param int $code
+     *
+     * @return string
+     */
+    public function getStatusString(int $code) : string
+    {
+        return $code . " " . self::$statusCodeList[$code];
+    }
+
+    /**
      * @var int
      */
     protected $statusCode = 200;
