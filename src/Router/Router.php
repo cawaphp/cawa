@@ -65,7 +65,7 @@ class Router
     /**
      * @var array
      */
-    private $args = [];
+    private $args;
 
     /**
      * @param string $name
@@ -74,6 +74,10 @@ class Router
      */
     public function getArg(string $name)
     {
+        if (!is_array($this->args)) {
+            throw new \LogicException(sprintf("Ask for arg '%s' before the router init is finished", $name));
+        }
+
         return $this->args[$name] ?? null;
     }
 
@@ -302,7 +306,7 @@ class Router
             // control conditions
             if ($route->getConditions()) {
                 foreach ($route->getConditions() as $condition) {
-                    if (!$condition()) {
+                    if (!$condition($matches)) {
                         return [false, null, $regexp];
                     }
                 }
@@ -479,24 +483,26 @@ class Router
             return $return;
         }
 
-        return $this->return404();
+        return $this->returnError($this->response()->getStatus() == 200 ? 404 : $this->response()->getStatus());
     }
 
     /**
+     * @param int $code
+     *
      * @return mixed
      */
-    private function return404()
+    private function returnError(int $code)
     {
-        if (isset($this->errors[404])) {
-            $this->response()->setStatus(404);
+        if (isset($this->errors[$code])) {
+            $this->response()->setStatus($code);
 
-            return $this->callController($this->errors[404], []);
+            return $this->callController($this->errors[$code], []);
         } else {
             return '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">' . "\n" .
                  '<html><head>' . "\n" .
-                 '<title>404 Not Found</title>' . "\n" .
+                 '<title>' . $this->response()->getStatusString($code) . '</title>' . "\n" .
                  '</head><body>' . "\n" .
-                 '<h1>Not Found</h1>' . "\n" .
+                 '<h1>' . $this->response()->getStatusString($code) . '</h1>' . "\n" .
                  '</body></html>';
         }
     }
@@ -663,11 +669,14 @@ class Router
             'data' => $ordererArgs,
         ]);
 
+        $return = null;
         if (method_exists($controller, 'init')) {
-            call_user_func_array([$controller, 'init'], $ordererArgs);
+            $return = call_user_func_array([$controller, 'init'], $ordererArgs);
         }
 
-        $return = call_user_func_array([$controller, $method], $ordererArgs);
+        if (is_null($return)) {
+            $return = call_user_func_array([$controller, $method], $ordererArgs);
+        }
 
         self::dispatcher()->emit($event);
 
