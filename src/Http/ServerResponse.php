@@ -175,7 +175,7 @@ class ServerResponse extends Response
      */
     public function redirectRoute($name, array $data = [], int $statusCode = 302)
     {
-        $url = $this->uri($name, $data);
+        $url = self::uri($name, $data);
         $this->setStatus($statusCode);
         $this->addHeader('Location', (string) $url);
         HttpApp::instance()->end();
@@ -187,7 +187,7 @@ class ServerResponse extends Response
     public function redirectSelf(int $statusCode = 302)
     {
         $this->setStatus($statusCode);
-        $this->addHeader('Location', (string) $this->request()->getUri());
+        $this->addHeader('Location', (string) self::request()->getUri());
         HttpApp::instance()->end();
     }
 

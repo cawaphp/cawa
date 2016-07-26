@@ -126,8 +126,8 @@ class Translator
         // punic default value
         Data::setDefaultLocale($this->getIETF());
 
-        if (!$this->request()->getCookie(self::COOKIE_LANGUAGE)) {
-            $this->response()->addCookie(new Cookie(self::COOKIE_LANGUAGE, $this->locale, 60*60*24*365));
+        if (!self::request()->getCookie(self::COOKIE_LANGUAGE)) {
+            self::response()->addCookie(new Cookie(self::COOKIE_LANGUAGE, $this->locale, 60*60*24*365));
         }
     }
 
@@ -137,20 +137,20 @@ class Translator
     private function detectLocale() : string
     {
         // detection from url
-        $explode = explode('/', $this->request()->getUri()->getPath());
+        $explode = explode('/', self::request()->getUri()->getPath());
         if (isset($explode[1]) && in_array($explode[1], $this->getLocales())) {
             return $explode[1];
         }
 
         // detection from cookie
-        if ($cookie = $this->request()->getCookie(self::COOKIE_LANGUAGE)) {
+        if ($cookie = self::request()->getCookie(self::COOKIE_LANGUAGE)) {
             if (in_array($cookie, $this->getLocales())) {
                 return $cookie->getValue();
             }
         }
 
         // detection from headers
-        $accepted = $this->request()->getAcceptedLanguage();
+        $accepted = self::request()->getAcceptedLanguage();
 
         array_walk($accepted, function (&$value) {
             $value = substr($value, 0, 2);
@@ -323,7 +323,7 @@ class Translator
      */
     public function transChoice(string $key, int $number, array $data = null, bool $warmIfMissing = true)
     {
-        $text = $this->trans($key, null, $warmIfMissing);
+        $text = self::trans($key, null, $warmIfMissing);
 
         if (!$this->messageChoice) {
             $this->messageChoice = new MessageSelector();

@@ -127,7 +127,7 @@ class PhoneNumber
      */
     public function getDescription() : string
     {
-        list($language, $region) = explode('-', $this->translator()->getIETF());
+        list($language, $region) = explode('-', self::translator()->getIETF());
 
         $phoneNumberGeocoder = PhoneNumberOfflineGeocoder::getInstance();
 
@@ -211,7 +211,7 @@ class PhoneNumber
     {
         $carrierMapper = PhoneNumberToCarrierMapper::getInstance();
 
-        return $carrierMapper->getNameForNumber($this->number, $this->locale());
+        return $carrierMapper->getNameForNumber($this->number, self::locale());
     }
 
     /**

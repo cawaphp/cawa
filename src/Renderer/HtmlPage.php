@@ -263,7 +263,7 @@ class HtmlPage extends HtmlContainer
         $out .= $parent;
 
         $timerEvent->addData(['size' => $this->getContent() ? strlen($this->getContent()) : strlen($parent)]);
-        $this->dispatcher()->emit($timerEvent);
+        self::dispatcher()->emit($timerEvent);
 
         return $out;
     }

@@ -179,13 +179,13 @@ abstract class AbstractApp
     {
         foreach (DI::config()->getIfExists('listeners/byClass') ?? [] as $class => $listeners) {
             foreach ($listeners as $listener) {
-                $this->dispatcher()->addListenerByClass($class, $listener);
+                self::dispatcher()->addListenerByClass($class, $listener);
             }
         }
 
         foreach (DI::config()->getIfExists('listeners/byName') ?? [] as $name => $listeners) {
             foreach ($listeners as $listener) {
-                $this->dispatcher()->addListener($name, $listener);
+                self::dispatcher()->addListener($name, $listener);
             }
         }
     }

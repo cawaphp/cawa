@@ -42,14 +42,14 @@ class HttpApp extends AbstractApp
     {
         parent::init();
 
-        $this->request()->fillFromGlobals();
+        self::request()->fillFromGlobals();
 
         if (file_exists($this->getAppRoot() . '/config/route.php')) {
-            $this->router()->addRoutes(require $this->getAppRoot() . '/config/route.php');
+            self::router()->addRoutes(require $this->getAppRoot() . '/config/route.php');
         }
 
         if (file_exists($this->getAppRoot() . '/config/uri.php')) {
-            $this->router()->addUris(require $this->getAppRoot() . '/config/uri.php');
+            self::router()->addUris(require $this->getAppRoot() . '/config/uri.php');
         }
     }
 
@@ -58,27 +58,27 @@ class HttpApp extends AbstractApp
      */
     public function handle()
     {
-        $return = $this->router()->handle();
+        $return = self::router()->handle();
 
         // hack to display trace on development env
         $debug = (self::env() == self::DEV && ob_get_length() > 0);
 
         if ($return instanceof \SimpleXMLElement) {
             if ($debug == false) {
-                $this->response()->addHeaderIfNotExist('Content-Type', 'text/xml; charset=utf-8');
+                self::response()->addHeaderIfNotExist('Content-Type', 'text/xml; charset=utf-8');
             }
 
-            $this->response()->setBody($return->asXML());
+            self::response()->setBody($return->asXML());
         }
         if (gettype($return) == 'array') {
             if ($debug == false) {
-                $this->response()->addHeaderIfNotExist('Content-Type', 'application/json; charset=utf-8');
+                self::response()->addHeaderIfNotExist('Content-Type', 'application/json; charset=utf-8');
             }
 
-            $this->response()->setBody(json_encode($return));
+            self::response()->setBody(json_encode($return));
         } else {
-            $this->response()->addHeaderIfNotExist('Content-Type', 'text/html; charset=utf-8');
-            $this->response()->setBody($return);
+            self::response()->addHeaderIfNotExist('Content-Type', 'text/html; charset=utf-8');
+            self::response()->setBody($return);
         }
     }
 

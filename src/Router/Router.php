@@ -290,8 +290,8 @@ class Router
             // control query string
             if ($route->getUserInputs()) {
                 foreach ($route->getUserInputs() as $querystring) {
-                    $method = $this->request()->getMethod() == 'POST' ? 'getPostOrQuery' : 'getQuery';
-                    $value = $this->request()->$method($querystring->getName(), $querystring->getType());
+                    $method = self::request()->getMethod() == 'POST' ? 'getPostOrQuery' : 'getQuery';
+                    $value = self::request()->$method($querystring->getName(), $querystring->getType());
 
                     if (is_null($value) && $querystring->isMandatory()) {
                         return [false, null, $regexp];
@@ -440,7 +440,7 @@ class Router
      */
     public function handle()
     {
-        $uri = clone $this->request()->getUri();
+        $uri = clone self::request()->getUri();
         $uri->removeAllQueries();
         $url = $uri->get();
 
@@ -450,7 +450,7 @@ class Router
         foreach ($this->routes as $route) {
             list($result, $args, $regexp) = $this->match($url, $route);
 
-            if ($route->getMethod() && $route->getMethod() != $this->request()->getMethod()) {
+            if ($route->getMethod() && $route->getMethod() != self::request()->getMethod()) {
                 $result = false;
             }
 
@@ -483,7 +483,7 @@ class Router
             return $return;
         }
 
-        return $this->returnError($this->response()->getStatus() == 200 ? 404 : $this->response()->getStatus());
+        return $this->returnError(self::response()->getStatus() == 200 ? 404 : self::response()->getStatus());
     }
 
     /**
@@ -494,15 +494,15 @@ class Router
     private function returnError(int $code)
     {
         if (isset($this->errors[$code])) {
-            $this->response()->setStatus($code);
+            self::response()->setStatus($code);
 
             return $this->callController($this->errors[$code], []);
         } else {
             return '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">' . "\n" .
                  '<html><head>' . "\n" .
-                 '<title>' . $this->response()->getStatusString($code) . '</title>' . "\n" .
+                 '<title>' . self::response()->getStatusString($code) . '</title>' . "\n" .
                  '</head><body>' . "\n" .
-                 '<h1>' . $this->response()->getStatusString($code) . '</h1>' . "\n" .
+                 '<h1>' . self::response()->getStatusString($code) . '</h1>' . "\n" .
                  '</body></html>';
         }
     }
@@ -546,7 +546,7 @@ class Router
         if ($route->getOption(AbstractRoute::OPTIONS_CACHE)) {
             if ($data = self::cache('OUTPUT')->get($cacheKey)) {
                 foreach ($data['headers'] as $name => $header) {
-                    $this->response()->addHeader($name, $header);
+                    self::response()->addHeader($name, $header);
                 }
 
                 return $data['output'];
@@ -574,14 +574,14 @@ class Router
                 throw new \LogicException("Can't set a cache on a route that use session data");
             }
 
-            $this->response()->addHeader('Expires', gmdate('D, d M Y H:i:s', time() + $second) . ' GMT');
-            $this->response()->addHeader('Cache-Control', 'public, max-age=' . $second . ', must-revalidate');
-            $this->response()->addHeader('Pragma', 'public, max-age=' . $second . ', must-revalidate');
-            $this->response()->addHeader('Vary', 'Accept-Encoding');
+            self::response()->addHeader('Expires', gmdate('D, d M Y H:i:s', time() + $second) . ' GMT');
+            self::response()->addHeader('Cache-Control', 'public, max-age=' . $second . ', must-revalidate');
+            self::response()->addHeader('Pragma', 'public, max-age=' . $second . ', must-revalidate');
+            self::response()->addHeader('Vary', 'Accept-Encoding');
 
             $data = [
                 'output' => $return,
-                'headers' => $this->response()->getHeaders(),
+                'headers' => self::response()->getHeaders(),
             ];
 
             self::cache('OUTPUT')->set($cacheKey, $data, $second);
@@ -653,9 +653,9 @@ class Router
         if (is_null($method)) {
             $method = 'get';
 
-            if ($this->request()->isAjax() && method_exists($controller, 'ajax')) {
+            if (self::request()->isAjax() && method_exists($controller, 'ajax')) {
                 $method = 'ajax';
-            } elseif ($this->request()->getMethod() == 'POST' && method_exists($controller, 'post')) {
+            } elseif (self::request()->getMethod() == 'POST' && method_exists($controller, 'post')) {
                 $method = 'post';
             }
         }
