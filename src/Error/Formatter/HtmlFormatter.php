@@ -35,7 +35,7 @@ class HtmlFormatter extends AbstractFormatter
      * [Default Applications]
      * x-scheme-handler/phpstorm=pstorm.desktop
      */
-    public function render(\Throwable $exception) : string
+    public function render(\Throwable $exception, int $index) : string
     {
         $fileLinkFormat = ini_get('xdebug.file_link_format') ?: 'phpstorm://%f:%l' ;
 
@@ -135,7 +135,7 @@ class HtmlFormatter extends AbstractFormatter
 EOF;
 
         $out .= '<div class="cawaException">';
-        $out .= '<h1>' . htmlspecialchars($exception->getMessage()) . "</h1>\n";
+        $out .= '<h1>' . '#' . $index . ' ' . htmlspecialchars($exception->getMessage()) . "</h1>\n";
 
         $out .= '<h2>' . get_class($exception) . ' code(' . $exception->getCode() . ') in ' . $stacks[0]['file'];
         if (isset($stacks[0]['line'])) {

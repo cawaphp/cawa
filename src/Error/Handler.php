@@ -21,6 +21,7 @@ use Cawa\Error\Exceptions\Error;
 use Cawa\Error\Exceptions\Fatal;
 use Cawa\Error\Exceptions\Notice;
 use Cawa\Error\Exceptions\Warning;
+use Cawa\Error\Formatter\AbstractFormatter;
 use Cawa\Log\LoggerFactory;
 use Cawa\Net\Ip;
 
@@ -160,6 +161,23 @@ class Handler
     }
 
     /**
+     * @param AbstractFormatter $formatter
+     * @param \Throwable $exception
+     */
+    private static function render(AbstractFormatter $formatter, \Throwable $exception)
+    {
+        $currentException = $exception;
+        $count = 1;
+
+        while($currentException) {
+            echo $formatter->render($currentException, $count);
+
+            $currentException = $currentException->getPrevious();
+            $count++;
+        }
+    }
+
+    /**
      * @param \Throwable $exception
      *
      * @return bool
@@ -186,7 +204,7 @@ class Handler
 
             if (AbstractApp::env() != AbstractApp::PROD || Ip::isAdmin()) {
                 $formatter = new $formatterClass();
-                echo $formatter->render($exception);
+                self::render($formatter, $exception);
             } else {
                 self::clearAllBuffer();
                 trace('Oups');
@@ -200,7 +218,7 @@ class Handler
 
             if (AbstractApp::env() != AbstractApp::PROD) {
                 $formatter = new $formatterClass();
-                echo $formatter->render($exception);
+                self::render($formatter, $exception);
             } else {
                 self::clearAllBuffer();
                 echo '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">' . "\n" .

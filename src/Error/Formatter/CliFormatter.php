@@ -22,14 +22,14 @@ class CliFormatter extends AbstractFormatter
      * @see https://github.com/bcremer/phpstorm-url-handler-PKGBUILD
      * @see https://github.com/aik099/PhpStormProtocol
      */
-    public function render(\Throwable $exception) : string
+    public function render(\Throwable $exception, int $index) : string
     {
         $stacks = $this->exceptionStackTrace($exception);
 
         $out = '';
 
         $out .= "\033[1;37m" . // white foreground
-            "\033[41m >>>> " . // red background
+            "\033[41m #$index >>>> " . // red background
             $exception->getMessage() .
             "\033[0m\n";
 

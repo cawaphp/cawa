@@ -151,8 +151,9 @@ abstract class AbstractFormatter
 
     /**
      * @param \Throwable $exception
+     * @param int $index
      *
      * @return string
      */
-    abstract public function render(\Throwable $exception) : string;
+    abstract public function render(\Throwable $exception, int $index) : string;
 }
