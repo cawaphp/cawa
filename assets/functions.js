@@ -33,11 +33,8 @@ require([
     /**
      * Control that moment is init
      */
-    $(document).bind("ready", function (event) {
-        // set global moment locale
-        if (moment.locale($.locale()) !== $.locale()) {
-            throw "Can't set moment global locale to '" + $.locale() + "'";
-        }
-    });
+    if (moment.locale($.locale()) !== $.locale()) {
+        throw "Can't set moment global locale to '" + $.locale() + "'";
+    }
 });
 
