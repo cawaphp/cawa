@@ -16,7 +16,6 @@ var Request = function () {
      */
     function send(uri, callback, method, data)
     {
-
         var options = {
             url: uri,
             type: method == undefined ? "GET" : method,
@@ -113,10 +112,8 @@ var Request = function () {
 
     function form(form, callback)
     {
-        var formData = new FormData(form[0]);
-
-        var uri = form.attr('action');
         var method = form.attr('method');
+        var uri = form.attr('action');
 
         if (!uri) {
             uri = document.location.href;
@@ -126,10 +123,15 @@ var Request = function () {
             method = "POST";
         }
 
+        var formData;
+        if (method == "POST") {
+            formData = new FormData(form[0]);
+        } else {
+            formData = form.serialize();
+        }
 
         send(uri, callback,  method, formData);
     }
-
 
     return {
         send: send,
