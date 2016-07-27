@@ -13,12 +13,6 @@ require([
             this._trigger('init');
         },
 
-        _destroy: function ()
-        {
-            this._destroy();
-            $.Widget.prototype.destroy.apply(this, arguments);
-        },
-
         _getCreateOptions: function ()
         {
             var options = {};
