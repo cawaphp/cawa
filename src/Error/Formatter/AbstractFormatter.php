@@ -146,7 +146,7 @@ abstract class AbstractFormatter
             (int) debug_backtrace()[0]['line']
         );
 
-        return $this->render($exception);
+        return $this->render($exception, 1);
     }
 
     /**
