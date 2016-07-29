@@ -43,6 +43,6 @@ class Logger extends AbstractLogger
             ->setMessage($message)
             ->setContext($context);
 
-        self::dispatcher()->emit($event);
+        self::emit($event);
     }
 }

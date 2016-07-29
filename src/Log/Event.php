@@ -114,7 +114,7 @@ class Event extends EventBase
     /**
      * The message
      *
-     * @var \DateTime
+     * @var DateTime
      */
     private $date;
 

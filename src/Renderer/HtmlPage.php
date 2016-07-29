@@ -154,13 +154,16 @@ class HtmlPage extends HtmlContainer
      */
     public function addCss(string $css, array $attributes = []) : self
     {
-        if (substr($css, -4) ==  '.css' || substr($css, 0, 2) ==  '//') {
+        if (substr($css, -4) ==  '.css' ||
+            substr($css, 0, 2) ==  '//' ||
+            substr($css, 0, 4) ==  'http'
+        ) {
             list($path, $hash) = $this->getAssetData($css);
 
             $meta = new HtmlElement('<link />');
 
             if ($hash) {
-                $meta->addAttribute('name', str_replace(['.css', '.'], ['', '_'], $css));
+                $meta->addAttribute('name', str_replace(['.css', '.', '/', ':'], ['', '_', '_', '_'], $css));
             }
 
             $meta->addAttributes([
@@ -194,10 +197,13 @@ class HtmlPage extends HtmlContainer
         $meta->addAttribute('type', 'text/javascript');
         $meta->addAttributes($attributes);
 
-        if (substr($javascript, -3) ==  '.js') {
+        if (substr($javascript, -3) ==  '.js' ||
+            substr($javascript, 0, 2) ==  '//' ||
+            substr($javascript, 0, 4) ==  'http'
+        ) {
             list($path, $hash) = $this->getAssetData($javascript);
             if ($hash) {
-                $meta->addAttribute('name', str_replace(['.js', '.'], ['', '_'], $javascript));
+                $meta->addAttribute('name', str_replace(['.js', '.', '/', ':'], ['', '_', '_', '_'], $javascript));
             }
 
             $meta->addAttribute('src', $path);
@@ -263,7 +269,7 @@ class HtmlPage extends HtmlContainer
         $out .= $parent;
 
         $timerEvent->addData(['size' => $this->getContent() ? strlen($this->getContent()) : strlen($parent)]);
-        self::dispatcher()->emit($timerEvent);
+        self::emit($timerEvent);
 
         return $out;
     }

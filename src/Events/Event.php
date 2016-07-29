@@ -15,7 +15,6 @@ namespace Cawa\Events;
 
 class Event
 {
-
     /**
      * @param string $name
      * @param array $data

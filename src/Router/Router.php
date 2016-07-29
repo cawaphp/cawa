@@ -468,7 +468,7 @@ class Router
                 'args' => $args,
             ]);
 
-            self::dispatcher()->emit($event);
+            self::emit($event);
 
             $cacheKey = $this->cacheKey($route, $args);
 
@@ -678,7 +678,7 @@ class Router
             $return = call_user_func_array([$controller, $method], $ordererArgs);
         }
 
-        self::dispatcher()->emit($event);
+        self::emit($event);
 
         return $return;
     }

@@ -70,6 +70,18 @@ class Request
     }
 
     /**
+     * @param Uri $uri
+     *
+     * @return Request
+     */
+    public function setUri(Uri $uri): Request
+    {
+        $this->uri = $uri;
+
+        return $this;
+    }
+
+    /**
      * @var string
      */
     protected $payload;

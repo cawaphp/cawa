@@ -32,6 +32,19 @@ trait PhtmlTrait
             $this->setTemplatePath();
         }
 
+        $closure = \Closure::bind(function (string $path, array $data)
+        {
+            extract($data);
+            ob_start();
+            /* @noinspection PhpIncludeInspection */
+            require $path . '.phtml';
+
+            return ob_get_clean();
+        }, $this, get_class($this));
+
+        return $closure($this->templatePath, $this->getData());
+
+        /*
         $data = $this->getData();
 
         extract($data);
@@ -40,6 +53,7 @@ trait PhtmlTrait
         $render = ob_get_clean();
 
         return $render;
+        */
     }
 
     /**

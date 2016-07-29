@@ -233,6 +233,6 @@ abstract class AbstractApp
      */
     public function end()
     {
-        self::dispatcher()->emit(new Event('app.end'));
+        self::emit(new Event('app.end'));
     }
 }

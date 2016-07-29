@@ -30,4 +30,12 @@ trait DispatcherFactory
 
         return DI::set(__METHOD__, null, $item);
     }
+
+    /**
+     * @param Event $event
+     */
+    private static function emit(Event $event)
+    {
+        self::dispatcher()->emit($event);
+    }
 }
