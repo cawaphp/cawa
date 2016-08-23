@@ -156,7 +156,7 @@ abstract class AbstractApp
         // StdErr default logger
         $logger = new StdErr();
         $logger->setMinimumLevel(LogLevel::WARNING);
-        $loggers[] = $logger;
+        array_unshift($loggers, $logger);
 
         if (!is_array($loggers)) {
             throw new \InvalidArgumentException(sprintf(
