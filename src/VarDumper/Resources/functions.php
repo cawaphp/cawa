@@ -64,7 +64,7 @@ if (!function_exists('systrace')) {
      */
     function systrace(... $vars)
     {
-        openlog('php', LOG_PID, LOG_USER);
+        openlog('php-debug', LOG_PID, LOG_USER);
 
         $cloner = new VarCloner();
         $dumper = new \Symfony\Component\VarDumper\Dumper\CliDumper();
