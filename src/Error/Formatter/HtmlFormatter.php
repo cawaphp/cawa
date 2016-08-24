@@ -84,6 +84,7 @@ class HtmlFormatter extends AbstractFormatter
                     padding: 5 10px;
                     margin: 0;
                     font-size: 16px;
+                    cursor: pointer;
                 }
 
                 .cawaException h2 {
@@ -134,8 +135,12 @@ class HtmlFormatter extends AbstractFormatter
 
 EOF;
 
+        $exceptionUid = uniqid();
+
         $out .= '<div class="cawaException">';
-        $out .= '<h1>' . '#' . $index . ' ' . htmlspecialchars($exception->getMessage()) . "</h1>\n";
+        $out .= '<h1 onclick="javascript:showFullArgs(\'' . $exceptionUid . '\', 0)">' .
+            '#' . $index . ' ' . htmlspecialchars($exception->getMessage()) .
+            "</h1>\n";
 
         $out .= '<h2>' . get_class($exception) . ' code(' . $exception->getCode() . ') in ' . $stacks[0]['file'];
         if (isset($stacks[0]['line'])) {
@@ -198,6 +203,18 @@ EOF;
         }
 
         $out .= "</ol>\n";
+
+        ob_start();
+
+        $cloner = new VarCloner();
+        $dumper = new HtmlDumper();
+        $dumper->dump($cloner->cloneVar($exception));
+
+        $out .= '<div class="fullargs args-' . $exceptionUid . '-uid args-0-index">' .
+            ob_get_clean() .
+            '</div>' .
+            "\n";
+
         foreach ($stacks as $index => $stack) {
             if (isset($stack['fullargs'])) {
                 foreach ($stack['fullargs'] as $argsIndex => $args) {
