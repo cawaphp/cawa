@@ -36,6 +36,11 @@ class Application extends \Symfony\Component\Console\Application
             );
         }
 
+        if ($command instanceof \Cawa\Console\Command) {
+            $command->setInput($input);
+            $command->setOutput($output);
+        }
+
         return parent::doRunCommand($command, $input, $output);
     }
 
