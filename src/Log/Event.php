@@ -138,6 +138,11 @@ class Event extends EventBase
     {
         $return = $context ? $this->context : [];
 
+        $isAssociative = array_keys($return) !== range(0, count($return) - 1);
+        if (!$isAssociative) {
+            $return['Context'] = json_encode($return);
+        }
+
         $return = ['Message' => $this->message] + $return ;
         $return = $date ? (['Date' => $this->date->format('Y-m-d H:i:s')] + $return) : $return;
 
@@ -151,8 +156,8 @@ class Event extends EventBase
                     ) {
                         return sprintf(
                             '%s: %s',
-                            ucfirst(strtolower($k)),
-                            $v
+                            ucfirst(strtolower((string) $k)),
+                            is_array($v) ? json_encode($v) : $v
                         );
                     },
                     $return,

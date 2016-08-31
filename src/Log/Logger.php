@@ -15,8 +15,9 @@ namespace Cawa\Log;
 
 use Cawa\Events\DispatcherFactory;
 use Psr\Log\AbstractLogger;
+use Psr\Log\LoggerInterface;
 
-class Logger extends AbstractLogger
+class Logger extends AbstractLogger implements LoggerInterface
 {
     use DispatcherFactory;
 
