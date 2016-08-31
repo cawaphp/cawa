@@ -25,6 +25,9 @@ class Response
         if ($response) {
             $explode = explode("\r\n\r\n", $response);
 
+            // multiple query (follow redirect) take only the last request
+            $explode = array_slice($explode, sizeof($explode) - 2, 2);
+
             // body
             $this->body = array_pop($explode);
 
