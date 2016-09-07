@@ -136,6 +136,11 @@ class Translator
      */
     private function detectLocale() : string
     {
+        // cli, can't detect
+        if ('cli' === PHP_SAPI) {
+            return $this->getDefaultLocale();
+        }
+
         // detection from url
         $explode = explode('/', self::request()->getUri()->getPath());
         if (isset($explode[1]) && in_array($explode[1], $this->getLocales())) {
@@ -166,7 +171,7 @@ class Translator
             return $this->getDefaultLocale();
         }
 
-        return $this->locales;
+        return $this->getDefaultLocale();
     }
 
     /**
