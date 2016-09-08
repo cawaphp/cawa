@@ -60,7 +60,7 @@ class Translator
      */
     public function isValidLocale(string $locale) : bool
     {
-        return in_array($locale, $this->locales);
+        return in_array($locale, array_keys($this->locales));
     }
 
     /**
@@ -126,8 +126,10 @@ class Translator
         // punic default value
         Data::setDefaultLocale($this->getIETF());
 
-        if (!self::request()->getCookie(self::COOKIE_LANGUAGE)) {
-            self::response()->addCookie(new Cookie(self::COOKIE_LANGUAGE, $this->locale, 60*60*24*365));
+        if ('cli' !== PHP_SAPI) {
+            if (!self::request()->getCookie(self::COOKIE_LANGUAGE)) {
+                self::response()->addCookie(new Cookie(self::COOKIE_LANGUAGE, $this->locale, 60 * 60 * 24 * 365));
+            }
         }
     }
 
@@ -328,6 +330,10 @@ class Translator
      */
     public function transChoice(string $key, int $number, array $data = null, bool $warmIfMissing = true)
     {
+        if (!$data) {
+            $data = [$number];
+        }
+
         $text = self::trans($key, null, $warmIfMissing);
 
         if (!$this->messageChoice) {

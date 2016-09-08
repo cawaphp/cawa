@@ -32,8 +32,7 @@ trait PhtmlTrait
             $this->setTemplatePath();
         }
 
-        $closure = \Closure::bind(function (string $path, array $data)
-        {
+        $closure = \Closure::bind(function (string $path, array $data) {
             extract($data);
             ob_start();
             /* @noinspection PhpIncludeInspection */

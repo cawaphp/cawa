@@ -56,18 +56,18 @@ class ConsoleOutput extends BaseConsoleOutput implements ConsoleOutputInterface
      */
     public function prefixWithTimestamp($message)
     {
-        $diff = $this->previous ? round((microtime(true) - $this->previous) , 3) : 0;
+        $diff = $this->previous ? round((microtime(true) - $this->previous), 3) : 0;
         $this->previous = microtime(true);
 
         $microtime = explode(' ', (string) microtime())[0];
         $microtime = substr((string) round($microtime, 3), 2, 3);
-        $microtime = str_pad($microtime, 3, '0');
+        $microtime = str_pad(is_bool($microtime) ? 0 : $microtime, 3, '0');
 
         $prefix = sprintf(
             '<fg=white>[%s.%s]</> <fg=yellow>[+%s s]</>',
             date('Y-m-d H:i:s'),
             $microtime,
-            str_pad((string) $diff, 9, " ", STR_PAD_LEFT)
+            str_pad((string) $diff, 9, ' ', STR_PAD_LEFT)
         );
         $prefix = $this->getFormatter()->format($prefix);
 

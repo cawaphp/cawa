@@ -169,7 +169,7 @@ class Handler
         $currentException = $exception;
         $count = 1;
 
-        while($currentException) {
+        while ($currentException) {
             echo $formatter->render($currentException, $count);
 
             $currentException = $currentException->getPrevious();

@@ -117,7 +117,7 @@ abstract class Model
     /**
      * @param mixed $data
      *
-     * @return string
+     * @return array
      */
     protected static function decodeData(string $data)
     {

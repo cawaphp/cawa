@@ -410,7 +410,7 @@ class Collection implements \Countable, \IteratorAggregate, \ArrayAccess
 
     /**
      * Adds an element at the end of the collection.
-
+     *
      * @param array $elements The elements to add.
      *
      * @return $this

@@ -118,7 +118,7 @@ class Response
      */
     public function getStatusString(int $code) : string
     {
-        return $code . " " . self::$statusCodeList[$code];
+        return $code . ' ' . self::$statusCodeList[$code];
     }
 
     /**

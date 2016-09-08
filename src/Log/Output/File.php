@@ -14,7 +14,6 @@ declare (strict_types = 1);
 namespace Cawa\Log\Output;
 
 use Cawa\Log\Event;
-use Symfony\Component\VarDumper\VarDumper;
 
 class File extends AbstractOutput
 {
