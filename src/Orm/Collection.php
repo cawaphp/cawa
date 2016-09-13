@@ -657,6 +657,46 @@ class Collection implements \Countable, \IteratorAggregate, \ArrayAccess
     }
 
     /**
+     * @param array $fields
+     *
+     * @return self
+     */
+    public function sortBy(array $fields) : self
+    {
+        /** @var array|bool[] $isMethod */
+        $isMethod = [];
+        $values = [];
+
+        foreach ($fields as $name => $options) {
+            foreach ($this->elements as $key => $element) {
+                if (!array_key_exists($name, $isMethod)) {
+                    $isMethod[$name] = method_exists($element, $name);
+                }
+
+                if ($isMethod[$name]) {
+                    $values[$name][$key] = call_user_func([$element, $name]);
+                } else {
+                    $values[$name][$key] = $element->$name;
+                }
+            }
+        }
+
+        $args = [];
+
+        foreach ($fields as $name => $options) {
+            $args[] = $values[$name];
+            $args[] = $options;
+        }
+
+        $return = $this->elements;
+        $args[] =& $return;
+
+        call_user_func_array('array_multisort', $args);
+
+        return new static($return);
+    }
+
+    /**
      * @param string $method property or method
      *
      * @return $this
