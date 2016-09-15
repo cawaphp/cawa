@@ -24,11 +24,13 @@ use Cawa\Error\Exceptions\Warning;
 use Cawa\Error\Formatter\AbstractFormatter;
 use Cawa\Log\LoggerFactory;
 use Cawa\Net\Ip;
+use Cawa\Router\RouterFactory;
 
 class Handler
 {
     use HttpFactory;
     use LoggerFactory;
+    use RouterFactory;
 
     /**
      * Friendly name from error code
@@ -207,7 +209,7 @@ class Handler
                 self::render($formatter, $exception);
             } else {
                 self::clearAllBuffer();
-                trace('Oups');
+                echo self::router()->returnError(500);
             }
 
             AbstractApp::instance()->end();
@@ -223,9 +225,9 @@ class Handler
                 self::clearAllBuffer();
                 echo '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">' . "\n" .
                     '<html><head>' . "\n" .
-                    '<title>500 Internal Server Error</title>' . "\n" .
+                    '<title>' . self::response()->getStatusString(500) . '</title>' . "\n" .
                     '</head><body>' . "\n" .
-                    '<h1>Internal Server Error</h1>' . "\n" .
+                    '<h1>' . self::response()->getStatusString(500) . '</h1>' . "\n" .
                     '</body></html>';
             }
         }

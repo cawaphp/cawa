@@ -491,7 +491,7 @@ class Router
      *
      * @return mixed
      */
-    private function returnError(int $code)
+    public function returnError(int $code)
     {
         if (isset($this->errors[$code])) {
             self::response()->setStatus($code);
