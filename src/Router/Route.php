@@ -35,7 +35,7 @@ class Route extends AbstractRoute
     private $controller;
 
     /**
-     * @return callable|string|array
+     * @return callable|string|array|object
      */
     public function getController()
     {

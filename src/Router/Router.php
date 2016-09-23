@@ -191,7 +191,7 @@ class Router
     }
 
     /**
-     * @var Route[]
+     * @var array
      */
     private $uris = [];
 
@@ -344,79 +344,17 @@ class Router
 
             switch ($type) {
                 case 'T':
-                    if (!$value) {
-                        throw new \InvalidArgumentException(
-                            sprintf("Missing router var on route '%s'", $route->getName())
-                        );
-                    }
-
-                    if (!isset($this->uris[$value])) {
-                        throw new \InvalidArgumentException(
-                            sprintf("Missing translations for var '%s' on route '%s'", $value, $route->getName())
-                        );
-                    }
-
-                    if (!is_null($data)) {
-                        $dest = $this->uris[$value][self::locale()];
-                    } else {
-                        $dest = '(?:' . implode('|', $this->uris[$value]) . ')';
-                    }
+                    $dest = $this->routeRegexpTranslatedText($route, $value, $data);
                     break;
 
                 case 'L':
-                    if (!is_null($data)) {
-                        $dest = self::locale();
-                    } else {
-                        $dest = '(?:' . implode('|', self::translator()->getLocales()) . ')';
-                    }
+                    $dest = $this->routeRegexpLocales($data);
                     break;
 
-                case 'C':
-                case 'O':
-                case 'S':
-                    $begin = substr($value, 0, strpos($value, '<'));
-                    $variable = substr($value, strpos($value, '<') + 1, strpos($value, '>') - strpos($value, '<') - 1);
-                    $capture = substr($value, strpos($value, '>') + 1);
-
-                    if (empty($capture)) {
-                        $capture = '[^/]+';
-                    }
-
-                    if (!is_null($data)) {
-                        if (!array_key_exists($variable, $data) && ($type == 'C' || $type == 'S')) {
-                            throw new \InvalidArgumentException(sprintf(
-                                "Missing variable route '%s' to generate route '%s'",
-                                $variable,
-                                $route->getName()
-                            ));
-                        }
-
-                        if (isset($data[$variable])) {
-                            if ($route->getOption(AbstractRoute::OPTIONS_URLIZE) === false) {
-                                $dest = $data[$variable];
-                            } else {
-                                $dest = Transliterator::urlize($data[$variable]);
-                            }
-                        }
-                    } else {
-                        $dest = '(';
-                        if ($begin) {
-                            $dest .= '(?:' . $begin . ')' ;
-                        }
-
-                        if ($type == 'S') {
-                            $dest .= '(?:' . $capture . ')';
-                        } else {
-                            $dest .= '(?<' . $variable . '>' . $capture . ')';
-                        }
-
-                        $dest .= ')';
-
-                        if ($type == 'O') {
-                            $dest .= '?';
-                        }
-                    }
-
+                case 'C': // mandatory capture variable with optionnal regexp
+                case 'O': // optionnal capture variable with optionnal regexp
+                case 'S': // uncapture text with optionnal regexp
+                    $dest = $this->routeRegexpCapture($type, $route, $value, $data);
                     break;
 
                 default:
@@ -434,6 +372,140 @@ class Router
 
         return $regexp;
     }
+
+    /**
+     * Translate text => accueil|home
+     *
+     * @param Route $route
+     * @param string|null $value
+     * @param array|null $data
+     *
+     * @return string
+     */
+    private function routeRegexpTranslatedText(Route $route, string $value = null, array $data = null) : string
+    {
+        if (!$value) {
+            throw new \InvalidArgumentException(
+                sprintf("Missing router var on route '%s'", $route->getName())
+            );
+        }
+
+        $variable = null;
+        $trans = [];
+
+        if (strpos($value, '<') !== false && strpos($value, '>')) {
+            $variable = substr($value, 1, strpos($value, '>') - 1);
+            $keys = explode('|', substr($value, strpos($value, '>') + 1));
+        } else {
+            $keys = [$value];
+        }
+
+        foreach ($keys as $key) {
+            if (!isset($this->uris[$key])) {
+                throw new \InvalidArgumentException(
+                    sprintf("Missing translations for var '%s' on route '%s'", $key, $route->getName())
+                );
+            }
+
+            foreach ($this->uris[$key] as $locale => $current) {
+                $trans[$locale][$key] = $current;
+                $trans['*'][] = $current;
+            }
+        }
+
+        if (!is_null($data) && sizeof($keys) > 1 && !isset($data[$variable]) ) {
+            throw new \InvalidArgumentException(
+                sprintf("Missing datas '%s' on route '%s'", $value, $route->getName())
+            );
+        }
+
+        if (!is_null($data) && sizeof($keys) == 1) {
+            $dest = $trans[self::locale()][$value];
+        } else if (!is_null($data) && sizeof($keys) > 1) {
+            $dest = $data[$variable];
+        } else {
+            $dest = ($variable ? '(?<' . $variable . '>' : '(?:') . implode('|', $trans['*']) . ')';
+        }
+
+        return $dest;
+    }
+
+    /**
+     * Locales avaialble => fr|en
+     *
+
+     * @param array|null $data
+     *
+     * @return string
+     */
+    private function routeRegexpLocales(array $data = null) : string
+    {
+        if (!is_null($data)) {
+            $dest = self::locale();
+        } else {
+            $dest = '(?:' . implode('|', self::translator()->getLocales()) . ')';
+        }
+
+        return $dest;
+    }
+
+    /**
+     * @param string $type
+     * @param Route $route
+     * @param string|null $value
+     * @param array|null $data
+     *
+     * @return string
+     */
+    private function routeRegexpCapture(string $type, Route $route, string $value = null, array $data = null) : string
+    {
+        $begin = substr($value, 0, strpos($value, '<'));
+        $variable = substr($value, strpos($value, '<') + 1, strpos($value, '>') - strpos($value, '<') - 1);
+        $capture = substr($value, strpos($value, '>') + 1);
+
+        if (empty($capture)) {
+            $capture = '[^/]+';
+        }
+
+        if (!is_null($data)) {
+            if (!array_key_exists($variable, $data) && ($type == 'C' || $type == 'S')) {
+                throw new \InvalidArgumentException(sprintf(
+                    "Missing variable route '%s' to generate route '%s'",
+                    $variable,
+                    $route->getName()
+                ));
+            }
+
+            if (isset($data[$variable])) {
+                if ($route->getOption(AbstractRoute::OPTIONS_URLIZE) === false) {
+                    $dest = $data[$variable];
+                } else {
+                    $dest = Transliterator::urlize($data[$variable]);
+                }
+            }
+        } else {
+            $dest = '(';
+            if ($begin) {
+                $dest .= '(?:' . $begin . ')';
+            }
+
+            if ($type == 'S') {
+                $dest .= '(?:' . $capture . ')';
+            } else {
+                $dest .= '(?<' . $variable . '>' . $capture . ')';
+            }
+
+            $dest .= ')';
+
+            if ($type == 'O') {
+                $dest .= '?';
+            }
+        }
+
+        return $dest;
+    }
+
+
 
     /**
      * @return string|array|\SimpleXMLElement|null
