@@ -47,7 +47,7 @@ class Request
     /**
      * @param string $method
      *
-     * @return $this
+     * @return $this|self
      */
     public function setMethod(string $method) : self
     {
@@ -72,9 +72,9 @@ class Request
     /**
      * @param Uri $uri
      *
-     * @return Request
+     * @return $this|self
      */
-    public function setUri(Uri $uri): Request
+    public function setUri(Uri $uri): self
     {
         $this->uri = $uri;
 
@@ -97,7 +97,7 @@ class Request
     /**
      * @param string $payload
      *
-     * @return $this
+     * @return $this|self
      */
     public function setPayload(string $payload) : self
     {
@@ -212,7 +212,7 @@ class Request
      * @param string $name
      * @param string|array $value
      *
-     * @return $this
+     * @return $this|self
      */
     public function setPost(string $name, $value) : self
     {
@@ -232,7 +232,7 @@ class Request
     /**
      * @param array $posts
      *
-     * @return $this
+     * @return $this|self
      */
     public function setPosts(array $posts) : self
     {

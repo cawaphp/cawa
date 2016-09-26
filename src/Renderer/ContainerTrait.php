@@ -25,7 +25,7 @@ trait ContainerTrait
     /**
      * @param ViewController|ViewController[] ...$elements
      *
-     * @return $this
+     * @return $this|self
      */
     public function add(ViewController ...$elements)
     {
@@ -39,7 +39,7 @@ trait ContainerTrait
     /**
      * @param ViewController|ViewController[] ...$elements
      *
-     * @return $this
+     * @return $this|self
      */
     public function addFirst(ViewController ...$elements)
     {
@@ -51,7 +51,7 @@ trait ContainerTrait
     }
 
     /**
-     * @return $this
+     * @return $this|self
      */
     public function clear()
     {

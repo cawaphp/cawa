@@ -45,7 +45,7 @@ class Route extends AbstractRoute
     /**
      * @param callable|string|array $controller
      *
-     * @return $this
+     * @return $this|self
      */
     public function setController($controller) : self
     {

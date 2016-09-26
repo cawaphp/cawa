@@ -50,7 +50,7 @@ class Uri
     }
 
     /**
-     * @return null
+     * @return void
      */
     private function getCurrentUrl()
     {
@@ -117,9 +117,9 @@ class Uri
     /**
      * @param string $uri
      *
-     * @return Uri
+     * @return $this|self
      */
-    public static function parse(string $uri = null) : Uri
+    public static function parse(string $uri = null) : self
     {
         $uri = new Uri($uri);
 
@@ -151,7 +151,7 @@ class Uri
     /**
      * @param string $scheme
      *
-     * @return $this
+     * @return $this|self
      */
     public function setScheme(string $scheme) : self
     {
@@ -179,7 +179,7 @@ class Uri
     /**
      * @param string $user
      *
-     * @return $this
+     * @return $this|self
      */
     public function setUser(string $user) : self
     {
@@ -199,7 +199,7 @@ class Uri
     /**
      * @param string $password
      *
-     * @return $this
+     * @return $this|self
      */
     public function setPassword(string $password) : self
     {
@@ -235,7 +235,7 @@ class Uri
     /**
      * @param string $host
      *
-     * @return $this
+     * @return $this|self
      */
     public function setHost(string $host) : self
     {
@@ -255,7 +255,7 @@ class Uri
     /**
      * @param int $port
      *
-     * @return $this
+     * @return $this|self
      */
     public function setPort(int $port) : self
     {
@@ -277,7 +277,7 @@ class Uri
     /**
      * @param string $path
      *
-     * @return $this
+     * @return $this|self
      */
     public function setPath(string $path) : self
     {
@@ -289,7 +289,7 @@ class Uri
     /**
      * @param string $path
      *
-     * @return $this
+     * @return $this|self
      */
     public function appendPath(string $path) : self
     {
@@ -319,7 +319,7 @@ class Uri
     /**
      * @param string $query
      *
-     * @return $this
+     * @return $this|self
      */
     public function setQuerystring(string $query = null) : self
     {
@@ -357,7 +357,7 @@ class Uri
     /**
      * @param array $query
      *
-     * @return $this
+     * @return $this|self
      */
     public function setQueries(array $query = []) : self
     {
@@ -378,7 +378,7 @@ class Uri
      *
      * @throws \InvalidArgumentException
      *
-     * @return Uri
+     * @return $this|self
      */
     public function addQueries(array $queries) : self
     {
@@ -411,7 +411,7 @@ class Uri
      * @param string $key
      * @param string $value
      *
-     * @return Uri
+     * @return $this|self
      */
     public function addQuery(string $key, string $value) : self
     {
@@ -423,7 +423,7 @@ class Uri
     /**
      * @param string $key
      *
-     * @return Uri
+     * @return $this|self
      */
     public function removeQuery(string $key) : self
     {
@@ -441,7 +441,7 @@ class Uri
      *
      * @throws \InvalidArgumentException
      *
-     * @return Uri
+     * @return $this|self
      */
     public function removeQueries(array $queries) : self
     {
@@ -461,7 +461,7 @@ class Uri
     /**
      * Remove all query string to current url
      *
-     * @return Uri
+     * @return $this|self
      */
     public function removeAllQueries() : self
     {
@@ -481,7 +481,7 @@ class Uri
     /**
      * @param string $fragment
      *
-     * @return $this
+     * @return $this|self
      */
     public function setFragment(string $fragment = null) : self
     {

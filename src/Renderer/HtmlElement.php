@@ -48,7 +48,7 @@ class HtmlElement extends Element
     /**
      * @param string $tag
      *
-     * @return HtmlElement
+     * @return $this|self
      */
     public function setTag(string $tag) : self
     {
@@ -75,7 +75,7 @@ class HtmlElement extends Element
     /**
      * @param array $attributes
      *
-     * @return $this
+     * @return $this|self
      */
     public function addAttributes(array $attributes) : self
     {
@@ -90,7 +90,7 @@ class HtmlElement extends Element
      * @param string $name
      * @param string $value
      *
-     * @return $this
+     * @return $this|self
      */
     public function addAttribute(string $name, string $value) : self
     {
@@ -112,7 +112,7 @@ class HtmlElement extends Element
     /**
      * @param string $name
      *
-     * @return $this
+     * @return $this|self
      */
     public function removeAttribute(string $name) : self
     {
@@ -126,7 +126,7 @@ class HtmlElement extends Element
     /**
      * @param string $value
      *
-     * @return $this
+     * @return $this|self
      */
     public function setId(string $value) : self
     {
@@ -142,7 +142,7 @@ class HtmlElement extends Element
     }
 
     /**
-     * @return $this
+     * @return $this|self
      */
     public function generateId() : self
     {
@@ -160,7 +160,7 @@ class HtmlElement extends Element
     /**
      * @param array|string $style
      *
-     * @return $this
+     * @return $this|self
      */
     public function setStyle($style) : self
     {
@@ -178,7 +178,7 @@ class HtmlElement extends Element
     /**
      * @param array|string $value
      *
-     * @return $this
+     * @return $this|self
      */
     public function addStyle($value) : self
     {
@@ -209,7 +209,7 @@ class HtmlElement extends Element
     /**
      * @param array|string $value
      *
-     * @return $this
+     * @return $this|self
      */
     public function addClass($value) : self
     {
@@ -222,7 +222,7 @@ class HtmlElement extends Element
     /**
      * @param string $value
      *
-     * @return $this
+     * @return $this|self
      */
     public function removeClass(string $value) : self
     {

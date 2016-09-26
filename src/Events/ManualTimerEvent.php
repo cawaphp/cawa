@@ -18,7 +18,7 @@ class ManualTimerEvent extends TimerEvent
     /**
      * @param float $start
      *
-     * @return $this
+     * @return $this|self
      */
     public function setStart(float $start) : self
     {
@@ -30,7 +30,7 @@ class ManualTimerEvent extends TimerEvent
     /**
      * @param float $duration
      *
-     * @return $this|ManualTimerEvent
+     * @return $this|self
      */
     public function setDuration(float $duration) : self
     {

@@ -68,7 +68,7 @@ class Time extends DateTime
      * @param int|DateTime $duration if datetime, start date, if int duration in second
      * @param DateTime $end
      *
-     * @return Time
+     * @return $this|self
      */
     public static function createFromDuration($duration, DateTime $end = null) : self
     {

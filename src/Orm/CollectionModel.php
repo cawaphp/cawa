@@ -31,7 +31,7 @@ class CollectionModel extends Collection
     private $removed = [];
 
     /**
-     * @return $this
+     * @return $this|self
      */
     public function clearHistory() : self
     {

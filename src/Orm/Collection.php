@@ -37,11 +37,13 @@ class Collection implements \Countable, \IteratorAggregate, \ArrayAccess
      *
      * @param array $elements
      *
-     * @return $this
+     * @return $this|self
      */
     public function fromArray(array $elements = []) : self
     {
         $this->elements = $elements;
+
+        return $this;
     }
 
     /**
@@ -187,7 +189,7 @@ class Collection implements \Countable, \IteratorAggregate, \ArrayAccess
     /**
      * Clears the collection, removing all elements.
      *
-     * @return $this
+     * @return $this|self
      */
     public function clear() : self
     {
@@ -305,7 +307,7 @@ class Collection implements \Countable, \IteratorAggregate, \ArrayAccess
      *
      * @param Collection $collection
      *
-     * @return $this
+     * @return $this|self
      */
     public function diff(Collection $collection) : self
     {
@@ -365,7 +367,7 @@ class Collection implements \Countable, \IteratorAggregate, \ArrayAccess
      * Reset all keys/indices of the collection.
      * To used only on numeric index !
      *
-     * @return $this
+     * @return $this|self
      */
     public function resetIndex() : self
     {
@@ -399,7 +401,7 @@ class Collection implements \Countable, \IteratorAggregate, \ArrayAccess
      * @param string|int $key   The key/index of the element to set.
      * @param mixed      $value The element to set.
      *
-     * @return $this
+     * @return $this|self
      */
     public function set($key, $value) : self
     {
@@ -413,7 +415,7 @@ class Collection implements \Countable, \IteratorAggregate, \ArrayAccess
      *
      * @param array $elements The elements to add.
      *
-     * @return $this
+     * @return $this|self
      */
     public function add(...$elements) : self
     {
@@ -450,7 +452,7 @@ class Collection implements \Countable, \IteratorAggregate, \ArrayAccess
      *
      * @param callable $callable
      *
-     * @return static
+     * @return $this|self
      */
     public function apply(callable $callable) : self
     {
@@ -464,7 +466,7 @@ class Collection implements \Countable, \IteratorAggregate, \ArrayAccess
      * @param string $method
      * @param mixed ...$vars
      *
-     * @return static
+     * @return $this|self
      */
     public function call(string $method, ... $vars) : self
     {
@@ -479,7 +481,7 @@ class Collection implements \Countable, \IteratorAggregate, \ArrayAccess
      *
      * @param callable $callable The predicate used for filtering.
      *
-     * @return static A collection with the results of the filter operation.
+     * @return $this|self A collection with the results of the filter operation.
      */
     public function filter(callable $callable) : self
     {
@@ -492,7 +494,7 @@ class Collection implements \Countable, \IteratorAggregate, \ArrayAccess
      * @param string $method property or method
      * @param mixed $value the comparison value
      *
-     * @return $this
+     * @return $this|self
      */
     public function find(string $method, $value)
     {
@@ -559,7 +561,7 @@ class Collection implements \Countable, \IteratorAggregate, \ArrayAccess
      *
      * @param callable $callable $p The predicate on which to partition.
      *
-     * @return static[] An array with two elements. The first element contains the collection
+     * @return $this[]|self[] An array with two elements. The first element contains the collection
      *     of elements where the predicate returned TRUE, the second element
      *     contains the collection of elements where the predicate returned FALSE.
      */
@@ -588,7 +590,7 @@ class Collection implements \Countable, \IteratorAggregate, \ArrayAccess
      * @param int      $offset The offset to start from.
      * @param int|null $length The maximum number of elements to return, or null for no limit.
      *
-     * @return static
+     * @return $this|self
      */
     public function slice($offset, $length = null) : self
     {
@@ -601,7 +603,7 @@ class Collection implements \Countable, \IteratorAggregate, \ArrayAccess
      *
      * @param Collection $collection
      *
-     * @return $this
+     * @return $this|self
      */
     public function merge(Collection $collection) : self
     {
@@ -617,7 +619,7 @@ class Collection implements \Countable, \IteratorAggregate, \ArrayAccess
      *
      * @param callable $sortFunction
      *
-     * @return $this
+     * @return $this|self
      */
     public function sort(callable $sortFunction) : self
     {
@@ -632,7 +634,7 @@ class Collection implements \Countable, \IteratorAggregate, \ArrayAccess
      *
      * @param callable $sortFunction
      *
-     * @return $this
+     * @return $this|self
      */
     public function sortByKey(callable $sortFunction) : self
     {
@@ -647,7 +649,7 @@ class Collection implements \Countable, \IteratorAggregate, \ArrayAccess
      *
      * @param callable $sortFunction
      *
-     * @return $this
+     * @return $this|self
      */
     public function sortAssociative(callable $sortFunction) : self
     {
@@ -699,7 +701,7 @@ class Collection implements \Countable, \IteratorAggregate, \ArrayAccess
     /**
      * @param string $method property or method
      *
-     * @return $this
+     * @return $this|self
      */
     public function getDistinct(string $method)
     {
@@ -727,7 +729,7 @@ class Collection implements \Countable, \IteratorAggregate, \ArrayAccess
     }
 
     /**
-     * @return $this
+     * @return $this|self
      */
     public function shuffle() : self
     {

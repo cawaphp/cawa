@@ -43,7 +43,7 @@ class Element extends ViewController
     /**
      * @param string $content
      *
-     * @return $this
+     * @return $this|self
      */
     public function setContent($content) : self
     {
@@ -55,7 +55,7 @@ class Element extends ViewController
     /**
      * @param string $content
      *
-     * @return $this
+     * @return $this|self
      */
     public function prependContent(string $content) : self
     {
@@ -67,7 +67,7 @@ class Element extends ViewController
     /**
      * @param string $content
      *
-     * @return $this
+     * @return $this|self
      */
     public function appendContent(string $content) : self
     {
@@ -92,7 +92,7 @@ class Element extends ViewController
     /**
      * @param bool $renderable
      *
-     * @return $this
+     * @return $this|self
      */
     public function setRenderable(bool $renderable) : self
     {

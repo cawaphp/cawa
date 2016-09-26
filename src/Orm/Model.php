@@ -115,7 +115,7 @@ abstract class Model
     }
 
     /**
-     * @param mixed $data
+     * @param string $data
      *
      * @return array
      */

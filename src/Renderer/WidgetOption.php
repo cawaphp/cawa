@@ -49,7 +49,7 @@ class WidgetOption extends ViewController
      * @param string $key
      * @param mixed $value
      *
-     * @return $this
+     * @return $this|self
      */
     public function addData(string $key, $value) : self
     {
@@ -65,7 +65,7 @@ class WidgetOption extends ViewController
     /**
      * @param array $data
      *
-     * @return $this
+     * @return $this|self
      */
     public function setData(array $data) : self
     {

@@ -40,7 +40,7 @@ class Event extends EventBase
      *
      * @param string $Level
      *
-     * @return Event
+     * @return $this|self
      */
     public function setLevel(string $Level) : self
     {
@@ -71,7 +71,7 @@ class Event extends EventBase
      *
      * @param string $message
      *
-     * @return Event
+     * @return $this|self
      */
     public function setMessage(string $message) : self
     {
@@ -102,7 +102,7 @@ class Event extends EventBase
      *
      * @param array $context
      *
-     * @return Event
+     * @return $this|self
      */
     public function setContext(array $context) : self
     {

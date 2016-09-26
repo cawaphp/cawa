@@ -124,7 +124,7 @@ class ServerResponse extends Response
      *
      * @throws \InvalidArgumentException
      *
-     * @return $this
+     * @return $this|self
      */
     public function addStatusCode(int $code, string $value)
     {
@@ -140,7 +140,7 @@ class ServerResponse extends Response
     /**
      * @param int $code
      *
-     * @return $this
+     * @return $this|self
      */
     public function setStatus(int $code) : self
     {

@@ -37,7 +37,7 @@ abstract class AbstractOutput
     /**
      * @param string $minimunLevel
      *
-     * @return $this
+     * @return $this|self
      */
     public function setMinimumLevel(string $minimunLevel) : self
     {

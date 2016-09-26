@@ -101,7 +101,7 @@ class HtmlPage extends HtmlContainer
     /**
      * @param string $title
      *
-     * @return $this
+     * @return $this|self
      */
     public function setHeadTitle(string $title) : self
     {
@@ -130,7 +130,7 @@ class HtmlPage extends HtmlContainer
     /**
      * @param string $description
      *
-     * @return $this
+     * @return $this|self
      */
     public function setHeadDescription(string $description) : self
     {
@@ -150,7 +150,7 @@ class HtmlPage extends HtmlContainer
      * @param string $css
      * @param array $attributes
      *
-     * @return $this|HtmlPage
+     * @return $this|self
      */
     public function addCss(string $css, array $attributes = []) : self
     {
@@ -189,7 +189,7 @@ class HtmlPage extends HtmlContainer
      * @param string $javascript
      * @param array $attributes
      *
-     * @return $this
+     * @return $this|self
      */
     public function addJs(string $javascript, array $attributes = []) : self
     {

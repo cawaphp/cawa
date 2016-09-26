@@ -45,7 +45,7 @@ trait TemplateControllerTrait
     /**
      * @param string $path if null revert to default one
      *
-     * @return $this
+     * @return $this|self
      */
     public function setTemplatePath(string $path = null) : self
     {

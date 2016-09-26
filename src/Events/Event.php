@@ -19,7 +19,7 @@ class Event
      * @param string $name
      * @param array $data
      *
-     * @return $this
+     * @return $this|self
      */
     public static function instance(string $name, array $data = []) : self
     {
@@ -95,7 +95,7 @@ class Event
      *
      * @param array $data
      *
-     * @return $this
+     * @return $this|self
      */
     public function setData(array $data) : self
     {
@@ -109,7 +109,7 @@ class Event
      *
      * @param array $data
      *
-     * @return $this
+     * @return $this|self
      */
     public function addData(array $data) : self
     {

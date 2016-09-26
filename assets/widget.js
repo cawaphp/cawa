@@ -22,7 +22,7 @@ require([
             // all data-key camelCase
             $.each(this.element.data(), function (key, value)
             {
-                if (typeof value !== 'function' && typeof value !== 'object') {
+                if (typeof value !== 'function') {
                     options[$.camelCase(key)] = value;
                 }
             });

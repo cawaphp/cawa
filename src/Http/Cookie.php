@@ -37,7 +37,7 @@ class Cookie
     /**
      * @param string $name
      *
-     * @return $this
+     * @return $this|self
      */
     public function setName(string $name) : self
     {
@@ -77,7 +77,7 @@ class Cookie
      *
      * @param string $value
      *
-     * @return $this
+     * @return $this|self
      */
     public function setValue(string $value) : self
     {
@@ -108,7 +108,7 @@ class Cookie
      *
      * @param string $domain
      *
-     * @return $this
+     * @return $this|self
      */
     public function setDomain(string $domain = null) : self
     {
@@ -141,7 +141,7 @@ class Cookie
      *
      * @throws \InvalidArgumentException
      *
-     * @return $this
+     * @return $this|self
      */
     public function setExpire($expire) : self
     {
@@ -194,7 +194,7 @@ class Cookie
      *
      * @param string $path
      *
-     * @return $this
+     * @return $this|self
      */
     public function setPath(string $path) : self
     {
@@ -225,7 +225,7 @@ class Cookie
      *
      * @param bool $secure
      *
-     * @return $this
+     * @return $this|self
      */
     public function setSecure(bool $secure) : self
     {
@@ -256,7 +256,7 @@ class Cookie
      *
      * @param bool $httOnly
      *
-     * @return $this
+     * @return $this|self
      */
     public function setHttpOnly(bool $httOnly) : self
     {
@@ -297,11 +297,11 @@ class Cookie
     }
 
     /**
-     * @param string $cookie
+     * @param string $cookieString
      *
-     * @return Cookie
+     * @return $this|self
      */
-    public static function parse(string $cookieString) : Cookie
+    public static function parse(string $cookieString) : self
     {
         /* @var Cookie $cookie */
 

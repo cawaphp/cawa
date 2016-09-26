@@ -29,7 +29,7 @@ trait ViewDataTrait
      * @param string $name
      * @param mixed $value
      *
-     * @return $this
+     * @return $this|self
      */
     public function addData(string $name, $value)
     {
@@ -41,7 +41,7 @@ trait ViewDataTrait
     /**
      * @param array $datas
      *
-     * @return $this
+     * @return $this|self
      */
     public function addDatas(array $datas)
     {

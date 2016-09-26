@@ -97,7 +97,7 @@ class DatePeriod implements \IteratorAggregate
     /**
      * @param array ...$args The same args used for new instasnce
      *
-     * @return DatePeriod
+     * @return $this|self
      */
     public function changePeriod(...$args) : self
     {

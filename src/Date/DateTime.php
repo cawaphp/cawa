@@ -130,7 +130,7 @@ class DateTime extends Carbon implements \JsonSerializable
     /**
      * @param Time $time
      *
-     * @return static
+     * @return $this|self
      */
     public function setTimeFromTime(Time $time)
     {
@@ -140,7 +140,7 @@ class DateTime extends Carbon implements \JsonSerializable
     /**
      * Intialize the translator instance if necessary.
      *
-     * @return Translator
+     * @return TranslatorInterface
      */
     protected static function translator()
     {

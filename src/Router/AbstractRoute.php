@@ -41,7 +41,7 @@ abstract class AbstractRoute
     /**
      * @param int $code
      *
-     * @return $this
+     * @return $this|self
      */
     public function setResponseCode(int $code) : self
     {
@@ -66,7 +66,7 @@ abstract class AbstractRoute
     /**
      * @param string $name
      *
-     * @return $this
+     * @return $this|self
      */
     public function setName(string $name) : self
     {
@@ -91,7 +91,7 @@ abstract class AbstractRoute
     /**
      * @param string $method
      *
-     * @return $this
+     * @return $this|self
      */
     public function setMethod(string $method) : self
     {
@@ -116,7 +116,7 @@ abstract class AbstractRoute
     /**
      * @param string $match
      *
-     * @return $this
+     * @return $this|self
      */
     public function setMatch(string $match) : self
     {
@@ -147,7 +147,7 @@ abstract class AbstractRoute
     /**
      * @param UserInput[] $userInput
      *
-     * @return $this
+     * @return $this|self
      */
     public function setUserInputs(array $userInput) : self
     {
@@ -172,7 +172,7 @@ abstract class AbstractRoute
     /**
      * @param array $args
      *
-     * @return $this
+     * @return $this|self
      */
     public function setArgs(array $args) : self
     {
@@ -197,7 +197,7 @@ abstract class AbstractRoute
     /**
      * @param callable $condition
      *
-     * @return $this
+     * @return $this|self
      */
     public function addConditions(callable $condition) : self
     {
@@ -209,7 +209,7 @@ abstract class AbstractRoute
     /**
      * @param callable[] $conditions
      *
-     * @return $this
+     * @return $this|self
      */
     public function setConditionns(array $conditions) : self
     {
@@ -241,7 +241,7 @@ abstract class AbstractRoute
      * @param string $name
      * @param mixed $value
      *
-     * @return $this
+     * @return $this|self
      */
     public function setOption(string $name, $value) : self
     {
@@ -261,7 +261,7 @@ abstract class AbstractRoute
     /**
      * @param array $options
      *
-     * @return $this
+     * @return $this|self
      */
     public function setOptions(array $options) : self
     {

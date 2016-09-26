@@ -43,7 +43,7 @@ abstract class AbstractApp
     protected static $instance;
 
     /**
-     * @return $this
+     * @return $this|self
      */
     public static function instance()
     {
@@ -58,7 +58,7 @@ abstract class AbstractApp
      * @param string $appRoot
      * @param ServerRequest|null $request
      *
-     * @return $this
+     * @return $this|self
      */
     public static function create(string $appRoot, ServerRequest $request = null) : self
     {
