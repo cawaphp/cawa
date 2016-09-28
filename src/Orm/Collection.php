@@ -514,6 +514,31 @@ class Collection implements \Countable, \IteratorAggregate, \ArrayAccess
     }
 
     /**
+     * Return a new collection find by property or method value different
+     *
+     * @param string $method property or method
+     * @param mixed $value the comparison value
+     *
+     * @return $this|self
+     */
+    public function findDifferent(string $method, $value)
+    {
+        $isMethod = null;
+
+        return new static(array_filter($this->elements, function ($item) use ($method, $value, &$isMethod) {
+            if (is_null($isMethod)) {
+                $isMethod = method_exists($item, $method);
+            }
+
+            if ($isMethod) {
+                return call_user_func([$item, $method]) !== $value;
+            } else {
+                return $item->$method !== $value;
+            }
+        }));
+    }
+
+    /**
      * Return one element find by property or method value
      *
      * @param string $method property or method
