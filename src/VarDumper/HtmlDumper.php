@@ -35,8 +35,11 @@ class HtmlDumper extends \Symfony\Component\VarDumper\Dumper\HtmlDumper
             $this->styles['default']
         );
 
-        $header = parent::getDumpHeader();
+        $this->dumpPrefix .= '<a class="sf-close sf-dump-index">×</a>';
 
+        $header = $this->getDumpHeader();
+
+        // max depth function
         $header = str_replace(
             'function toggle(a, recursive) {',
             "function getLevel(elt) {\n" .
@@ -56,6 +59,30 @@ class HtmlDumper extends \Symfony\Component\VarDumper\Dumper\HtmlDumper
             "}\n" .
             "\n" .
             'function toggle(a, recursive) {',
+            $header
+        );
+
+        // close button function
+        $header = str_replace(
+            "addEventListener(root, 'mouseover', function (e) {",
+            "addEventListener(root.querySelectorAll('.sf-close')[0], 'click', function(e) {\n" .
+            "    e.target.parentNode.parentNode.removeChild(e.target.parentNode);\n" .
+            "});\n" .
+            "\n" .
+            "addEventListener(root, 'mouseover', function (e) {",
+            $header
+        );
+
+        // close button style
+        $header = str_replace(
+            "pre.sf-dump span {",
+            "pre.sf-dump a.sf-close {\n" .
+            "    font-size:22px;\n" .
+            "    position:absolute;\n" .
+            "    right: 10px;\n" .
+            "};\n" .
+            "\n" .
+            "pre.sf-dump span {",
             $header
         );
 

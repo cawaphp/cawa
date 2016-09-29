@@ -61,7 +61,7 @@ class ConsoleOutput extends BaseConsoleOutput implements ConsoleOutputInterface
 
         $microtime = explode(' ', (string) microtime())[0];
         $microtime = substr((string) round($microtime, 3), 2, 3);
-        $microtime = str_pad(is_bool($microtime) ? 0 : $microtime, 3, '0');
+        $microtime = str_pad(is_bool($microtime) ? '0' : $microtime, 3, '0');
 
         $prefix = sprintf(
             '<fg=white>[%s.%s]</> <fg=yellow>[+%s s]</>',
