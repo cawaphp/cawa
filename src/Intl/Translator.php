@@ -316,6 +316,22 @@ class Translator
     }
 
     /**
+     * @param string[] $keys
+     * @param string $glue
+     *
+     * @return string
+     */
+    public function transImplode(array $keys, string $glue = ' ')
+    {
+        $text = [];
+        foreach ($keys as $key) {
+            $text[] = $this->trans($key);
+        }
+
+        return implode($glue, $text);
+    }
+
+    /**
      * @var MessageSelector
      */
     private $messageChoice;
