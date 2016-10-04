@@ -82,6 +82,18 @@ class DatePeriodTest extends TestCase
             [
                 new DateTime('2016-01-01 00:00:00'),
                 new \DateInterval('P7D'),
+                new DateTime('2016-01-01 00:00:00'),
+                null,
+                [
+                    'start' => [
+                    ],
+                    'end' => [
+                    ]
+                ],
+            ],
+            [
+                new DateTime('2016-01-01 00:00:00'),
+                new \DateInterval('P7D'),
                 new DateTime('2016-01-07 00:00:00'),
                 null,
                 [

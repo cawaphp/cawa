@@ -28,12 +28,12 @@ class DatePeriod implements \IteratorAggregate
     /**
      * @var \DatePeriod
      */
-    private $period;
+    protected $period;
 
     /**
      * @var DatePeriodDateTime[]
      */
-    private $periods = [];
+    protected $periods = [];
 
     /**
      * @var bool
