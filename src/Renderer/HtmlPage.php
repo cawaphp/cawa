@@ -188,10 +188,11 @@ class HtmlPage extends HtmlContainer
      *
      * @param string $javascript
      * @param array $attributes
+     * @param bool $footer
      *
      * @return $this|self
      */
-    public function addJs(string $javascript, array $attributes = []) : self
+    public function addJs(string $javascript, array $attributes = [], bool $footer = true) : self
     {
         $meta = new HtmlElement('<script>');
         $meta->addAttribute('type', 'text/javascript');
@@ -211,10 +212,14 @@ class HtmlPage extends HtmlContainer
             $meta->setContent($javascript);
         }
 
-        $this->footer->add($meta);
+        if ($footer) {
+            $this->footer->add($meta);
+        } else {
+            $this->head->add($meta);
+        }
 
         // add a preload header
-        if ($meta->getAttribute('src')) {
+        if ($meta->getAttribute('src') && $footer) {
             $preload = new HtmlElement('<link>');
             $preload->addAttributes([
                 'as' => 'script',
