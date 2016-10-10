@@ -35,6 +35,8 @@ class HtmlDumper extends \Symfony\Component\VarDumper\Dumper\HtmlDumper
             $this->styles['default']
         );
 
+        $this->styles['ctrl'] = 'color:#999';
+
         $this->dumpPrefix .= '<a class="sf-close sf-dump-index">×</a>';
 
         $header = $this->getDumpHeader();
@@ -61,13 +63,27 @@ class HtmlDumper extends \Symfony\Component\VarDumper\Dumper\HtmlDumper
             'function toggle(a, recursive) {',
             $header
         );
-
         // close button function
         $header = str_replace(
+            "var container = root;\n" .
             "addEventListener(root, 'mouseover', function (e) {",
-            "addEventListener(root.querySelectorAll('.sf-close')[0], 'click', function(e) {\n" .
+            "addEventListener(container.querySelectorAll('.sf-close')[0], 'click', function(e) {\n" .
             "    e.target.parentNode.parentNode.removeChild(e.target.parentNode);\n" .
             "});\n" .
+            "\n" .
+            "addEventListener(document, 'selectionchange', function(e) {\n" .
+            "    if (\n" .
+            "        window.getSelection &&\n" .
+            "        window.getSelection().toString() &&\n" .
+            "        window.getSelection().anchorNode.parentNode.className.indexOf('sf-dump') >= 0\n" .
+            "    ) {\n" .
+            "        var ctrl = container.querySelectorAll('.sf-dump-ctrl');\n" .
+            "        ctrl.forEach(function(node)\n" .
+            "        {\n" .
+            "           node.style.display = 'none';\n" .
+            "        });\n" .
+            "    }\n" .
+            "}, false);\n" .
             "\n" .
             "addEventListener(root, 'mouseover', function (e) {",
             $header
@@ -103,6 +119,22 @@ class HtmlDumper extends \Symfony\Component\VarDumper\Dumper\HtmlDumper
         $this->originalDumpPrefix = $this->dumpPrefix;
 
         parent::__construct($output, $charset);
+    }
+    /**
+     * {@inheritdoc}
+     */
+    protected function style($style, $value, $attr = array())
+    {
+        $return = parent::style($style, $value, $attr);
+
+        if ($style == 'str') {
+            $map = array_values(static::$controlCharsMap);
+            foreach ($map as $current) {
+                $return = str_replace($current, '<span class="sf-dump-ctrl">' . $current . '</span>', $return);
+            }
+        }
+
+        return $return;
     }
 
     /**
