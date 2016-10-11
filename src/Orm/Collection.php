@@ -690,6 +690,10 @@ class Collection implements \Countable, \IteratorAggregate, \ArrayAccess
      */
     public function sortBy(array $fields) : self
     {
+        if ($this->count() == 0) {
+            return new static($this->elements);
+        }
+
         /** @var array|bool[] $isMethod */
         $isMethod = [];
         $values = [];
