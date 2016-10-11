@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-declare (strict_types=1);
+declare (strict_types = 1);
 
 namespace Cawa\Intl;
 
@@ -159,7 +159,7 @@ class Translator
         // detection from headers
         $accepted = self::request()->getAcceptedLanguage();
 
-        array_walk($accepted, function (&$value) {
+        array_walk($accepted, function(&$value) {
             $value = substr($value, 0, 2);
         });
 

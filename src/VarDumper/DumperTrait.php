@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-declare (strict_types=1);
+declare (strict_types = 1);
 
 namespace Cawa\VarDumper;
 
@@ -56,7 +56,7 @@ trait DumperTrait
         if ($fromLast) {
             $return = '' . $fromStart . "ms (+ $fromLast ms)" . $from;
         } else {
-            $return ='' . $fromStart . 'ms (+ 0.000 ms)' . $from;
+            $return = '' . $fromStart . 'ms (+ 0.000 ms)' . $from;
         }
 
         if ($this instanceof HtmlDumper) {

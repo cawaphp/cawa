@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-declare (strict_types=1);
+declare (strict_types = 1);
 
 namespace Cawa\Http;
 
@@ -322,7 +322,7 @@ class Request
             }
         }
 
-        uasort($locales, function ($a, $b) {
+        uasort($locales, function($a, $b) {
 
             return $a > $b ? -1 : 1;
         });

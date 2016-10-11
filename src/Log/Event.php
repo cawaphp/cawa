@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-declare (strict_types=1);
+declare (strict_types = 1);
 
 namespace Cawa\Log;
 
@@ -143,14 +143,14 @@ class Event extends EventBase
             $return['Context'] = json_encode($return);
         }
 
-        $return = ['Message' => $this->message] + $return ;
+        $return = ['Message' => $this->message] + $return;
         $return = $date ? (['Date' => $this->date->format('Y-m-d H:i:s')] + $return) : $return;
 
         return '[' .
             implode(
                 '] [',
                 array_map(
-                    function (
+                    function(
                         $v,
                         $k
                     ) {

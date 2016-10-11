@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-declare (strict_types=1);
+declare (strict_types = 1);
 
 namespace Cawa\Http;
 
@@ -84,7 +84,7 @@ class ServerRequest extends Request
     private function getBytes(string $val) : int
     {
         $val = trim($val);
-        $last = strtolower($val[strlen($val)-1]);
+        $last = strtolower($val[strlen($val) - 1]);
         switch ($last) {
             // The 'G' modifier is available since PHP 5.1.0
             case 'g':

@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-declare (strict_types=1);
+declare (strict_types = 1);
 
 namespace Cawa\Net;
 
@@ -505,7 +505,7 @@ class Uri
 
         if ($auth !== false && isset($this->uri['user'])) {
             $out .= $this->uri['user'] .
-              (isset($this->uri['pass']) ? ':' . $this->uri['pass'] : '') . '@';
+                (isset($this->uri['pass']) ? ':' . $this->uri['pass'] : '') . '@';
         }
 
         $out .= (isset($this->uri['host']) ? $this->uri['host'] : '') .

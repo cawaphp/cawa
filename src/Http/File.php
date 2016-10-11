@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-declare (strict_types=1);
+declare (strict_types = 1);
 
 namespace Cawa\Http;
 
@@ -25,7 +25,7 @@ class File implements \Serializable
     {
         switch ($file['error']) {
             case UPLOAD_ERR_INI_SIZE:
-                $this->error =  new \OverflowException(sprintf(
+                $this->error = new \OverflowException(sprintf(
                     "The uploaded file '%s' exceeds the upload_max_filesize directive in php.ini",
                     $name
                 ));
@@ -101,7 +101,7 @@ class File implements \Serializable
             } else {
                 $keys = [$postName];
 
-                $browse = function (\RecursiveArrayIterator $iterator) use (
+                $browse = function(\RecursiveArrayIterator $iterator) use (
                     &$browse,
                     &$keys,
                     &$return,

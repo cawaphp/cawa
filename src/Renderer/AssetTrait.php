@@ -38,7 +38,7 @@ trait AssetTrait
         if (substr($path, 0, 4) != 'http' && // remove "http//host/vendor.js"
             substr($path, 0, 1) != '/' && // remove "/vendor.js" & "//host/vendor.js"
             $assetsPath = DI::config()->get('assets/url')) {
-            $path = rtrim($assetsPath, '/')  . '/' . $path;
+            $path = rtrim($assetsPath, '/') . '/' . $path;
         }
 
         $return[0] = $path;

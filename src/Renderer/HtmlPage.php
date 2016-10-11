@@ -154,9 +154,9 @@ class HtmlPage extends HtmlContainer
      */
     public function addCss(string $css, array $attributes = []) : self
     {
-        if (substr($css, -4) ==  '.css' ||
-            substr($css, 0, 2) ==  '//' ||
-            substr($css, 0, 4) ==  'http'
+        if (substr($css, -4) == '.css' ||
+            substr($css, 0, 2) == '//' ||
+            substr($css, 0, 4) == 'http'
         ) {
             list($path, $hash) = $this->getAssetData($css);
 
@@ -198,9 +198,9 @@ class HtmlPage extends HtmlContainer
         $meta->addAttribute('type', 'text/javascript');
         $meta->addAttributes($attributes);
 
-        if (substr($javascript, -3) ==  '.js' ||
-            substr($javascript, 0, 2) ==  '//' ||
-            substr($javascript, 0, 4) ==  'http'
+        if (substr($javascript, -3) == '.js' ||
+            substr($javascript, 0, 2) == '//' ||
+            substr($javascript, 0, 4) == 'http'
         ) {
             list($path, $hash) = $this->getAssetData($javascript);
             if ($hash) {

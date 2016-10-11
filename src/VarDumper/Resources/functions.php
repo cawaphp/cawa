@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-declare (strict_types=1);
+declare (strict_types = 1);
 
 use Cawa\Error\Formatter\CliFormatter;
 use Cawa\Error\Formatter\HtmlFormatter;
@@ -43,7 +43,7 @@ if (!function_exists('trace')) {
                 $dumper::$defaultColors = true;
             }
 
-            $handler = function ($var) use ($cloner, $dumper) {
+            $handler = function($var) use ($cloner, $dumper) {
                 $dumper->dump($cloner->cloneVar($var));
             };
 
@@ -69,8 +69,8 @@ if (!function_exists('systrace')) {
         $cloner = new VarCloner();
         $dumper = new \Symfony\Component\VarDumper\Dumper\CliDumper();
         $dumper::$defaultColors = true;
-        $handler = function ($var) use ($cloner, $dumper) {
-            $dumper->dump($cloner->cloneVar($var), function ($line, $depth, $indentPad) {
+        $handler = function($var) use ($cloner, $dumper) {
+            $dumper->dump($cloner->cloneVar($var), function($line, $depth, $indentPad) {
                 syslog(LOG_DEBUG, str_repeat($indentPad, $depth < 0 ? 0 : $depth) . $line);
             });
         };

@@ -413,7 +413,7 @@ class Router
             }
         }
 
-        if (!is_null($data) && sizeof($keys) > 1 && !isset($data[$variable]) ) {
+        if (!is_null($data) && sizeof($keys) > 1 && !isset($data[$variable])) {
             throw new \InvalidArgumentException(
                 sprintf("Missing datas '%s' on route '%s'", $value, $route->getName())
             );
@@ -421,7 +421,7 @@ class Router
 
         if (!is_null($data) && sizeof($keys) == 1) {
             $dest = $trans[self::locale()][$value];
-        } else if (!is_null($data) && sizeof($keys) > 1) {
+        } elseif (!is_null($data) && sizeof($keys) > 1) {
             $dest = $data[$variable];
         } else {
             $dest = ($variable ? '(?<' . $variable . '>' : '(?:') . implode('|', $trans['*']) . ')';
@@ -433,7 +433,6 @@ class Router
     /**
      * Locales avaialble => fr|en
      *
-
      * @param array|null $data
      *
      * @return string
@@ -505,8 +504,6 @@ class Router
         return $dest;
     }
 
-
-
     /**
      * @return string|array|\SimpleXMLElement|null
      */
@@ -571,11 +568,11 @@ class Router
             return $this->callController($this->errors[$code], []);
         } else {
             return '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">' . "\n" .
-                 '<html><head>' . "\n" .
-                 '<title>' . self::response()->getStatusString($code) . '</title>' . "\n" .
-                 '</head><body>' . "\n" .
-                 '<h1>' . self::response()->getStatusString($code) . '</h1>' . "\n" .
-                 '</body></html>';
+                '<html><head>' . "\n" .
+                '<title>' . self::response()->getStatusString($code) . '</title>' . "\n" .
+                '</head><body>' . "\n" .
+                '<h1>' . self::response()->getStatusString($code) . '</h1>' . "\n" .
+                '</body></html>';
         }
     }
 

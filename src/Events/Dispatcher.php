@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-declare (strict_types=1);
+declare (strict_types = 1);
 
 namespace Cawa\Events;
 
@@ -61,7 +61,7 @@ class Dispatcher
      */
     public function once(string $event, $listener)
     {
-        $onceListener = function () use (&$onceListener, $event, $listener) {
+        $onceListener = function() use (&$onceListener, $event, $listener) {
             $this->removeListener($event, $onceListener);
             call_user_func_array($listener, func_get_args());
         };

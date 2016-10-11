@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-declare (strict_types=1);
+declare (strict_types = 1);
 
 namespace Cawa\Http;
 
@@ -200,7 +200,7 @@ class ServerResponse extends Response
             throw new \LogicException(sprintf("Headers is already sent in '%s:%s'", $file, $line));
         }
 
-        header('HTTP/1.1 ' . $this->statusCode . ' '  . self::$statusCodeList[$this->statusCode]);
+        header('HTTP/1.1 ' . $this->statusCode . ' ' . self::$statusCodeList[$this->statusCode]);
 
         foreach ($this->cookies as $cookie) {
             setcookie(

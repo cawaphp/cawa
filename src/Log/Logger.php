@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-declare (strict_types=1);
+declare (strict_types = 1);
 
 namespace Cawa\Log;
 
@@ -33,7 +33,7 @@ class Logger extends AbstractLogger implements LoggerInterface
     public function log($level, $message, array $context = [])
     {
         if (isset($context['name'])) {
-            $name = $context['name'] ;
+            $name = $context['name'];
             unset($context['name']);
         } else {
             $name = 'log.' . $level;

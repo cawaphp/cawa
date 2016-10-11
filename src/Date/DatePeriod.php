@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-declare (strict_types=1);
+declare (strict_types = 1);
 
 namespace Cawa\Date;
 
@@ -60,7 +60,7 @@ class DatePeriod implements \IteratorAggregate
 
             // we remove end date if needed
             if ($this->includeEndDate == false &&
-                $this->periods[sizeof($this->periods) -1]->getEndDate()->getTimestamp() ==
+                $this->periods[sizeof($this->periods) - 1]->getEndDate()->getTimestamp() ==
                     $this->period->getEndDate()->getTimestamp()
             ) {
                 array_pop($this->periods);

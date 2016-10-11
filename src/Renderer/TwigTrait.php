@@ -39,7 +39,7 @@ trait TwigTrait
             $loader->prependPath('/');
 
             $twig = new Twig_Environment($loader, [
-              'cache' => AbstractApp::getAppRoot() . '/cache/twig',
+                'cache' => AbstractApp::getAppRoot() . '/cache/twig',
             ]);
             self::$renderer = $twig;
         }

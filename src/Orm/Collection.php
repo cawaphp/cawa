@@ -470,7 +470,7 @@ class Collection implements \Countable, \IteratorAggregate, \ArrayAccess
      */
     public function call(string $method, ... $vars) : self
     {
-        return new static(array_map(function ($element) use ($method, $vars) {
+        return new static(array_map(function($element) use ($method, $vars) {
             return call_user_func_array([$element, $method], $vars);
         }, $this->elements));
     }
@@ -500,7 +500,7 @@ class Collection implements \Countable, \IteratorAggregate, \ArrayAccess
     {
         $isMethod = null;
 
-        return new static(array_filter($this->elements, function ($item) use ($method, $value, &$isMethod) {
+        return new static(array_filter($this->elements, function($item) use ($method, $value, &$isMethod) {
             if (is_null($isMethod)) {
                 $isMethod = method_exists($item, $method);
             }
@@ -525,7 +525,7 @@ class Collection implements \Countable, \IteratorAggregate, \ArrayAccess
     {
         $isMethod = null;
 
-        return new static(array_filter($this->elements, function ($item) use ($method, $value, &$isMethod) {
+        return new static(array_filter($this->elements, function($item) use ($method, $value, &$isMethod) {
             if (is_null($isMethod)) {
                 $isMethod = method_exists($item, $method);
             }

@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-declare (strict_types=1);
+declare (strict_types = 1);
 
 namespace Cawa\VarDumper;
 
@@ -91,14 +91,14 @@ class HtmlDumper extends \Symfony\Component\VarDumper\Dumper\HtmlDumper
 
         // close button style
         $header = str_replace(
-            "pre.sf-dump span {",
+            'pre.sf-dump span {',
             "pre.sf-dump a.sf-close {\n" .
             "    font-size:22px;\n" .
             "    position:absolute;\n" .
             "    right: 10px;\n" .
             "};\n" .
             "\n" .
-            "pre.sf-dump span {",
+            'pre.sf-dump span {',
             $header
         );
 
@@ -123,7 +123,7 @@ class HtmlDumper extends \Symfony\Component\VarDumper\Dumper\HtmlDumper
     /**
      * {@inheritdoc}
      */
-    protected function style($style, $value, $attr = array())
+    protected function style($style, $value, $attr = [])
     {
         $return = parent::style($style, $value, $attr);
 
@@ -143,7 +143,7 @@ class HtmlDumper extends \Symfony\Component\VarDumper\Dumper\HtmlDumper
     protected function dumpLine($depth, $endOfValue = false)
     {
         if (-1 === $this->lastDepth && isset($_SERVER['REQUEST_TIME_FLOAT'])) {
-            $this->dumpPrefix = $this->originalDumpPrefix  . $this->prefix() . '<br />';
+            $this->dumpPrefix = $this->originalDumpPrefix . $this->prefix() . '<br />';
         }
 
         parent::dumpLine($depth, $endOfValue);

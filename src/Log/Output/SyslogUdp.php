@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-declare (strict_types=1);
+declare (strict_types = 1);
 
 namespace Cawa\Log\Output;
 
@@ -81,7 +81,7 @@ class SyslogUdp extends Syslog
 
         $udpMessage = '<' . ($this->facility + $this->convertType($event->getLevel())) . '>' .
             $event->getDate()->format('M d H:i:s') . ' ' .
-            ($this->hostname ? $this->hostname . ' ': '') .
+            ($this->hostname ? $this->hostname . ' ' : '') .
             $this->name .
             ($this->pid ? '[' . $this->pid . ']' : '') .
             ': ' . $message . "\0";

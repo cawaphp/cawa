@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-declare (strict_types=1);
+declare (strict_types = 1);
 
 namespace Cawa\Error;
 
@@ -139,7 +139,7 @@ class Handler
      *
      * @throws Error
      *
-     * @return bool
+     * @return boolean|void
      */
     public static function errorHandler($errno, $message = null, $filename = null, $linenumber = null)
     {
@@ -182,7 +182,7 @@ class Handler
     /**
      * @param \Throwable $exception
      *
-     * @return bool
+     * @return boolean|void
      */
     public static function exceptionHandler(\Throwable $exception)
     {

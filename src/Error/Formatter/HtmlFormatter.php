@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-declare (strict_types=1);
+declare (strict_types = 1);
 
 namespace Cawa\Error\Formatter;
 
@@ -37,7 +37,7 @@ class HtmlFormatter extends AbstractFormatter
      */
     public function render(\Throwable $exception, int $index) : string
     {
-        $fileLinkFormat = ini_get('xdebug.file_link_format') ?: 'phpstorm://%f:%l' ;
+        $fileLinkFormat = ini_get('xdebug.file_link_format') ?: 'phpstorm://%f:%l';
 
         $stacks = $this->exceptionStackTrace($exception);
         $out = <<<EOF
@@ -149,8 +149,8 @@ EOF;
         $out .= "</h2>\n";
 
         if ($stacks[0]['file'] && isset($stacks[0]['line'])) {
-            $files =  file($stacks[0]['file']);
-            if (isset($files[$stacks[0]['line'] - 1 ])) {
+            $files = file($stacks[0]['file']);
+            if (isset($files[$stacks[0]['line'] - 1])) {
                 $begin = array_map('htmlspecialchars', array_slice($files, max(0, $stacks[0]['line'] - 3), 2));
                 $current = htmlspecialchars(array_slice($files, $stacks[0]['line'] - 1, 1)[0]);
                 $end = array_map('htmlspecialchars', array_slice($files, $stacks[0]['line'], 2));
@@ -160,7 +160,7 @@ EOF;
                     ['<span class="current">' . $current . '</span>'],
                     $end
                 );
-                $out .= '<pre class="extract">' . implode('', $extract) .  "</pre>\n";
+                $out .= '<pre class="extract">' . implode('', $extract) . "</pre>\n";
             }
         }
 
@@ -176,7 +176,7 @@ EOF;
             }
 
             if (isset($stack['args'])) {
-                $out .= '    <a href="javascript:showFullArgs(\'' . $uid . '\', ' .  $index . ')" class="args">' .
+                $out .= '    <a href="javascript:showFullArgs(\'' . $uid . '\', ' . $index . ')" class="args">' .
                     htmlspecialchars($stack['args']) . '</a>' . "\n";
             }
 
