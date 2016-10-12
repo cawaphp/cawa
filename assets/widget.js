@@ -79,6 +79,29 @@ require([
             elements[self.widgetName]();
         },
 
+        _destroyCallback : [],
+
+        addDestroyCallback : function (callback)
+        {
+            this._destroyCallback.push(callback);
+
+            return this;
+        },
+
+        _destroy: function ()
+        {
+            var self = this;
+
+            if (this._destroyCallback.length) {
+                $.each(this._destroyCallback, function (key, value)
+                {
+                    value.apply(self);
+                })
+            }
+
+            this._super();
+        },
+
         raise: function (msg)
         {
             throw "[" + this.widgetName + "] " + msg;
