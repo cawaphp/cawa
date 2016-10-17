@@ -63,10 +63,11 @@ class HtmlDumper extends \Symfony\Component\VarDumper\Dumper\HtmlDumper
             'function toggle(a, recursive) {',
             $header
         );
-        // close button function
+
+        // close button function & copy paste enhancement
         $header = str_replace(
-            "var container = root;\n" .
             "addEventListener(root, 'mouseover', function (e) {",
+            "var container = root;\n" .
             "addEventListener(container.querySelectorAll('.sf-close')[0], 'click', function(e) {\n" .
             "    e.target.parentNode.parentNode.removeChild(e.target.parentNode);\n" .
             "});\n" .
