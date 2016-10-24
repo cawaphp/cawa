@@ -80,7 +80,9 @@ class Dispatcher
             if (false !== $index) {
                 unset($this->listeners[$event][$index]);
             }
+        }
 
+        if (isset($this->classListeners[$event])) {
             $index = array_search($listener, $this->classListeners[$event], true);
             if (false !== $index) {
                 unset($this->classListeners[$event][$index]);
