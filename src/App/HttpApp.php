@@ -61,7 +61,7 @@ class HttpApp extends AbstractApp
         $return = self::router()->handle();
 
         // hack to display trace on development env
-        $debug = (self::env() == self::DEV && ob_get_length() > 0);
+        $debug = (self::env() != self::PRODUCTION && ob_get_length() > 0);
 
         if ($return instanceof \SimpleXMLElement) {
             if ($debug == false) {

@@ -24,12 +24,14 @@ trait TemplateControllerTrait
     private $path;
 
     /**
+     * @param string $context
      *
+     * @return array
      */
-    private function getPath()
+    private function getPath(string $context = null)
     {
         if (!$this->path) {
-            $reflection = new \ReflectionClass($this);
+            $reflection = new \ReflectionClass($context ?: $this);
             $filename = $reflection->getFileName();
             $this->path = pathinfo($filename);
         }
@@ -45,16 +47,18 @@ trait TemplateControllerTrait
     /**
      * @param string $path if null revert to default one
      *
-     * @return $this|self
+     * @param string $context
+     *
+     * @return $this|static
      */
-    public function setTemplatePath(string $path = null) : self
+    public function setTemplatePath(string $path = null, string $context = null) : self
     {
         if (empty($path)) {
-            $this->templatePath = $this->getPath()['dirname'] . '/' . $this->getPath()['filename'];
+            $this->templatePath = $this->getPath($context)['dirname'] . '/' . $this->getPath($context)['filename'];
         } elseif (substr($path, 0, 1) == '/') {
             $this->templatePath = $path;
         } else {
-            $this->templatePath = $this->getPath()['dirname'] . '/' . $path;
+            $this->templatePath = $this->getPath($context)['dirname'] . '/' . $path;
         }
 
         return $this;

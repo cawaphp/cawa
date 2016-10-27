@@ -87,17 +87,17 @@ abstract class AbstractApp
     /**
      * Environnement development
      */
-    const DEV = 'development';
+    const DEVELOPMENT = 'DEVELOPMENT';
 
     /**
      * Environnement production
      */
-    const PROD = 'production';
+    const PRODUCTION = 'PRODUCTION';
 
     /**
      * Environnement testing
      */
-    const TEST = 'testing';
+    const STAGING = 'STAGING';
 
     /**
      * @var string
@@ -122,7 +122,7 @@ abstract class AbstractApp
         self::$instance = $this;
 
         $this->appRoot = $appRoot;
-        $this->env = getenv('APP_ENV') ? getenv('APP_ENV') : self::DEV;
+        $this->env = getenv('APP_ENV') ? getenv('APP_ENV') : self::DEVELOPMENT;
     }
 
     /**
