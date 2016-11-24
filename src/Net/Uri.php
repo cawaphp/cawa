@@ -217,9 +217,11 @@ class Uri
     }
 
     /**
-     * @return string|null
+     * @param bool $withSuffix
+     *
+     * @return null|string
      */
-    public function getDomain()
+    public function getDomain(bool $withSuffix = true)
     {
         if (!isset($this->uri['host'])) {
             return null;
@@ -227,9 +229,17 @@ class Uri
 
         $pslManager = new PublicSuffixListManager();
         $parser = new Parser($pslManager->getList());
-        $parse = $parser->parseUrl($this->uri['host'] . '://' . $this->uri['host']);
+        $parse = $parser->parseUrl($this->uri['scheme'] . '://' . $this->uri['host']);
 
-        return $parse->host->registerableDomain;
+        if (!$parse->host->registerableDomain) {
+            return $this->uri['host'];
+        }
+
+        if ($withSuffix) {
+            return $parse->host->registerableDomain;
+        } else {
+            return substr($parse->host->registerableDomain, 0, - strlen($parse->host->publicSuffix) - 1);
+        }
     }
 
     /**

@@ -3,10 +3,11 @@ require([
     "moment"
 ], function($, moment)
 {
-    /**
-     * Current locale
-     */
+
     $.extend({
+        /**
+         * Current locale
+         */
         _currentLocale: null,
         locale: function()
         {
@@ -17,6 +18,37 @@ require([
             $._currentLocale = $('meta[http-equiv=Content-Language]').attr("content");
 
             return $._currentLocale;
+        },
+
+        /**
+         * @param {Object} object
+         * @param {Function} callback
+         */
+        forEach: function(object, callback)
+        {
+            for (var key in object) {
+                if (object.hasOwnProperty(key)) {
+                    if (callback(object[key], key) === false) {
+                        break;
+                    }
+                }
+            }
+        },
+
+        /**
+         * @param {Object} object
+         * @returns  {Object}
+         */
+        invert: function(object)
+        {
+            var ret = {};
+
+            $.forEach(object, function(value, key)
+            {
+                ret[value] = key;
+            });
+
+            return ret;
         }
     });
 
