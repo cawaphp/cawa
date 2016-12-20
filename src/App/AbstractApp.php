@@ -102,7 +102,7 @@ abstract class AbstractApp
     /**
      * @var string
      */
-    private $env = 'production';
+    private $env;
 
     /**
      * @return string

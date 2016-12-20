@@ -20,6 +20,7 @@ use Cawa\Controller\AbstractController;
 use Cawa\Date\DateTime;
 use Cawa\Events\DispatcherFactory;
 use Cawa\Events\TimerEvent;
+use Cawa\Http\Exceptions\HttpStatusCode;
 use Cawa\Intl\TranslatorFactory;
 use Cawa\Log\LoggerFactory;
 use Cawa\Net\Uri;
@@ -558,6 +559,16 @@ class Router
     /**
      * @param int $code
      *
+     * @return bool
+     */
+    public function hasError(int $code) : bool
+    {
+        return isset($this->errors[$code]);
+    }
+
+    /**
+     * @param int $code
+     *
      * @return mixed
      */
     public function returnError(int $code)
@@ -691,11 +702,14 @@ class Router
     {
         $callback = $route->getController();
 
-        $this->currentRoute = $route;
-
-        // route args
         $args = array_merge($route->getArgs(), $args);
-        $this->args = $args;
+
+        // keep route for error
+        if (!$this->currentRoute) {
+            $this->currentRoute = $route;
+            $this->args = $args;
+        }
+
 
         // simple function
         if (is_callable($callback) && is_object($callback)) {
@@ -738,13 +752,21 @@ class Router
             'data' => $ordererArgs,
         ]);
 
-        $return = null;
-        if (method_exists($controller, 'init')) {
-            $return = call_user_func_array([$controller, 'init'], $ordererArgs);
-        }
+        try {
+            $return = null;
+            if (method_exists($controller, 'init')) {
+                $return = call_user_func_array([$controller, 'init'], $ordererArgs);
+            }
 
-        if (is_null($return)) {
-            $return = call_user_func_array([$controller, $method], $ordererArgs);
+            if (is_null($return)) {
+                $return = call_user_func_array([$controller, $method], $ordererArgs);
+            }
+        } catch (HttpStatusCode $exception) {
+            $return = $exception->getMessage();
+
+            if (!$return) {
+                $return = self::returnError($exception->getCode());
+            }
         }
 
         self::emit($event);

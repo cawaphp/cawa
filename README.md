@@ -27,7 +27,7 @@ $ composer require cawa/cawa
 use Cawa\Core\HttpApp;
 use Cawa\Router\Route;
 
-putenv('APP_ENV=' . HttpApp::DEV);
+putenv('APP_ENV=' . HttpApp::DEVELOPMENT);
 
 $app = HttpApp::create(__DIR__);
 $app->init();

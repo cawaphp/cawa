@@ -60,6 +60,11 @@ class HttpApp extends AbstractApp
     {
         $return = self::router()->handle();
 
+        // handle error status
+        if (!$return && self::router()->hasError(self::response()->getStatus())) {
+            $return = self::router()->returnError(self::response()->getStatus());
+        }
+
         // hack to display trace on development env
         $debug = (self::env() != self::PRODUCTION && ob_get_length() > 0);
 
