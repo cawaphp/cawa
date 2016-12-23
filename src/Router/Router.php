@@ -457,7 +457,7 @@ class Router
      *
      * @return string
      */
-    private function routeRegexpCapture(string $type, Route $route, string $value = null, array $data = null) : string
+    private function routeRegexpCapture(string $type, Route $route, string $value = null, array $data = null)
     {
         $begin = substr($value, 0, strpos($value, '<'));
         $variable = substr($value, strpos($value, '<') + 1, strpos($value, '>') - strpos($value, '<') - 1);
@@ -502,7 +502,7 @@ class Router
             }
         }
 
-        return $dest;
+        return $dest ?? null;
     }
 
     /**
@@ -755,7 +755,11 @@ class Router
         try {
             $return = null;
             if (method_exists($controller, 'init')) {
-                $return = call_user_func_array([$controller, 'init'], $ordererArgs);
+
+                $return = call_user_func_array(
+                    [$controller, 'init'],
+                    $this->mapArguments($controller, 'init', $args)
+                );
             }
 
             if (is_null($return)) {
@@ -801,6 +805,11 @@ class Router
 
         foreach ($method->getParameters() as $parameter) {
             if (!isset($args[$parameter->getName()]) && $parameter->isOptional() === false) {
+
+                if ($method->getName()  === 'init') {
+                    continue;
+                }
+
                 throw new \InvalidArgumentException(sprintf(
                     "Missing mandatory arguments on controller definition '%s' on '%s'",
                     $parameter->getName(),
