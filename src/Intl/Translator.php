@@ -352,6 +352,10 @@ class Translator
 
         $text = self::trans($key, null, $warmIfMissing);
 
+        if (is_null($text)) {
+            return null;
+        }
+
         if (!$this->messageChoice) {
             $this->messageChoice = new MessageSelector();
         }

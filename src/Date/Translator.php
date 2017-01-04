@@ -46,7 +46,7 @@ class Translator implements TranslatorInterface
         }
 
         $trans = self::translator()->transChoice('carbon.' . $id, $number, $parameters, false);
-        if ($trans == '') {
+        if (is_null($trans) || $trans == '') {
             return $id;
         } else {
             return $trans;
