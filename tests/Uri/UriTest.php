@@ -132,6 +132,60 @@ class UriTest extends TestCase
     }
 
     /**
+     * Test the subdomain extract
+     *
+     * @param string $uriString
+     * @param array $parts
+     * @dataProvider validUriStringProviderWithPart
+     */
+    public function testSubdomain(string $uriString, array $parts)
+    {
+        $uri = new Uri($uriString);
+
+        if (isset($parts['subdomain'])) {
+            $this->assertEquals($parts['subdomain'], $uri->getSubdomain());
+        } else {
+            $this->assertNull($uri->getSubdomain());
+        }
+    }
+
+    /**
+     * Test the first subdomain extract
+     *
+     * @param string $uriString
+     * @param array $parts
+     * @dataProvider validUriStringProviderWithPart
+     */
+    public function testSubdomainFirst(string $uriString, array $parts)
+    {
+        $uri = new Uri($uriString);
+
+        if (isset($parts['subdomainfirst'])) {
+            $this->assertEquals($parts['subdomainfirst'], $uri->getSubdomain(1));
+        } else {
+            $this->assertNull($uri->getSubdomain(1));
+        }
+    }
+
+    /**
+     * Test the first subdomain extract
+     *
+     * @param string $uriString
+     * @param array $parts
+     * @dataProvider validUriStringProviderWithPart
+     */
+    public function testSubdomainLast(string $uriString, array $parts)
+    {
+        $uri = new Uri($uriString);
+
+        if (isset($parts['subdomainlast'])) {
+            $this->assertEquals($parts['subdomainlast'], $uri->getSubdomain(-1));
+        } else {
+            $this->assertNull($uri->getSubdomain(1));
+        }
+    }
+
+    /**
      * Test the domain extract
      *
      * @param string $uriString
@@ -375,10 +429,10 @@ class UriTest extends TestCase
     public function validUriStringProviderWithPart()
     {
         return [
-            ['ht-tp://server/path?query', [
-                'scheme'   => 'ht-tp',
+            ['http://server/path?query', [
+                'scheme'   => 'http',
                 'host'     => 'server',
-                'domain'  => null,
+                'domain'  => 'server',
                 'path'     => '/path',
                 'query'    =>  null,
                 'queries' => ['query' => null],
@@ -406,10 +460,13 @@ class UriTest extends TestCase
                 'port'   => 5555,
                 'path'   => ''
             ]],
-            ['https://a.a.example.co.uk/foo//bar/baz//fob/?query=value', [
+            ['https://a.b.example.co.uk/foo//bar/baz//fob/?query=value', [
                 'scheme'  => 'https',
-                'host'    => 'a.a.example.co.uk',
+                'host'    => 'a.b.example.co.uk',
                 'domain'  => 'example.co.uk',
+                'subdomain'  => 'a.b',
+                'subdomainfirst'  => 'a',
+                'subdomainlast'  => 'b',
                 'path'    => '/foo//bar/baz//fob/',
                 'query'   => 'value',
                 'queries' => ['query' => 'value'],

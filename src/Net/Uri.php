@@ -243,6 +243,36 @@ class Uri
     }
 
     /**
+     * @param int $level
+     *
+     * @return null|string
+     */
+    public function getSubdomain(int $level = null)
+    {
+        $domain = $this->getDomain();
+
+        if (is_null($domain)) {
+            return null;
+        }
+
+        $return = substr($this->getHost(), 0, -strlen($this->getDomain())-1);
+
+        if (!$return) {
+            return null;
+        }
+
+        if (is_null($level)) {
+            return $return;
+        }
+
+        return implode('.', array_slice(
+            explode('.', $return),
+            $level > 0 ? 0 : $level,
+            1
+        ));
+    }
+
+    /**
      * @param string $host
      *
      * @return $this|self
