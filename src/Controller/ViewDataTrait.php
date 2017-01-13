@@ -20,7 +20,7 @@ trait ViewDataTrait
     /**
      * @return array
      */
-    public function getData() : array
+    protected function getViewData() : array
     {
         return $this->data;
     }
@@ -31,7 +31,7 @@ trait ViewDataTrait
      *
      * @return $this|self
      */
-    public function addData(string $name, $value)
+    protected function addViewData(string $name, $value)
     {
         $this->data[$name] = $value;
 
@@ -43,7 +43,7 @@ trait ViewDataTrait
      *
      * @return $this|self
      */
-    public function addDatas(array $datas)
+    protected function addViewDatas(array $datas)
     {
         $this->data = array_merge($this->data, $datas);
 
