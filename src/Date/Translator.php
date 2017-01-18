@@ -13,61 +13,82 @@ declare (strict_types = 1);
 
 namespace Cawa\Date;
 
+use Carbon\Carbon;
 use Cawa\Intl\TranslatorFactory;
-use Symfony\Component\Translation\TranslatorInterface;
 
-class Translator implements TranslatorInterface
+class Translator extends \Cake\Chronos\Translator
 {
     use TranslatorFactory;
 
+    public function __construct()
+    {
+        $reflection = new \ReflectionClass(Carbon::class);
+
+        $path = dirname($reflection->getFileName()) . '/Lang/';
+        self::translator()->addFile($path . '/' . self::translator()->getLocale(), 'carbon', false);
+    }
+
     /**
      * {@inheritdoc}
-     *
-     * @throws \Exception
      */
-    public function trans($id, array $parameters = [], $domain = null, $locale = null)
+    public function exists($key)
     {
-        if ($locale) {
-            throw new \Exception("Can't set locale");
+        return !is_null(self::translator()->trans(
+            'carbon.' .
+            $this->transformKey($key),
+            [],
+            false
+        ));
+    }
+    /**
+     * @param string $key
+     *
+     * @return string
+     */
+    private function transformKey(string $key) : string
+    {
+        return substr($key,-7) == '_plural' ? substr($key, 0, -7) : $key;
+    }
+
+    /**
+     * @param array $vars
+     *
+     * @return array
+     */
+    private function transformVars(array $vars) : array
+    {
+        $return = [];
+        foreach ($vars as $key => $value) {
+            $return[':' . $key] = $value;
         }
 
-        return self::translator()->trans('carbon.' . $id, $parameters, false);
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @throws \Exception
-     */
-    public function transChoice($id, $number, array $parameters = [], $domain = null, $locale = null)
-    {
-        if ($locale) {
-            throw new \Exception("Can't set locale");
-        }
-
-        $trans = self::translator()->transChoice('carbon.' . $id, $number, $parameters, false);
-        if (is_null($trans) || $trans == '') {
-            return $id;
-        } else {
-            return $trans;
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @throws \LogicException
-     */
-    public function setLocale($locale)
-    {
-        throw new \LogicException("Can't set locale");
+        return $return;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getLocale()
+    public function singular($key, array $vars = [])
     {
-        return self::locale();
+        return self::translator()->transChoice(
+            'carbon.' . $key,
+            1,
+            $this->transformVars($vars),
+            false
+        );
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function plural($key, $count, array $vars = [])
+    {
+        return self::translator()->transChoice(
+            'carbon.' . $key,
+            (int) $count,
+            $this->transformVars($vars),
+            false
+        );
+    }
+
 }

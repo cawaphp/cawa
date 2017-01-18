@@ -48,7 +48,7 @@ class DatePeriod implements \IteratorAggregate
         if (!$this->periods) {
             foreach ($this->period as $datetime) {
                 $start = new DateTime($datetime);
-                $end = (clone $start)->add($this->period->getDateInterval());
+                $end = $start->add($this->period->getDateInterval());
 
                 // we truncate end date to end date of period if needed
                 if ($end->getTimestamp() > $this->period->getEndDate()->getTimestamp()) {

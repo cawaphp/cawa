@@ -13,12 +13,12 @@ declare (strict_types = 1);
 
 namespace Cawa\Date;
 
-use Carbon\Carbon;
+use Cake\Chronos\Chronos;
+use Cake\Chronos\DifferenceFormatter;
 use Cawa\Intl\TranslatorFactory;
 use Punic\Calendar;
-use Symfony\Component\Translation\TranslatorInterface;
 
-class DateTime extends Carbon implements \JsonSerializable
+class DateTime extends Chronos implements \JsonSerializable
 {
     /**
      * 15 hours, 2 minutes
@@ -86,13 +86,15 @@ class DateTime extends Carbon implements \JsonSerializable
     private static function init()
     {
         $day = Calendar::getFirstWeekday();
+        $day = $day == 0 ? 7 : $day;
         DateTime::$weekStartsAt = $day;
 
-        while (array_keys(self::$days)[0] != $day) {
-            $key = array_keys(self::$days)[0];
-            $value = self::$days[$key];
-            unset(self::$days[$key]);
-            self::$days[$key] = $value;
+        $days = self::$days;
+        while (array_keys($days)[0] != $day) {
+            $key = array_keys($days)[0];
+            $value = $days[$key];
+            unset($days[$key]);
+            $days[$key] = $value;
         }
 
         self::$init = true;
@@ -138,45 +140,15 @@ class DateTime extends Carbon implements \JsonSerializable
     }
 
     /**
-     * Intialize the translator instance if necessary.
-     *
-     * @return TranslatorInterface
-     */
-    protected static function translator()
-    {
-        if (static::$translator === null) {
-            static::$translator = new Translator();
-            static::setLocale(self::cawaTranslator()->getLocale());
-        }
-
-        return static::$translator;
-    }
-
-    /**
      * {@inheritdoc}
-     *
-     * @throws \Exception
      */
-    public static function setTranslator(TranslatorInterface $translator)
+    public static function diffFormatter($formatter = null)
     {
-        if (!$translator instanceof Translator) {
-            throw new \Exception(sprintf('DateTime translator must not be %s', get_class($translator)));
+        if (static::$diffFormatter === null) {
+            static::$diffFormatter = new DifferenceFormatter(new Translator());
         }
 
-        static::$translator = $translator;
-    }
-
-    /**
-     * Set the current translator locale
-     *
-     * @param string $locale
-     */
-    public static function setLocale($locale)
-    {
-        $reflection = new \ReflectionClass(get_class());
-
-        $path = dirname($reflection->getParentClass()->getFileName()) . '/Lang/';
-        self::cawaTranslator()->addFile($path . '/' . parent::translator()->getLocale(), 'carbon', false);
+        return static::$diffFormatter;
     }
 
     /**
@@ -199,8 +171,8 @@ class DateTime extends Carbon implements \JsonSerializable
      */
     public static function localizeDay(int $day, bool $short = false)
     {
-        $date = new static();
-        $date->next($day);
+        $date = (new static())
+            ->next($day);
 
         return ucfirst($date->formatLocalized($short ? '%a' : '%A'));
     }
@@ -231,6 +203,25 @@ class DateTime extends Carbon implements \JsonSerializable
     }
 
     /**
+     * Format the instance with the current locale.  You can set the current
+     * locale using setlocale() http://php.net/setlocale.
+     *
+     * @param string $format
+     *
+     * @return string
+     */
+    public function formatLocalized($format)
+    {
+        // Check for Windows to find and replace the %e
+        // modifier correctly
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            $format = preg_replace('#(?<!%)((?:%%)*)%e#', '\1%#d', $format);
+        }
+
+        return strftime($format, strtotime((string) $this));
+    }
+
+    /**
      * @param string|array $type
      *
      * @return string
@@ -247,12 +238,12 @@ class DateTime extends Carbon implements \JsonSerializable
             $type = [$type, $type];
         } elseif (is_array($type)) {
             if (!isset($type[1])) {
-                return Calendar::formatDate($this, $type[0]);
+                return Calendar::formatDate($this->toMutable(), $type[0]);
             } elseif (is_null($type[0])) {
-                return Calendar::formatTime($this, $type[1]);
+                return Calendar::formatTime($this->toMutable(), $type[1]);
             }
         }
 
-        return Calendar::formatDatetime($this, implode('|', $type));
+        return Calendar::formatDatetime($this->toMutable(), implode('|', $type));
     }
 }

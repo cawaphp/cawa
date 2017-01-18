@@ -13,7 +13,7 @@ declare (strict_types = 1);
 
 namespace Cawa\Log;
 
-use Carbon\Carbon as DateTime;
+use Cake\Chronos\Chronos as DateTime;
 use Cawa\Events\Event as EventBase;
 
 class Event extends EventBase
