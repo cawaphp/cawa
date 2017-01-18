@@ -72,6 +72,13 @@ class Uri
         $parseUrl['scheme'] = 'http';
         $parseUrl['host'] = $_SERVER['HTTP_HOST'];
 
+        // nginx contain port in host
+        $explode = explode(':', $parseUrl['host']);
+        if (sizeof($explode) === 2) {
+            $parseUrl['host'] = $explode[0];
+            $parseUrl['port'] = $explode[1];
+        }
+
         if (isset($_SERVER['HTTP_X_FORWARDED_PROTO'])) {
             if ($_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
                 $parseUrl['scheme'] = 'https';
