@@ -139,7 +139,7 @@ class Handler
      *
      * @throws Error
      *
-     * @return boolean|void
+     * @return bool|void
      */
     public static function errorHandler($errno, $message = null, $filename = null, $linenumber = null)
     {
@@ -182,7 +182,7 @@ class Handler
     /**
      * @param \Throwable $exception
      *
-     * @return boolean|void
+     * @return bool|void
      */
     public static function exceptionHandler(\Throwable $exception)
     {

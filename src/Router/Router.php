@@ -710,7 +710,6 @@ class Router
             $this->args = $args;
         }
 
-
         // simple function
         if (is_callable($callback) && is_object($callback)) {
             return call_user_func_array($callback, [$args]);
@@ -755,7 +754,6 @@ class Router
         try {
             $return = null;
             if (method_exists($controller, 'init')) {
-
                 $return = call_user_func_array(
                     [$controller, 'init'],
                     $this->mapArguments($controller, 'init', $args)
@@ -805,7 +803,6 @@ class Router
 
         foreach ($method->getParameters() as $parameter) {
             if (!isset($args[$parameter->getName()]) && $parameter->isOptional() === false) {
-
                 if ($method->getName()  === 'init') {
                     continue;
                 }

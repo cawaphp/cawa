@@ -47,7 +47,7 @@ class Translator extends \Cake\Chronos\Translator
      */
     private function transformKey(string $key) : string
     {
-        return substr($key,-7) == '_plural' ? substr($key, 0, -7) : $key;
+        return substr($key, -7) == '_plural' ? substr($key, 0, -7) : $key;
     }
 
     /**
@@ -90,5 +90,4 @@ class Translator extends \Cake\Chronos\Translator
             false
         );
     }
-
 }

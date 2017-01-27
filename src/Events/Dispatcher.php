@@ -61,7 +61,7 @@ class Dispatcher
      */
     public function once(string $event, $listener)
     {
-        $onceListener = function() use (&$onceListener, $event, $listener) {
+        $onceListener = function () use (&$onceListener, $event, $listener) {
             $this->removeListener($event, $onceListener);
             call_user_func_array($listener, func_get_args());
         };

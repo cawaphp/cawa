@@ -101,7 +101,7 @@ class File implements \Serializable
             } else {
                 $keys = [$postName];
 
-                $browse = function(\RecursiveArrayIterator $iterator) use (
+                $browse = function (\RecursiveArrayIterator $iterator) use (
                     &$browse,
                     &$keys,
                     &$return,

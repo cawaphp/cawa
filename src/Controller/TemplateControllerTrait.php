@@ -46,7 +46,6 @@ trait TemplateControllerTrait
 
     /**
      * @param string $path if null revert to default one
-     *
      * @param string $context
      *
      * @return $this|static

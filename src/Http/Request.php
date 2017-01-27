@@ -322,7 +322,7 @@ class Request
             }
         }
 
-        uasort($locales, function($a, $b) {
+        uasort($locales, function ($a, $b) {
 
             return $a > $b ? -1 : 1;
         });

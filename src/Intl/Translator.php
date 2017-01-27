@@ -159,7 +159,7 @@ class Translator
         // detection from headers
         $accepted = self::request()->getAcceptedLanguage();
 
-        array_walk($accepted, function(&$value) {
+        array_walk($accepted, function (&$value) {
             $value = substr($value, 0, 2);
         });
 

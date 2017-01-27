@@ -150,7 +150,7 @@ class Event extends EventBase
             implode(
                 '] [',
                 array_map(
-                    function(
+                    function (
                         $v,
                         $k
                     ) {
