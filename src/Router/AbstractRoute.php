@@ -211,7 +211,7 @@ abstract class AbstractRoute
      *
      * @return $this|self
      */
-    public function setConditionns(array $conditions) : self
+    public function setConditions(array $conditions) : self
     {
         $this->conditions = $conditions;
 

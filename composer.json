@@ -25,7 +25,7 @@
         "ext-intl": "*",
 
         "behat/transliterator": "~1.1",
-        "giggsey/libphonenumber-for-php": "~7.3",
+        "giggsey/libphonenumber-for-php": "~8.1",
         "jeremykendall/php-domain-parser": "~3.0",
         "cakephp/chronos": "^1.0",
         "nesbot/carbon": "^1.22",

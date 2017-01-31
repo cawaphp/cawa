@@ -69,6 +69,6 @@ class Date extends DateTime
      */
     public function display($type = self::DISPLAY_SHORT) : string
     {
-        return Calendar::formatDate($this, $type);
+        return Calendar::formatDate($this->toMutable(), $type);
     }
 }
