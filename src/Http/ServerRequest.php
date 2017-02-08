@@ -85,6 +85,8 @@ class ServerRequest extends Request
     {
         $val = trim($val);
         $last = strtolower($val[strlen($val) - 1]);
+        $val = (int) substr($val, 0, -1);
+
         switch ($last) {
             // The 'G' modifier is available since PHP 5.1.0
             case 'g':
