@@ -18,18 +18,30 @@ use Pdp\PublicSuffixListManager;
 
 class Uri
 {
+    const OPTIONS_RELATIVE = 'RELATIVE';
+    const OPTIONS_AUTH = 'AUTH';
+
     /**
      * @var array
      */
     private $uri;
 
     /**
-     * Uri constructor.
-     *
-     * @param string $uri
+     * @var array
      */
-    public function __construct(string $uri = null)
+    private $options = [
+        self::OPTIONS_RELATIVE => true,
+        self::OPTIONS_AUTH => false,
+    ];
+
+    /**
+     * @param string $uri
+     * @param array $options
+     */
+    public function __construct(string $uri = null, array $options = [])
     {
+        $this->options = array_merge($this->options, $options);
+
         if (is_null($uri)) {
             $this->getCurrentUrl();
         } else {
@@ -565,10 +577,18 @@ class Uri
      * @param bool $relative
      * @param bool $auth
      *
-     * @return string|string
+     * @return string
      */
-    public function get(bool $relative = true, bool $auth = false): string
+    public function get($relative = null, $auth = null) : string
     {
+        if (is_null($relative)) {
+            $relative = $this->options[self::OPTIONS_RELATIVE];
+        }
+
+        if (is_null($auth)) {
+            $auth = $this->options[self::OPTIONS_AUTH];
+        }
+
         $out = '';
         if ($relative === false) {
             $out .= $this->getHostFull($auth);

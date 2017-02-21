@@ -132,7 +132,7 @@ abstract class Ip
      */
     public static function fromLong(int $long)
     {
-        return long2ip((string) $long);
+        return long2ip($long);
     }
 
     /**
