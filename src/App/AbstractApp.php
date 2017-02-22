@@ -17,6 +17,7 @@ use Cawa\Core\DI;
 use Cawa\Events\DispatcherFactory;
 use Cawa\Events\Event;
 use Cawa\Http\ServerRequest;
+use Cawa\Log\Output\AbstractOutput;
 use Cawa\Log\Output\StdErr;
 use Psr\Log\LogLevel;
 
@@ -147,6 +148,14 @@ abstract class AbstractApp
     }
 
     /**
+     * @param AbstractOutput $logger
+     */
+    public static function addLogger(AbstractOutput $logger)
+    {
+        self::dispatcher()->addListenerByClass('Cawa\\Log\\Event', [$logger, 'receive']);
+    }
+
+    /**
      * @return bool
      */
     private function addLoggerListeners() : bool
@@ -166,7 +175,7 @@ abstract class AbstractApp
         }
 
         foreach ($loggers as $logger) {
-            self::dispatcher()->addListenerByClass('Cawa\\Log\\Event', [$logger, 'receive']);
+            self::addLogger($logger);
         }
 
         return !$loggers;

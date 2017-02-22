@@ -13,19 +13,20 @@ var Request = function () {
      * @param {requestSuccess} callback
      * @param {String} method
      * @param {Object} data
+     * @param {Object=} options
      */
-    function send(uri, callback, method, data)
+    function send(uri, callback, method, data, options)
     {
-        var options = {
+        options = $.extend(options === undefined ? {} : options, {
             url: uri,
-            type: method == undefined ? "GET" : method,
+            type: method === undefined ? "GET" : method,
             dataType: "json",
             beforeSend: function (xhr)
             {
                 xhr.url = uri;
                 $(document).trigger("before.request", [xhr]);
             }
-        };
+        });
 
         log.debug("CawaRequest", uri, "with method",  options.type, "data", data);
 
@@ -54,9 +55,9 @@ var Request = function () {
             fail = null,
             always = null;
 
-        if (typeof callback == "function") {
+        if (typeof callback === "function") {
             complete = callback;
-        } else if (typeof callback == "object") {
+        } else if (typeof callback === "object") {
             complete = callback.complete;
             fail = callback.fail;
             always = callback.always;
@@ -77,7 +78,7 @@ var Request = function () {
             })
             .fail(function (xhr, textStatus, errorThrown)
             {
-                if (textStatus == "abort") {
+                if (textStatus === "abort") {
                     return true;
                 }
 
@@ -96,7 +97,7 @@ var Request = function () {
                     $(document).one("finally.request", always);
                 }
 
-                if (textStatus == 'success') {
+                if (textStatus === 'success') {
                     $(document).trigger("finally.request", [
                         xhr,
                         data
@@ -124,7 +125,7 @@ var Request = function () {
         }
 
         var formData;
-        if (method == "POST") {
+        if (method === "POST") {
             formData = new FormData(form[0]);
         } else {
             formData = form.serialize();
