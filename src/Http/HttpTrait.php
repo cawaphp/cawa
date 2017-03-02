@@ -59,27 +59,41 @@ trait HttpTrait
      * @param string $name
      * @param string $value
      *
-     * @return bool
+     * @return $this|HttpTrait|static
      */
-    public function addHeaderIfNotExist(string $name, string $value) : bool
+    public function addHeaderIfNotExist(string $name, string $value) : self
     {
         $name = $this->normalizeHeader($name);
         if (isset($this->headers[$name])) {
-            return false;
+            return $this;
         }
 
         $this->headers[$name] = $value;
 
-        return true;
+        return $this;
+    }
+
+    /**
+     * @param array $headers
+     *
+     * @return $this|HttpTrait|static
+     */
+    public function addHeaders(array $headers) : self
+    {
+        foreach ($headers as $name => $value) {
+            $this->addHeader($name, $value);
+        }
+
+        return $this;
     }
 
     /**
      * @param string $name
      * @param string $value
      *
-     * @return bool
+     * @return $this|HttpTrait|static
      */
-    public function addHeader(string $name, string $value) : bool
+    public function addHeader(string $name, string $value) : self
     {
         $name = $this->normalizeHeader($name);
         if (isset($this->headers[$name])) {
@@ -90,22 +104,23 @@ trait HttpTrait
 
         $this->headers[$name] = $value;
 
-        return true;
+        return $this;
     }
 
     /**
      * @param string $name
      *
-     * @return bool
+     * @return $this|HttpTrait|static
      */
-    public function removeHeader(string $name)
+    public function removeHeader(string $name) : self
     {
         if (!isset($this->headers[$name])) {
-            return false;
+            return $this;
         }
+
         unset($this->headers[$name]);
 
-        return true;
+        return $this;
     }
 
     /**
@@ -135,34 +150,46 @@ trait HttpTrait
      * @param Cookie $cookie
      *
      * @throws \InvalidArgumentException
+     *
+     * @return $this|HttpTrait|static
      */
-    public function addCookie(Cookie $cookie)
+    public function addCookie(Cookie $cookie) : self
     {
         if (isset($this->cookies[$cookie->getName()])) {
             throw new \InvalidArgumentException(sprintf("Cookie '%s' is allready set", $cookie->getName()));
         }
 
         $this->cookies[$cookie->getName()] = $cookie;
+
+        return $this;
     }
 
     /**
      * @param Cookie $cookie
      *
      * @throws \InvalidArgumentException
+     *
+     * @return $this|HttpTrait|static
      */
-    public function setCookie(Cookie $cookie)
+    public function setCookie(Cookie $cookie) : self
     {
         $this->cookies[$cookie->getName()] = $cookie;
+
+        return $this;
     }
 
     /**
      * @param Cookie $cookie
+     *
+     * @return $this|HttpTrait|static
      */
-    public function clearCookie(Cookie $cookie)
+    public function clearCookie(Cookie $cookie) : self
     {
         $cookie->setExpire(1);
 
         $this->cookies[$cookie->getName()] = $cookie;
+
+        return $this;
     }
 
     /**
@@ -180,9 +207,13 @@ trait HttpTrait
 
     /**
      * @param string $body
+     *
+     * @return $this|HttpTrait|static
      */
-    public function setBody(string $body)
+    public function setBody(string $body) : self
     {
         $this->body = $body;
+
+        return $this;
     }
 }

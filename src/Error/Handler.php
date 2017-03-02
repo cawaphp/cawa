@@ -22,12 +22,14 @@ use Cawa\Error\Exceptions\Fatal;
 use Cawa\Error\Exceptions\Notice;
 use Cawa\Error\Exceptions\Warning;
 use Cawa\Error\Formatter\AbstractFormatter;
+use Cawa\Events\DispatcherFactory;
 use Cawa\Log\LoggerFactory;
 use Cawa\Net\Ip;
 use Cawa\Router\RouterFactory;
 
 class Handler
 {
+    use DispatcherFactory;
     use HttpFactory;
     use LoggerFactory;
     use RouterFactory;
@@ -157,7 +159,7 @@ class Handler
         $class = 'Cawa\\Error\\Exceptions\\' . $class;
 
         $message = sprintf('[#%s %s] %s', $errno, self::LEVEL_NAME[$errno], $message);
-        $exception = new $class($message, $errno, 0, $filename, $linenumber);
+        $exception = new $class($message, $errno, $errno, $filename, $linenumber);
 
         throw $exception;
     }
@@ -191,6 +193,11 @@ class Handler
             return;
         }
 
+        if (AbstractApp::isInit()) {
+            self::log($exception);
+            self::emit(new ErrorEvent($exception));
+        }
+
         if ('cli' === PHP_SAPI ||
             (isset($_SERVER['HTTP_USER_AGENT']) && stripos($_SERVER['HTTP_USER_AGENT'], 'curl') !== false)
         ) {
@@ -200,8 +207,6 @@ class Handler
         }
 
         if (AbstractApp::isInit() && AbstractApp::instance() instanceof HttpApp) {
-            self::log($exception);
-
             self::response()->setStatus(500);
 
             if (AbstractApp::env() != AbstractApp::PRODUCTION || Ip::isAdmin()) {
@@ -262,12 +267,15 @@ class Handler
         }
         unset($context['message']);
 
-        $start = self::request()->getServer('REQUEST_TIME_FLOAT');
-        $end = microtime(true);
-        $context['Duration'] = round(($end - $start) * 1000, 3);
+        if (AbstractApp::instance() instanceof HttpApp) {
+            $start = self::request()->getServer('REQUEST_TIME_FLOAT');
+            $end = microtime(true);
+            $context['Duration'] = round(($end - $start) * 1000, 3);
 
-        $context['Ip'] = Ip::get();
-        $context['Url'] = self::request()->getUri()->get(false);
+            $context['Ip'] = Ip::get();
+            $context['Url'] = self::request()->getUri()->get(false);
+        }
+
         $context['Trace'] = $exception->getTraceAsString();
         $context['Referer'] = self::request()->getHeader('Referer');
 

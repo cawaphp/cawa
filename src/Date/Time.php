@@ -91,12 +91,16 @@ class Time extends DateTime
     }
 
     /**
-     * @param string $type
+     * @param string|array $type
      *
      * @return string
      */
-    public function display($type = self::DISPLAY_SHORT) : string
+    public function display($type = null) : string
     {
+        if (is_null($type)) {
+            $type = self::DISPLAY_SHORT;
+        }
+
         if ($type == self::DISPLAY_DURATION) {
             $format = [];
 
@@ -115,6 +119,6 @@ class Time extends DateTime
             return Misc::joinUnits($format, 'narrow');
         }
 
-        return Calendar::formatTime($this, $type);
+        return Calendar::formatTime($this->toMutable(), $type);
     }
 }

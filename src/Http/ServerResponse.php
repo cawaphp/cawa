@@ -39,7 +39,7 @@ class ServerResponse extends Response
      *
      * @throws \LogicException
      */
-    public function addHeaderIfNotExist(string $name, string $value) : bool
+    public function addHeaderIfNotExist(string $name, string $value) : parent
     {
         if ($this->headerSent($file, $line)) {
             throw new \LogicException(sprintf("Headers is already sent in '%s:%s'", $file, $line));
@@ -53,7 +53,7 @@ class ServerResponse extends Response
      *
      * @throws \LogicException
      */
-    public function addHeader(string $name, string $value) : bool
+    public function addHeader(string $name, string $value) : parent
     {
         if ($this->headerSent($file, $line)) {
             throw new \LogicException(sprintf("Headers is already sent in '%s:%s'", $file, $line));
@@ -67,7 +67,7 @@ class ServerResponse extends Response
      *
      * @throws \LogicException
      */
-    public function removeHeader(string $name)
+    public function removeHeader(string $name) : parent
     {
         if ($this->headerSent($file, $line)) {
             throw new \LogicException(sprintf("Headers is already sent in '%s:%s'", $file, $line));
@@ -81,7 +81,7 @@ class ServerResponse extends Response
      *
      * @throws \LogicException
      */
-    public function addCookie(Cookie $cookie)
+    public function addCookie(Cookie $cookie) : parent
     {
         if ($this->headerSent($file, $line)) {
             throw new \LogicException(sprintf("Headers is already sent in '%s:%s'", $file, $line));
@@ -95,7 +95,7 @@ class ServerResponse extends Response
      *
      * @throws \LogicException
      */
-    public function setCookie(Cookie $cookie)
+    public function setCookie(Cookie $cookie) : parent
     {
         if ($this->headerSent($file, $line)) {
             throw new \LogicException(sprintf("Headers is already sent in '%s:%s'", $file, $line));
@@ -109,7 +109,7 @@ class ServerResponse extends Response
      *
      * @throws \LogicException
      */
-    public function clearCookie(Cookie $cookie)
+    public function clearCookie(Cookie $cookie) : parent
     {
         if ($this->headerSent($file, $line)) {
             throw new \LogicException(sprintf("Headers is already sent in '%s:%s'", $file, $line));
@@ -126,7 +126,7 @@ class ServerResponse extends Response
      *
      * @return $this|self
      */
-    public function addStatusCode(int $code, string $value)
+    public function addStatusCode(int $code, string $value) : self
     {
         if (isset(self::$statusCodeList[$code])) {
             throw new \InvalidArgumentException(sprintf("Already defined status code '%s'", $code));
