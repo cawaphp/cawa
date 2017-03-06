@@ -146,7 +146,7 @@ class Cookie
     public function setExpire($expire) : self
     {
         // convert expiration time to a Unix timestamp
-        if ($expire instanceof \DateTime) {
+        if ($expire instanceof \DateTime || $expire instanceof \DateTimeImmutable) {
             $expire = $expire->format('U');
         } elseif (!is_numeric($expire) || !is_int($expire)) {
             throw new \InvalidArgumentException(sprintf(

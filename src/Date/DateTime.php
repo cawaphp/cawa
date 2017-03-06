@@ -75,7 +75,8 @@ class DateTime extends Chronos implements \JsonSerializable
                 true : $convert;
 
             if ($convert) {
-                $this->setTimezone(new \DateTimeZone(date_default_timezone_get()));
+                $date = $this->setTimezone(new \DateTimeZone(date_default_timezone_get()));
+                parent::__construct($date->format('Y-m-d H:i:s.u'));
             }
         }
     }
