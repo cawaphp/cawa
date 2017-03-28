@@ -20,5 +20,5 @@ abstract class AbstractListener
     /**
      * @param ErrorEvent $event
      */
-    abstract static public function receive(ErrorEvent $event);
+    abstract public static function receive(ErrorEvent $event);
 }

@@ -13,7 +13,6 @@ declare (strict_types = 1);
 
 namespace Cawa\Log\Output;
 
-
 use Cawa\Log\Event;
 use Psr\Log\LogLevel;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;
@@ -41,8 +40,7 @@ class Console extends AbstractOutput
     {
         $out = $this->output;
 
-        switch ($event->getLevel())
-        {
+        switch ($event->getLevel()) {
             case LogLevel::DEBUG:
                 $options = OutputInterface::VERBOSITY_DEBUG;
                 break;
@@ -54,7 +52,6 @@ class Console extends AbstractOutput
             case LogLevel::NOTICE:
                 $options = OutputInterface::VERBOSITY_VERBOSE;
                 break;
-
 
             default:
                 $options = OutputInterface::VERBOSITY_NORMAL;

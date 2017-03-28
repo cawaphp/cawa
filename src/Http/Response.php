@@ -24,16 +24,18 @@ class Response
     {
         if ($response) {
             $explode = explode("\r\n\r\n", $response);
+            $headersString = array_shift($explode);
+            $this->body = implode("\r\n\r\n", $explode);
 
+            /*
             // multiple query (follow redirect) take only the last request
+            // but this is not working
             $explode = array_slice($explode, sizeof($explode) - 2, 2);
-
-            // body
-            $this->body = array_pop($explode);
+            */
 
             // headers & cookies
             $headers = [];
-            foreach (explode("\n", implode($explode)) as $i => $header) {
+            foreach (explode("\n", $headersString) as $i => $header) {
                 $explode = explode(':', $header, 2);
                 $key = $this->normalizeHeader($explode[0]);
                 $value = isset($explode[1]) ? trim($explode[1]) : null;
