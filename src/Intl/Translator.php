@@ -186,9 +186,11 @@ class Translator
      * @param string $rename
      * @param bool $appendLang
      *
+     * @param string $type
+     *
      * @return bool
      */
-    public function addFile(string $name, string $rename = null, bool $appendLang = true) : bool
+    public function addFile(string $name, string $rename = null, bool $appendLang = true, string $type = 'yml') : bool
     {
         if (substr($name, 0, 1) == '/') {
             $path = $name;
@@ -202,17 +204,21 @@ class Translator
         }
 
         if ($appendLang) {
-            $path .= '.' . $this->locale . '.php';
+            $path .= '.' . $this->locale . '.' . $type;
         } else {
-            $path .= '.php';
+            $path .= '.' . $type;
         }
 
         if (!file_exists($path)) {
             throw new \InvalidArgumentException(sprintf("Invalid locale files path '%s'", $name));
         }
 
-        /* @noinspection PhpIncludeInspection */
-        $data = require $path;
+        if ($type == 'php') {
+            /* @noinspection PhpIncludeInspection */
+            $data = require($path);
+        } else {
+            $data = yaml_parse_file($path);
+        }
 
         if (!is_array($data)) {
             throw new \LogicException(sprintf("Invalid locale files '%' format, must be a php array", $path));

@@ -73,7 +73,8 @@ Plan is to support one of these lib in order to bosst performance:
 - Сáша only work with PHP 7 or above
 - [mbstring](http://php.net/manual/en/book.mbstring.php)
 - [intl](http://php.net/manual/en/book.intl.php)
-- [curl](http://php.net/manual/fr/book.curl.php)
+- [curl](http://php.net/manual/en/book.curl.php)
+- [yaml](http://php.net/manual/en/book.yaml.php)
 
 
 ### License

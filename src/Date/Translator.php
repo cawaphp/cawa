@@ -25,7 +25,7 @@ class Translator extends \Cake\Chronos\Translator
         $reflection = new \ReflectionClass(Carbon::class);
 
         $path = dirname($reflection->getFileName()) . '/Lang/';
-        self::translator()->addFile($path . '/' . self::translator()->getLocale(), 'carbon', false);
+        self::translator()->addFile($path . '/' . self::translator()->getLocale(), 'carbon', false, 'php');
     }
 
     /**
