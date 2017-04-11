@@ -81,6 +81,83 @@ class Router
 
         return $this->args[$name] ?? null;
     }
+    /**
+     * @param string $path
+     *
+     * @throws \InvalidArgumentException
+     */
+    public function addRoutesFile(string $path)
+    {
+        $datas = yaml_parse_file($path);
+
+        $this->addRoutes($this->parseRoutesFiles($datas));
+    }
+
+    /**
+     * @param array $datas
+     *
+     * @return array
+     */
+    private function parseRoutesFiles(array $datas) : array
+    {
+        $return = [];
+
+        foreach ($datas as $key => $data) {
+            if (isset($data['routes'])) {
+                $route = new Group();
+            } else {
+                $route = new Route();
+            }
+
+            if (!empty($key)) {
+                $route->setName($key);
+            }
+
+            if (isset($data['match'])) {
+                $route->setMatch($data['match']);
+            }
+
+            if (isset($data['controler'])) {
+                $route->setController($data['controler']);
+            }
+
+            if (isset($data['userInputs'])) {
+                $userInputs = [];
+                foreach ($data['userInputs'] as $name => $value) {
+                    $userInputs[] = new UserInput($name, $value['type'], $value['mandatory'] ?? false);
+                }
+                $route->setUserInputs($userInputs);
+            }
+
+            if (isset($data['args'])) {
+                $route->setArgs($data['args']);
+            }
+
+            if (isset($data['conditions'])) {
+                $route->setConditions($data['conditions']);
+            }
+
+            if (isset($data['responseCode'])) {
+                $route->setResponseCode($data['responseCode']);
+            }
+
+            if (isset($data['options'])) {
+                $route->setOptions($data['options']);
+            }
+
+            if (isset($data['httpMethod'])) {
+                $route->setHttpMethod($data['httpMethod']);
+            }
+
+            if (isset($data['routes'])) {
+                $route->setRoutes($this->parseRoutesFiles($data['routes']));
+            }
+
+            $return[$key] = $route;
+        }
+
+        return $return;
+    }
 
     /**
      * @param array $routes
@@ -197,6 +274,15 @@ class Router
     private $uris = [];
 
     /**
+     * @param string $path
+     */
+    public function addUrisFile(string $path)
+    {
+        $this->addUris(yaml_parse_file($path));
+    }
+
+
+    /**
      * @param array $uris
      */
     public function addUris(array $uris)
@@ -240,9 +326,9 @@ class Router
                 if (!isset($data[$querystring->getName()]) &&
                     $querystring->isMandatory() &&
                     $warnData &&
-                    $route->getMethod() != 'POST' &&
-                    $route->getMethod() != 'PUT' &&
-                    $route->getMethod() != 'DELETE'
+                    $route->getHttpMethod() != 'POST' &&
+                    $route->getHttpMethod() != 'PUT' &&
+                    $route->getHttpMethod() != 'DELETE'
                 ) {
                     throw new \InvalidArgumentException(sprintf(
                         "Missing querystring '%s' to generate route '%s'",
@@ -520,7 +606,7 @@ class Router
         foreach ($this->routes as $route) {
             list($result, $args, $regexp) = $this->match($url, $route);
 
-            if ($route->getMethod() && $route->getMethod() != self::request()->getMethod()) {
+            if ($route->getHttpMethod() && $route->getHttpMethod() != self::request()->getMethod()) {
                 $result = false;
             }
 

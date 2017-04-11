@@ -43,14 +43,6 @@ class HttpApp extends AbstractApp
         parent::init();
 
         self::request()->fillFromGlobals();
-
-        if (file_exists($this->getAppRoot() . '/config/route.php')) {
-            self::router()->addRoutes(require $this->getAppRoot() . '/config/route.php');
-        }
-
-        if (file_exists($this->getAppRoot() . '/config/uri.php')) {
-            self::router()->addUris(require $this->getAppRoot() . '/config/uri.php');
-        }
     }
 
     /**

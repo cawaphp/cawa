@@ -29,6 +29,18 @@ class Group extends AbstractRoute
     }
 
     /**
+     * @param Route[] $routes
+     *
+     * @return self|$this
+     */
+    public function setRoutes(array $routes) : self
+    {
+        $this->routes = $routes;
+
+        return $this;
+    }
+
+    /**
      * @param string $match
      * @param string|null $name
      * @param array $routes

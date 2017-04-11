@@ -78,24 +78,24 @@ abstract class AbstractRoute
     /**
      * @var string
      */
-    protected $method;
+    protected $httpMethod;
 
     /**
      * @return string
      */
-    public function getMethod()
+    public function getHttpMethod()
     {
-        return $this->method;
+        return $this->httpMethod;
     }
 
     /**
-     * @param string $method
+     * @param string $httpMethod
      *
      * @return $this|self
      */
-    public function setMethod(string $method) : self
+    public function setHttpMethod(string $httpMethod) : self
     {
-        $this->method = $method;
+        $this->httpMethod = $httpMethod;
 
         return $this;
     }
@@ -199,7 +199,7 @@ abstract class AbstractRoute
      *
      * @return $this|self
      */
-    public function addConditions(callable $condition) : self
+    public function addCondition(callable $condition) : self
     {
         $this->conditions[] = $condition;
 
@@ -275,8 +275,8 @@ abstract class AbstractRoute
      */
     public function addGroupConfiguration(Group $group)
     {
-        if ($group->getMethod() && !$this->getMethod()) {
-            $this->setMethod($group->getMethod());
+        if ($group->getHttpMethod() && !$this->getHttpMethod()) {
+            $this->setHttpMethod($group->getHttpMethod());
         }
 
         if ($group->getResponseCode() && !$this->getResponseCode()) {
