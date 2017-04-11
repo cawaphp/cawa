@@ -32,10 +32,30 @@ class Config
 
     /**
      * @param array $config
+     *
+     * @return self|$this
      */
-    public function add(array $config)
+    public function add(array $config) : self
     {
-        $this->config = array_merge($this->config, $config);
+        $this->config = array_replace_recursive($this->config, $config);
+
+        return $this;
+    }
+
+    /**
+     * @param string $path
+     *
+     * @return self|$this
+     */
+    public function load(string $path) : self
+    {
+        if (pathinfo($path, PATHINFO_EXTENSION) == 'yml') {
+            $this->config = array_replace_recursive($this->config, yaml_parse_file($path));
+        } else {
+            $this->config = array_replace_recursive($this->config, require $path);
+        }
+
+        return $this;
     }
 
     /**

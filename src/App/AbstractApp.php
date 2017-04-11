@@ -135,10 +135,6 @@ abstract class AbstractApp
             throw new \LogicException("Can't reinit App");
         }
 
-        if (file_exists($this->appRoot . '/config/config.php')) {
-            DI::config()->add(require $this->appRoot . '/config/config.php');
-        }
-
         date_default_timezone_set(DI::config()->get('timezone'));
 
         $this->addLoggerListeners();
@@ -186,15 +182,26 @@ abstract class AbstractApp
      */
     private function addConfigListeners()
     {
+        $transform = function($listener)
+        {
+            if (is_array($listener)) {
+                return $listener;
+            } else if (is_string($listener)) {
+                return explode('::', $listener);
+            } else {
+                throw new \RuntimeException(sprintf('Invalid listener config with type %s', gettype($listener)));
+            }
+        };
+
         foreach (DI::config()->getIfExists('listeners/byClass') ?? [] as $class => $listeners) {
             foreach ($listeners as $listener) {
-                self::dispatcher()->addListenerByClass($class, $listener);
+                self::dispatcher()->addListenerByClass($class, $transform($listener));
             }
         }
 
         foreach (DI::config()->getIfExists('listeners/byName') ?? [] as $name => $listeners) {
             foreach ($listeners as $listener) {
-                self::dispatcher()->addListener($name, $listener);
+                self::dispatcher()->addListener($name, $transform($listener));
             }
         }
     }
