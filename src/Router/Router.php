@@ -710,7 +710,7 @@ class Router
     private function cacheGet(Route $route, string $cacheKey)
     {
         if ($route->getOption(AbstractRoute::OPTIONS_CACHE)) {
-            if ($data = self::cache('OUTPUT')->get($cacheKey)) {
+            if ($data = self::cache(self::class)->get($cacheKey)) {
                 foreach ($data['headers'] as $name => $header) {
                     self::response()->addHeader($name, $header);
                 }
@@ -750,7 +750,7 @@ class Router
                 'headers' => self::response()->getHeaders(),
             ];
 
-            self::cache('OUTPUT')->set($cacheKey, $data, $second);
+            self::cache(self::class)->set($cacheKey, $data, $second);
         }
 
         return true;

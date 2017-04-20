@@ -22,6 +22,49 @@ abstract class DI
 
     /**
      * @param string $namespace
+     * @param string $configPath
+     * @param string $name
+     *
+     * @return array
+     */
+    public static function detect(string $namespace, string $configPath, string $name = null) : array
+    {
+        $configName = null;
+
+        if (is_null($name)) {
+            $configName = 'default';
+        } else if (class_exists($name)) {
+            $all = self::config()->get($configPath);
+            foreach ($all as $key => $value) {
+                if (stripos($name, $key) === 0) {
+                    $configName = $key;
+                    break;
+                }
+            }
+        } else if (is_string($name)) {
+            $configName = $name;
+        }
+
+        if (is_null($configName)) {
+            throw new \RuntimeException(sprintf(
+                "Can't detect configuration for namespace: '%s', config: '%s', type: '%s'",
+                $namespace,
+                $configPath,
+                is_string($name) ? $name : get_class($name)
+            ));
+        }
+
+        if ($return = self::get($namespace, $configName)) {
+            return [null, null, $return];
+        }
+
+        $config = self::config()->get($configPath . '/' . $configName);
+
+        return [$configName, $config, null];
+    }
+
+    /**
+     * @param string $namespace
      * @param string $name
      *
      * @return mixed|string

@@ -402,7 +402,7 @@ class Uri
     /**
      * @param string $name
      *
-     * @return string
+     * @return string|array
      */
     public function getQuery(string $name)
     {
