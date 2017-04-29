@@ -156,7 +156,7 @@ trait HttpTrait
     public function addCookie(Cookie $cookie) : self
     {
         if (isset($this->cookies[$cookie->getName()])) {
-            throw new \InvalidArgumentException(sprintf("Cookie '%s' is allready set", $cookie->getName()));
+            throw new \InvalidArgumentException(sprintf("Cookie '%s' is already set", $cookie->getName()));
         }
 
         $this->cookies[$cookie->getName()] = $cookie;

@@ -430,7 +430,7 @@ class Uri
     }
 
     /**
-     * Add query string to current url, overwrite the one that allready exists
+     * Add query string to current url, overwrite the one that already exists
      * This method is the only way to add an array as value for a querystring (non standard)
      *
      * @param array $queries
@@ -465,7 +465,7 @@ class Uri
     }
 
     /**
-     * Add query string to current url, overwrite the one that allready exists
+     * Add query string to current url, overwrite the one that already exists
      *
      * @param string $key
      * @param string $value
