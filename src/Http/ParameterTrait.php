@@ -64,7 +64,11 @@ trait ParameterTrait
 
             case 'bool':
             case 'boolean':
-                $variable = filter_var($variable, FILTER_VALIDATE_BOOLEAN, $options);
+                if (!is_null($variable)) {
+                    $variable = filter_var($variable, FILTER_VALIDATE_BOOLEAN, $options);
+                } else {
+                    $variable = $default;
+                }
                 break;
 
             case 'string':

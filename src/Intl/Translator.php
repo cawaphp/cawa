@@ -185,7 +185,6 @@ class Translator
      * @param string $name
      * @param string $rename
      * @param bool $appendLang
-     *
      * @param string $type
      *
      * @return bool
@@ -237,7 +236,7 @@ class Translator
      */
     private function replace(string $text = null, array $data = null)
     {
-        if ($text && !is_null($data) && $text && is_numeric(array_keys($data)[0])) {
+        if ($text && is_array($data) && sizeof($data) > 0 && $text && is_numeric(array_keys($data)[0])) {
             return vsprintf($text, $data);
         } elseif ($text && !is_null($data) && sizeof($data) > 0) {
             return strtr($text, $data);

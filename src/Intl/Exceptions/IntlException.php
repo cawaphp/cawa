@@ -20,11 +20,18 @@ class IntlException extends \Exception
     use TranslatorFactory;
 
     /**
+     * @var array
+     */
+    private $data;
+
+    /**
      * @param string $message
+     * @param array $data
      * @param \Exception $previous
      */
-    public function __construct($message, \Exception $previous = null)
+    public function __construct($message, array $data = [], \Exception $previous = null)
     {
+        $this->data = $data;
         parent::__construct($message, 0, $previous);
     }
 
@@ -33,6 +40,6 @@ class IntlException extends \Exception
      */
     public function __toString()
     {
-        return self::trans($this->message);
+        return self::trans($this->message, $this->data);
     }
 }

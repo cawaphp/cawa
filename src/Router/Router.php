@@ -117,8 +117,8 @@ class Router
                 $route->setMatch($data['match']);
             }
 
-            if (isset($data['controler'])) {
-                $route->setController($data['controler']);
+            if (isset($data['controller'])) {
+                $route->setController($data['controller']);
             }
 
             if (isset($data['userInputs'])) {
@@ -280,7 +280,6 @@ class Router
     {
         $this->addUris(yaml_parse_file($path));
     }
-
 
     /**
      * @param array $uris
@@ -768,7 +767,7 @@ class Router
         return preg_replace_callback('`<([A-Za-z_0-9]+)>`', function ($match) use ($route, $args) {
             if (!isset($args[$match[1]])) {
                 throw new \InvalidArgumentException(sprintf(
-                    "Invalid route name '%s', missing dynamics controler param '%s'",
+                    "Invalid route name '%s', missing dynamics controller param '%s'",
                     $route->getName(),
                     $match[1]
                 ));

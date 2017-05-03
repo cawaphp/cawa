@@ -182,11 +182,10 @@ abstract class AbstractApp
      */
     private function addConfigListeners()
     {
-        $transform = function($listener)
-        {
+        $transform = function ($listener) {
             if (is_array($listener)) {
                 return $listener;
-            } else if (is_string($listener)) {
+            } elseif (is_string($listener)) {
                 return explode('::', $listener);
             } else {
                 throw new \RuntimeException(sprintf('Invalid listener config with type %s', gettype($listener)));

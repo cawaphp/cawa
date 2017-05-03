@@ -28,7 +28,7 @@ var Request = function () {
             }
         });
 
-        log.debug("CawaRequest", uri, "with method",  options.type, "data", data);
+        log.info("CawaRequest", uri, "with method",  options.type, "data", data);
 
         if (data instanceof FormData) {
             options.processData = false;

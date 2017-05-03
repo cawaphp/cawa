@@ -33,7 +33,7 @@ abstract class DI
 
         if (is_null($name)) {
             $configName = 'default';
-        } else if (class_exists($name)) {
+        } elseif (class_exists($name)) {
             $all = self::config()->get($configPath);
             foreach ($all as $key => $value) {
                 if (stripos($name, $key) === 0) {
@@ -41,7 +41,7 @@ abstract class DI
                     break;
                 }
             }
-        } else if (is_string($name)) {
+        } elseif (is_string($name)) {
             $configName = $name;
         }
 

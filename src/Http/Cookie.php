@@ -147,7 +147,7 @@ class Cookie
     {
         // convert expiration time to a Unix timestamp
         if ($expire instanceof \DateTime || $expire instanceof \DateTimeImmutable) {
-            $expire = $expire->format('U');
+            $expire = (int) $expire->format('U');
         } elseif (!is_numeric($expire) || !is_int($expire)) {
             throw new \InvalidArgumentException(sprintf(
                 "The cookie expiration time is not valid with type '%s'",
