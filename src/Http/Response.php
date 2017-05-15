@@ -24,14 +24,23 @@ class Response
     {
         if ($response) {
             $explode = explode("\r\n\r\n", $response);
+
+            // multiple query (follow redirect) take only the last request
+            if (sizeof($explode) > 2) {
+                $start = null;
+                foreach ($explode as $index => $current) {
+                    if (stripos($current, 'HTTP') === 0) {
+                        $start = $index;
+                    } else {
+                        break;
+                    }
+                }
+
+                $explode = array_slice($explode, $start);
+            }
+
             $headersString = array_shift($explode);
             $this->body = implode("\r\n\r\n", $explode);
-
-            /*
-            // multiple query (follow redirect) take only the last request
-            // but this is not working
-            $explode = array_slice($explode, sizeof($explode) - 2, 2);
-            */
 
             // headers & cookies
             $headers = [];

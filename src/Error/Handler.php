@@ -214,7 +214,12 @@ class Handler
                 self::render($formatter, $exception);
             } else {
                 self::clearAllBuffer();
-                echo self::router()->returnError(500);
+                $return = self::router()->returnError(500);
+                if (is_array($return)) {
+                    echo json_encode($return);
+                } else {
+                    echo $return;
+                }
             }
 
             AbstractApp::instance()->end();

@@ -144,9 +144,11 @@ class Translator
         }
 
         // detection from url
-        $explode = explode('/', self::request()->getUri()->getPath());
-        if (isset($explode[1]) && in_array($explode[1], $this->getLocales())) {
-            return $explode[1];
+        if (self::request()->getUri()->getPath()) {
+            $explode = explode('/', self::request()->getUri()->getPath());
+            if (isset($explode[1]) && in_array($explode[1], $this->getLocales())) {
+                return $explode[1];
+            }
         }
 
         // detection from cookie
