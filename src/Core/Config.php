@@ -113,4 +113,36 @@ class Config
 
         return true;
     }
+
+    /**
+     * @param string $path
+     *
+     * @throws \InvalidArgumentException
+     *
+     * @return bool
+     */
+    public function remove(string $path) : bool
+    {
+        $last = $explode = explode('/', $path);
+        $last = array_pop($last);
+
+        $config =& $this->config;
+        while ($element = array_shift($explode)) {
+            if (!isset($config[$element])) {
+                throw new \InvalidArgumentException(
+                    sprintf("Invalid configuration path '%s'", $path)
+                );
+            }
+
+            if ($element === $last) {
+                unset($config[$element]);
+                return true;
+            } else {
+                $config = &$config[$element];
+            }
+        }
+
+        return false;
+    }
+
 }

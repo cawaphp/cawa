@@ -24,18 +24,20 @@ abstract class DI
      * @param string $namespace
      * @param string $configPath
      * @param string $name
+     * @param bool $strict
      *
      * @return array
      */
-    public static function detect(string $namespace, string $configPath, string $name = null) : array
+    public static function detect(string $namespace, string $configPath, string $name = null, bool $strict = true) : array
     {
         $configName = null;
+        $method = $strict ? 'get' : 'getIfExists';
 
         if (is_null($name)) {
             $configName = 'default';
         } elseif (class_exists($name)) {
-            $all = self::config()->get($configPath);
-            foreach ($all as $key => $value) {
+            $all = self::config()->$method($configPath);
+            foreach ($all ?? [] as $key => $value) {
                 if (stripos($name, $key) === 0) {
                     $configName = $key;
                     break;
@@ -45,7 +47,7 @@ abstract class DI
             $configName = $name;
         }
 
-        if (is_null($configName)) {
+        if (is_null($configName) && $strict) {
             throw new \RuntimeException(sprintf(
                 "Can't detect configuration for namespace: '%s', config: '%s', type: '%s'",
                 $namespace,
@@ -54,13 +56,26 @@ abstract class DI
             ));
         }
 
+        if ($strict == false && is_null($configName)) {
+            if ($return = self::get($namespace, $name)) {
+                return [null, null, $return];
+            }
+
+            return [$name, null, $return];
+        }
+
         if ($return = self::get($namespace, $configName)) {
             return [null, null, $return];
         }
 
-        $config = self::config()->get($configPath . '/' . $configName);
+        $config = self::config()->$method($configPath . '/' . $configName);
 
-        return [$configName, $config, null];
+        if ($config) {
+            return [$configName, $config, null];
+        } else if ($strict == false) {
+            return [$configName ?: $name, null, null];
+        }
+
     }
 
     /**
