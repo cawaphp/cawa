@@ -9,19 +9,19 @@
  * file that was distributed with this source code.
  */
 
-declare (strict_types = 1);
+declare(strict_types = 1);
 
 namespace Cawa\Router;
 
 abstract class AbstractRoute
 {
     /**
-     * Is the url will be transform (lowercase and space replace by -)
+     * Is the url will be transform (lowercase and space replace by -).
      */
     const OPTIONS_URLIZE = 'URLIZE';
 
     /**
-     * Is the url will be cached, values is duration in sec
+     * Is the url will be cached, values is duration in sec.
      */
     const OPTIONS_CACHE = 'CACHE';
 

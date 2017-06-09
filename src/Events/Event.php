@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-declare (strict_types = 1);
+declare(strict_types = 1);
 
 namespace Cawa\Events;
 
@@ -41,14 +41,14 @@ class Event
     }
 
     /**
-     * The name of the events
+     * The name of the events.
      *
      * @var string
      */
     private $name;
 
     /**
-     * Gets the name
+     * Gets the name.
      *
      * @return string
      */
@@ -74,14 +74,14 @@ class Event
     }
 
     /**
-     * The data of the events
+     * The data of the events.
      *
      * @var array
      */
     private $data = [];
 
     /**
-     * Gets the data
+     * Gets the data.
      *
      * @return string
      */
@@ -91,7 +91,7 @@ class Event
     }
 
     /**
-     * Sets the data
+     * Sets the data.
      *
      * @param array $data
      *
@@ -105,7 +105,7 @@ class Event
     }
 
     /**
-     * Add some data
+     * Add some data.
      *
      * @param array $data
      *
@@ -119,9 +119,7 @@ class Event
     }
 
     /**
-     * Action perform during emit
-     *
-     * @return void
+     * Action perform during emit.
      */
     public function onEmit()
     {

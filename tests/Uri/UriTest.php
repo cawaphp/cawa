@@ -9,13 +9,14 @@
  * file that was distributed with this source code.
  */
 
-declare (strict_types = 1);
+declare(strict_types = 1);
 
 /**
- * Сáша frameworks tests
+ * Сáша frameworks tests.
  *
  * @author tchiotludo <http://github.com/tchiotludo>
  */
+
 namespace CawaTest\Uri;
 
 use Cawa\Net\Uri;
@@ -24,7 +25,7 @@ use PHPUnit_Framework_TestCase as TestCase;
 class UriTest extends TestCase
 {
     /**
-     * Test that parsing and composing a valid URI returns the same URI
+     * Test that parsing and composing a valid URI returns the same URI.
      *
      * @param string $uriString
      * @dataProvider validUriStringProvider
@@ -36,7 +37,7 @@ class UriTest extends TestCase
     }
 
     /**
-     * Test the fluent interface
+     * Test the fluent interface.
      *
      * @param string $method
      * @param string $params
@@ -50,7 +51,7 @@ class UriTest extends TestCase
     }
 
     /**
-     * Test the scheme extract
+     * Test the scheme extract.
      *
      * @param string $uriString
      * @param array $parts
@@ -63,7 +64,7 @@ class UriTest extends TestCase
     }
 
     /**
-     * Test is https
+     * Test is https.
      *
      * @param string $uriString
      * @param array $parts
@@ -80,7 +81,7 @@ class UriTest extends TestCase
     }
 
     /**
-     * Test the user extract
+     * Test the user extract.
      *
      * @param string $uriString
      * @param array $parts
@@ -97,7 +98,7 @@ class UriTest extends TestCase
     }
 
     /**
-     * Test the pass extract
+     * Test the pass extract.
      *
      * @param string $uriString
      * @param array $parts
@@ -114,7 +115,7 @@ class UriTest extends TestCase
     }
 
     /**
-     * Test the hostname extract
+     * Test the hostname extract.
      *
      * @param string $uriString
      * @param array $parts
@@ -132,7 +133,7 @@ class UriTest extends TestCase
     }
 
     /**
-     * Test the subdomain extract
+     * Test the subdomain extract.
      *
      * @param string $uriString
      * @param array $parts
@@ -150,7 +151,7 @@ class UriTest extends TestCase
     }
 
     /**
-     * Test the first subdomain extract
+     * Test the first subdomain extract.
      *
      * @param string $uriString
      * @param array $parts
@@ -168,7 +169,7 @@ class UriTest extends TestCase
     }
 
     /**
-     * Test the first subdomain extract
+     * Test the first subdomain extract.
      *
      * @param string $uriString
      * @param array $parts
@@ -186,7 +187,7 @@ class UriTest extends TestCase
     }
 
     /**
-     * Test the domain extract
+     * Test the domain extract.
      *
      * @param string $uriString
      * @param array $parts
@@ -204,7 +205,7 @@ class UriTest extends TestCase
     }
 
     /**
-     * Test the port extract
+     * Test the port extract.
      *
      * @param string $uriString
      * @param array $parts
@@ -221,7 +222,7 @@ class UriTest extends TestCase
     }
 
     /**
-     * Test the path extract
+     * Test the path extract.
      *
      * @param string $uriString
      * @param array $parts
@@ -234,7 +235,7 @@ class UriTest extends TestCase
     }
 
     /**
-     * Test the querystring extract
+     * Test the querystring extract.
      *
      * @param string $uriString
      * @param array $parts
@@ -251,7 +252,7 @@ class UriTest extends TestCase
     }
 
     /**
-     * Test the query  extract
+     * Test the query  extract.
      *
      * @param string $uriString
      * @param array $parts
@@ -268,7 +269,7 @@ class UriTest extends TestCase
     }
 
     /**
-     * Test the query  extract
+     * Test the query  extract.
      *
      * @param string $uriString
      * @param array $parts
@@ -285,7 +286,7 @@ class UriTest extends TestCase
     }
 
     /**
-     * Test that we can use an array to set the query parameters
+     * Test that we can use an array to set the query parameters.
      *
      * @param array $data
      * @param string $querystring
@@ -299,7 +300,7 @@ class UriTest extends TestCase
     }
 
     /**
-     * Test that add an array to set the query parameters
+     * Test that add an array to set the query parameters.
      *
      * @param array $data
      * @param string $querystring
@@ -315,7 +316,7 @@ class UriTest extends TestCase
     }
 
     /**
-     * Test that we can use an array to remove the query parameters
+     * Test that we can use an array to remove the query parameters.
      *
      * @param array $data
      * @dataProvider queryParamsArrayProvider
@@ -330,7 +331,7 @@ class UriTest extends TestCase
     }
 
     /**
-     * Test InvalidArgumentException on removeQueries
+     * Test InvalidArgumentException on removeQueries.
      */
     public function testRemoveQuerystringException()
     {
@@ -340,7 +341,7 @@ class UriTest extends TestCase
     }
 
     /**
-     * Test InvalidArgumentException on removeQueries
+     * Test InvalidArgumentException on removeQueries.
      */
     public function testAddQuerystringException()
     {
@@ -350,7 +351,7 @@ class UriTest extends TestCase
     }
 
     /**
-     * Test the fragment extract
+     * Test the fragment extract.
      *
      * @param string $uriString
      * @param array $parts
@@ -367,7 +368,7 @@ class UriTest extends TestCase
     }
 
     /**
-     * Data provider for valid URIs, not necessarily complete
+     * Data provider for valid URIs, not necessarily complete.
      *
      * @return array
      */
@@ -397,7 +398,7 @@ class UriTest extends TestCase
 
     /**
      * Return all methods that are expected to return the same object they
-     * are called on, to test that the fluent interface is not broken
+     * are called on, to test that the fluent interface is not broken.
      *
      * @return array
      */
@@ -422,7 +423,7 @@ class UriTest extends TestCase
     }
 
     /**
-     * Data provider for valid URIs with their different parts
+     * Data provider for valid URIs with their different parts.
      *
      * @return array
      */
@@ -430,54 +431,54 @@ class UriTest extends TestCase
     {
         return [
             ['http://server/path?query', [
-                'scheme'   => 'http',
-                'host'     => 'server',
-                'domain'  => 'server',
-                'path'     => '/path',
-                'query'    =>  null,
+                'scheme' => 'http',
+                'host' => 'server',
+                'domain' => 'server',
+                'path' => '/path',
+                'query' => null,
                 'queries' => ['query' => null],
-                'queryString'    => 'query',
+                'queryString' => 'query',
             ]],
             ['file:///foo/bar', [
-                'scheme'   => 'file',
-                'host'     => '',
-                'domain'  => '',
-                'path'     => '/foo/bar',
+                'scheme' => 'file',
+                'host' => '',
+                'domain' => '',
+                'path' => '/foo/bar',
             ]],
             ['http://dude:lebowski@example.com/#fr/ag?me.nt', [
-                'scheme'   => 'http',
-                'user'     => 'dude',
-                'pass'     => 'lebowski',
-                'host'     => 'example.com',
-                'domain'   => 'example.com',
-                'path'     => '/',
-                'fragment' => 'fr/ag?me.nt'
+                'scheme' => 'http',
+                'user' => 'dude',
+                'pass' => 'lebowski',
+                'host' => 'example.com',
+                'domain' => 'example.com',
+                'path' => '/',
+                'fragment' => 'fr/ag?me.nt',
             ]],
             ['ftp://example.com:5555', [
                 'scheme' => 'ftp',
-                'host'   => 'example.com',
-                'domain'  => 'example.com',
-                'port'   => 5555,
-                'path'   => ''
+                'host' => 'example.com',
+                'domain' => 'example.com',
+                'port' => 5555,
+                'path' => '',
             ]],
             ['https://a.b.example.co.uk/foo//bar/baz//fob/?query=value', [
-                'scheme'  => 'https',
-                'host'    => 'a.b.example.co.uk',
-                'domain'  => 'example.co.uk',
-                'subdomain'  => 'a.b',
-                'subdomainfirst'  => 'a',
-                'subdomainlast'  => 'b',
-                'path'    => '/foo//bar/baz//fob/',
-                'query'   => 'value',
+                'scheme' => 'https',
+                'host' => 'a.b.example.co.uk',
+                'domain' => 'example.co.uk',
+                'subdomain' => 'a.b',
+                'subdomainfirst' => 'a',
+                'subdomainlast' => 'b',
+                'path' => '/foo//bar/baz//fob/',
+                'query' => 'value',
                 'queries' => ['query' => 'value'],
-                'queryString'  => 'query=value',
-            ]]
+                'queryString' => 'query=value',
+            ]],
         ];
     }
 
     /**
      * Data provider for arrays of query string parameters, with the expected
-     * query string
+     * query string.
      *
      * @return array
      */
@@ -486,16 +487,16 @@ class UriTest extends TestCase
         return [
             [[
                 'foo' => 'bar',
-                'baz' => 'waka'
+                'baz' => 'waka',
             ], 'foo=bar&baz=waka'],
             [[
                 'some key' => 'some crazy value?!#[]&=%+',
-                'q1'        => ''
+                'q1' => '',
             ], 'some%20key=some%20crazy%20value%3F%21%23%5B%5D%26%3D%25%2B&q1='],
             [[
-                'array'        => ['foo', 'bar', 'baz'],
-                'otherstuff[]' => (string) 1234
-            ], 'array%5B0%5D=foo&array%5B1%5D=bar&array%5B2%5D=baz&otherstuff%5B%5D=1234']
+                'array' => ['foo', 'bar', 'baz'],
+                'otherstuff[]' => (string) 1234,
+            ], 'array%5B0%5D=foo&array%5B1%5D=bar&array%5B2%5D=baz&otherstuff%5B%5D=1234'],
         ];
     }
 }

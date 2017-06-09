@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-declare (strict_types = 1);
+declare(strict_types = 1);
 
 namespace Cawa\Date;
 
@@ -21,31 +21,31 @@ use Punic\Calendar;
 class DateTime extends Chronos implements \JsonSerializable
 {
     /**
-     * 15 hours, 2 minutes
+     * 15 hours, 2 minutes.
      */
     const DISPLAY_DURATION = 'duration';
 
     /**
      * Date : 'EEEE, MMMM d, y' - 'Wednesday, August 20, 2014'
-     * Time : 'h:mm:ss a zzzz' - '11:42:13 AM GMT+2:00'
+     * Time : 'h:mm:ss a zzzz' - '11:42:13 AM GMT+2:00'.
      */
     const DISPLAY_FULL = 'full';
 
     /**
      * Date : 'MMMM d, y' - 'August 20, 2014'
-     * Time : 'h:mm:ss a z' - '11:42:13 AM GMT+2:00'
+     * Time : 'h:mm:ss a z' - '11:42:13 AM GMT+2:00'.
      */
     const DISPLAY_LONG = 'long';
 
     /**
      * Date : 'MMM d, y' - 'August 20, 2014'
-     * Time : 'h:mm:ss a' - '11:42:13 AM'
+     * Time : 'h:mm:ss a' - '11:42:13 AM'.
      */
     const DISPLAY_MEDIUM = 'medium';
 
     /**
      * Date : 'M/d/yy' - '8/20/14'
-     * Time : 'h:mm a' - '11:42 AM'
+     * Time : 'h:mm a' - '11:42 AM'.
      */
     const DISPLAY_SHORT = 'short';
 
@@ -82,13 +82,13 @@ class DateTime extends Chronos implements \JsonSerializable
     }
 
     /**
-     * Reorder the days property based on current language
+     * Reorder the days property based on current language.
      */
     private static function init()
     {
         $day = Calendar::getFirstWeekday();
         $day = $day == 0 ? 7 : $day;
-        DateTime::$weekStartsAt = $day;
+        self::$weekStartsAt = $day;
 
         $days = self::$days;
         while (array_keys($days)[0] != $day) {
@@ -124,7 +124,7 @@ class DateTime extends Chronos implements \JsonSerializable
 
         $return = [];
         foreach (self::getDays() as $i => $name) {
-            $return[$i] = DateTime::localizeDay($i);
+            $return[$i] = self::localizeDay($i);
         }
 
         return $return;
@@ -230,7 +230,7 @@ class DateTime extends Chronos implements \JsonSerializable
     public function display($type = null) : string
     {
         if ($type == self::DISPLAY_DURATION) {
-            return $this->diffForHumans(DateTime::now(), true);
+            return $this->diffForHumans(self::now(), true);
         }
 
         if (is_null($type)) {

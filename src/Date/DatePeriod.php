@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-declare (strict_types = 1);
+declare(strict_types = 1);
 
 namespace Cawa\Date;
 
@@ -17,7 +17,7 @@ use ReflectionClass;
 use Traversable;
 
 /**
- * Simple Wrapper due to a php bug
+ * Simple Wrapper due to a php bug.
  *
  * @see http://stackoverflow.com/questions/24476185/writing-to-dateperiod-properties-is-unsupported
  */
@@ -119,7 +119,7 @@ class DatePeriod implements \IteratorAggregate
      */
     public function getEndDate() : DateTime
     {
-        return (new DateTime($this->period->getEndDate()));
+        return new DateTime($this->period->getEndDate());
     }
 
     /**

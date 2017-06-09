@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-declare (strict_types = 1);
+declare(strict_types = 1);
 
 namespace Cawa\Router;
 
@@ -81,6 +81,7 @@ class Router
 
         return $this->args[$name] ?? null;
     }
+
     /**
      * @param string $path
      *
@@ -425,7 +426,7 @@ class Router
             $replace = '{{' . $var . '}}';
             $explode = explode(':', $var);
             $type = array_shift($explode);
-            $value = implode(':', $explode) ;
+            $value = implode(':', $explode);
             unset($dest);
 
             switch ($type) {
@@ -460,7 +461,7 @@ class Router
     }
 
     /**
-     * Translate text => accueil|home
+     * Translate text => accueil|home.
      *
      * @param Route $route
      * @param string|null $value
@@ -517,7 +518,7 @@ class Router
     }
 
     /**
-     * Locales avaialble => fr|en
+     * Locales avaialble => fr|en.
      *
      * @param array|null $data
      *
@@ -888,7 +889,7 @@ class Router
 
         foreach ($method->getParameters() as $parameter) {
             if (!isset($args[$parameter->getName()]) && $parameter->isOptional() === false) {
-                if ($method->getName()  === 'init') {
+                if ($method->getName() === 'init') {
                     continue;
                 }
 

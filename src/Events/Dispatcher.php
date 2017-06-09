@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-declare (strict_types = 1);
+declare(strict_types = 1);
 
 namespace Cawa\Events;
 
@@ -26,7 +26,7 @@ class Dispatcher
     protected $classListeners = [];
 
     /**
-     * Listen to a specific event name
+     * Listen to a specific event name.
      *
      * @param string $event
      * @param callable $listener
@@ -40,7 +40,7 @@ class Dispatcher
     }
 
     /**
-     * Listen all event for the specific class (or all of this parent class)
+     * Listen all event for the specific class (or all of this parent class).
      *
      * @param string $class
      * @param callable $listener

@@ -9,13 +9,14 @@
  * file that was distributed with this source code.
  */
 
-declare (strict_types = 1);
+declare(strict_types = 1);
 
 /**
- * Сáша frameworks tests
+ * Сáша frameworks tests.
  *
  * @author tchiotludo <http://github.com/tchiotludo>
  */
+
 namespace CawaTest\Date;
 
 use Cawa\Date\DatePeriod;
@@ -26,7 +27,7 @@ use PHPUnit_Framework_TestCase as TestCase;
 class DatePeriodTest extends TestCase
 {
     /**
-     * Test start and end date
+     * Test start and end date.
      *
      * @param DateTime $start
      * @param \DateInterval $interval
@@ -43,7 +44,7 @@ class DatePeriodTest extends TestCase
     }
 
     /**
-     * Test start and end date
+     * Test start and end date.
      *
      * @param DateTime $start
      * @param \DateInterval $interval
@@ -88,7 +89,7 @@ class DatePeriodTest extends TestCase
                     'start' => [
                     ],
                     'end' => [
-                    ]
+                    ],
                 ],
             ],
             [
@@ -98,11 +99,11 @@ class DatePeriodTest extends TestCase
                 null,
                 [
                     'start' => [
-                        '2016-01-01 00:00:00'
+                        '2016-01-01 00:00:00',
                     ],
                     'end' => [
-                        '2016-01-07 00:00:00'
-                    ]
+                        '2016-01-07 00:00:00',
+                    ],
                 ],
             ],
             [
@@ -116,7 +117,7 @@ class DatePeriodTest extends TestCase
                     ],
                     'end' => [
                         '2016-01-08 00:00:00',
-                    ]
+                    ],
                 ],
             ],
             [
@@ -127,12 +128,12 @@ class DatePeriodTest extends TestCase
                 [
                     'start' => [
                         '2016-01-01 00:00:00',
-                        '2016-01-08 00:00:00'
+                        '2016-01-08 00:00:00',
                     ],
                     'end' => [
                         '2016-01-08 00:00:00',
-                        '2016-01-09 00:00:00'
-                    ]
+                        '2016-01-09 00:00:00',
+                    ],
                 ],
             ],
             [
@@ -156,7 +157,7 @@ class DatePeriodTest extends TestCase
                         '2016-01-05 00:00:00',
                         '2016-01-06 00:00:00',
                         '2016-01-07 00:00:00',
-                    ]
+                    ],
                 ],
             ],
             [
@@ -178,7 +179,7 @@ class DatePeriodTest extends TestCase
                         '2016-01-05 00:00:00',
                         '2016-01-06 00:00:00',
                         '2016-01-07 00:00:00',
-                    ]
+                    ],
                 ],
             ],
             [
@@ -200,7 +201,7 @@ class DatePeriodTest extends TestCase
                         '2016-01-04 00:00:00',
                         '2016-01-05 00:00:00',
                         '2016-01-06 00:00:00',
-                    ]
+                    ],
                 ],
             ],
             [
@@ -220,7 +221,7 @@ class DatePeriodTest extends TestCase
                         '2016-01-04 00:00:00',
                         '2016-01-05 00:00:00',
                         '2016-01-06 00:00:00',
-                    ]
+                    ],
                 ],
             ],
         ];

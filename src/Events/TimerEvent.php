@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-declare (strict_types = 1);
+declare(strict_types = 1);
 
 namespace Cawa\Events;
 
@@ -26,14 +26,14 @@ class TimerEvent extends Event
     }
 
     /**
-     * start time of the events (in microseconds)
+     * start time of the events (in microseconds).
      *
      * @var float
      */
     protected $start;
 
     /**
-     * start time of the events (in microseconds)
+     * start time of the events (in microseconds).
      *
      * @return float
      */
@@ -56,9 +56,7 @@ class TimerEvent extends Event
     }
 
     /**
-     * Save duration of this events
-     *
-     * @return void
+     * Save duration of this events.
      */
     public function onEmit()
     {

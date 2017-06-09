@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-declare (strict_types = 1);
+declare(strict_types = 1);
 
 namespace Cawa\Core;
 
@@ -126,7 +126,7 @@ class Config
         $last = $explode = explode('/', $path);
         $last = array_pop($last);
 
-        $config =& $this->config;
+        $config = &$this->config;
         while ($element = array_shift($explode)) {
             if (!isset($config[$element])) {
                 throw new \InvalidArgumentException(
@@ -136,6 +136,7 @@ class Config
 
             if ($element === $last) {
                 unset($config[$element]);
+
                 return true;
             } else {
                 $config = &$config[$element];
@@ -144,5 +145,4 @@ class Config
 
         return false;
     }
-
 }

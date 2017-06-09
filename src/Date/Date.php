@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-declare (strict_types = 1);
+declare(strict_types = 1);
 
 namespace Cawa\Date;
 
@@ -18,27 +18,27 @@ use Punic\Calendar;
 class Date extends DateTime
 {
     /**
-     * 15 hours, 2 minutes
+     * 15 hours, 2 minutes.
      */
     const DISPLAY_DURATION = 'duration';
 
     /**
-     * 'EEEE, MMMM d, y' - 'Wednesday, August 20, 2014'
+     * 'EEEE, MMMM d, y' - 'Wednesday, August 20, 2014'.
      */
     const DISPLAY_FULL = 'medium';
 
     /**
-     * 'MMMM d, y' - 'August 20, 2014'
+     * 'MMMM d, y' - 'August 20, 2014'.
      */
     const DISPLAY_LONG = 'long';
 
     /**
-     * 'MMM d, y' - 'August 20, 2014'
+     * 'MMM d, y' - 'August 20, 2014'.
      */
     const DISPLAY_MEDIUM = 'medium';
 
     /**
-     * 'M/d/yy' - '8/20/14'
+     * 'M/d/yy' - '8/20/14'.
      */
     const DISPLAY_SHORT = 'short';
 

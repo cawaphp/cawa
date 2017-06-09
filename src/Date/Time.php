@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-declare (strict_types = 1);
+declare(strict_types = 1);
 
 namespace Cawa\Date;
 
@@ -20,27 +20,27 @@ use Punic\Unit;
 class Time extends DateTime
 {
     /**
-     * 15 hours, 2 minutes
+     * 15 hours, 2 minutes.
      */
     const DISPLAY_DURATION = 'duration';
 
     /**
-     * 'h:mm:ss a zzzz' - '11:42:13 AM GMT+2:00'
+     * 'h:mm:ss a zzzz' - '11:42:13 AM GMT+2:00'.
      */
     const DISPLAY_FULL = 'medium';
 
     /**
-     * 'h:mm:ss a z' - '11:42:13 AM GMT+2:00'
+     * 'h:mm:ss a z' - '11:42:13 AM GMT+2:00'.
      */
     const DISPLAY_LONG = 'long';
 
     /**
-     * 'h:mm:ss a' - '11:42:13 AM'
+     * 'h:mm:ss a' - '11:42:13 AM'.
      */
     const DISPLAY_MEDIUM = 'medium';
 
     /**
-     * 'h:mm a' - '11:42 AM'
+     * 'h:mm a' - '11:42 AM'.
      */
     const DISPLAY_SHORT = 'short';
 

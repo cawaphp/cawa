@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-declare (strict_types = 1);
+declare(strict_types = 1);
 
 namespace Cawa\Error;
 
@@ -35,7 +35,7 @@ class Handler
     use RouterFactory;
 
     /**
-     * Friendly name from error code
+     * Friendly name from error code.
      */
     const LEVEL_NAME = [
         E_ERROR => 'Error',
@@ -56,7 +56,7 @@ class Handler
     ];
 
     /**
-     * Log level map from error code
+     * Log level map from error code.
      */
     const LEVEL_LOG = [
         'emergency' => [0, E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR, E_USER_ERROR, E_RECOVERABLE_ERROR],
@@ -66,7 +66,7 @@ class Handler
     ];
 
     /**
-     * Exception class from error code
+     * Exception class from error code.
      */
     const LEVEL_CLASS = [
         'Error' => [0, E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR, E_USER_ERROR, E_RECOVERABLE_ERROR],
@@ -81,7 +81,6 @@ class Handler
     private static $reservedMemory;
 
     /**
-     * @return void
      */
     public static function register()
     {
@@ -98,7 +97,7 @@ class Handler
     }
 
     /**
-     * Catch __PHP_Incomplete_Class
+     * Catch __PHP_Incomplete_Class.
      *
      * @param string $className
      *
@@ -110,7 +109,7 @@ class Handler
     }
 
     /**
-     * Catch uncatchable error (parse / compile / ...)
+     * Catch uncatchable error (parse / compile / ...).
      */
     public static function fatalHandler()
     {
@@ -132,7 +131,7 @@ class Handler
     }
 
     /**
-     * Convert old php error to exception
+     * Convert old php error to exception.
      *
      * @param int $errno
      * @param string $message
@@ -288,7 +287,7 @@ class Handler
     }
 
     /**
-     * Clear all buffer to display error page
+     * Clear all buffer to display error page.
      */
     private static function clearAllBuffer()
     {

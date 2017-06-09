@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-declare (strict_types = 1);
+declare(strict_types = 1);
 
 namespace Cawa\App;
 
@@ -86,17 +86,17 @@ abstract class AbstractApp
     }
 
     /**
-     * Environnement development
+     * Environnement development.
      */
     const DEVELOPMENT = 'DEVELOPMENT';
 
     /**
-     * Environnement production
+     * Environnement production.
      */
     const PRODUCTION = 'PRODUCTION';
 
     /**
-     * Environnement testing
+     * Environnement testing.
      */
     const STAGING = 'STAGING';
 
@@ -127,7 +127,7 @@ abstract class AbstractApp
     }
 
     /**
-     * Load config
+     * Load config.
      */
     public function init()
     {
@@ -239,12 +239,10 @@ abstract class AbstractApp
     }
 
     /**
-     * @return void
      */
     abstract public function handle();
 
     /**
-     * @return void
      */
     public function end()
     {

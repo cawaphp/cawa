@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-declare (strict_types = 1);
+declare(strict_types = 1);
 
 namespace Cawa\Http;
 
@@ -74,7 +74,7 @@ class Request
      *
      * @return $this|self
      */
-    public function setUri(Uri $uri): self
+    public function setUri(Uri $uri) : self
     {
         $this->uri = $uri;
 
@@ -163,7 +163,7 @@ class Request
     /**
      * @return array
      */
-    public function getQueries()  : array
+    public function getQueries() : array
     {
         return $this->uri->getQueries();
     }
@@ -224,7 +224,7 @@ class Request
     /**
      * @return array
      */
-    public function getPosts()  : array
+    public function getPosts() : array
     {
         return $this->post;
     }
@@ -240,8 +240,9 @@ class Request
 
         return $this;
     }
+
     /**
-     * Get Querystring or Post data depending on request method
+     * Get Querystring or Post data depending on request method.
      *
      * @param string $name
      * @param string $type
@@ -323,7 +324,6 @@ class Request
         }
 
         uasort($locales, function ($a, $b) {
-
             return $a > $b ? -1 : 1;
         });
 

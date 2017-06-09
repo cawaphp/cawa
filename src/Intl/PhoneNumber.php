@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-declare (strict_types = 1);
+declare(strict_types = 1);
 
 namespace Cawa\Intl;
 
@@ -24,12 +24,12 @@ class PhoneNumber
     use TranslatorFactory;
 
     /**
-     * House Phone
+     * House Phone.
      */
     const TYPE_FIXED_LINE = 0;
 
     /**
-     * Mobile Phone
+     * Mobile Phone.
      */
     const TYPE_MOBILE = 1;
 
@@ -40,12 +40,12 @@ class PhoneNumber
     const TYPE_FIXED_LINE_OR_MOBILE = 2;
 
     /**
-     * Freephone lines
+     * Freephone lines.
      */
     const TYPE_TOLL_FREE = 3;
 
     /**
-     * Premium Rate
+     * Premium Rate.
      */
     const TYPE_PREMIUM_RATE = 4;
 
@@ -64,12 +64,12 @@ class PhoneNumber
     /**
      * A personal number is associated with a particular person, and may be routed to either a
      * MOBILE or FIXED_LINE number. Some more information can be found here:
-     * http://en.wikipedia.org/wiki/Personal_Numbers
+     * http://en.wikipedia.org/wiki/Personal_Numbers.
      */
     const TYPE_ERSONAL_NUMBER = 7;
 
     /**
-     * Pager
+     * Pager.
      */
     const TYPE_PAGER = 8;
 
@@ -86,12 +86,12 @@ class PhoneNumber
     const TYPE_UNKNOWN = 10;
 
     /**
-     * Voicemail
+     * Voicemail.
      */
     const TYPE_VOICEMAIL = 28;
 
     /**
-     * Short Code
+     * Short Code.
      */
     const TYPE_SHORT_CODE = 29;
 

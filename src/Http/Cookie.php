@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-declare (strict_types = 1);
+declare(strict_types = 1);
 
 namespace Cawa\Http;
 
@@ -18,7 +18,7 @@ use Cawa\Date\DateTime;
 class Cookie
 {
     /**
-     * The name of the cookie
+     * The name of the cookie.
      *
      * @var string
      */
@@ -48,7 +48,7 @@ class Cookie
 
         if (empty($name)) {
             throw new \InvalidArgumentException('The cookie name cannot be empty.');
-        };
+        }
 
         $this->name = $name;
 
@@ -56,7 +56,7 @@ class Cookie
     }
 
     /**
-     * The value of the cookie
+     * The value of the cookie.
      *
      * @var string
      */
@@ -87,7 +87,7 @@ class Cookie
     }
 
     /**
-     * The domain that the cookie is available to
+     * The domain that the cookie is available to.
      *
      * @var string
      */
@@ -118,7 +118,7 @@ class Cookie
     }
 
     /**
-     * The time the cookie expires
+     * The time the cookie expires.
      *
      * @var int
      */
@@ -173,7 +173,7 @@ class Cookie
     }
 
     /**
-     * The path on the server in which the cookie will be available on
+     * The path on the server in which the cookie will be available on.
      *
      * @var string
      */
@@ -204,7 +204,7 @@ class Cookie
     }
 
     /**
-     * Whether the cookie should only be transmitted over a secure HTTPS connection from the client
+     * Whether the cookie should only be transmitted over a secure HTTPS connection from the client.
      *
      * @var bool
      */
@@ -221,7 +221,7 @@ class Cookie
     }
 
     /**
-     * Set if the cookie should only be transmitted over a secure HTTPS connection from the client
+     * Set if the cookie should only be transmitted over a secure HTTPS connection from the client.
      *
      * @param bool $secure
      *
@@ -235,7 +235,7 @@ class Cookie
     }
 
     /**
-     * Whether the cookie will be made accessible only through the HTTP protocol
+     * Whether the cookie will be made accessible only through the HTTP protocol.
      *
      * @var bool
      */
@@ -252,7 +252,7 @@ class Cookie
     }
 
     /**
-     * Set if the cookie will be made accessible only through the HTTP protocol
+     * Set if the cookie will be made accessible only through the HTTP protocol.
      *
      * @param bool $httOnly
      *
@@ -309,7 +309,7 @@ class Cookie
             $explode = explode('=', $param);
 
             if ($i == 0) {
-                $cookie = new Cookie($explode[0], $explode[1]);
+                $cookie = new self($explode[0], $explode[1]);
                 $cookie->setHttpOnly(false);
             } else {
                 switch ($explode[0]) {

@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-declare (strict_types = 1);
+declare(strict_types = 1);
 
 namespace Cawa\Log;
 
@@ -19,14 +19,14 @@ use Cawa\Events\Event as EventBase;
 class Event extends EventBase
 {
     /**
-     * The Level
+     * The Level.
      *
      * @var string
      */
     private $level;
 
     /**
-     * Gets Level
+     * Gets Level.
      *
      * @return string
      */
@@ -36,7 +36,7 @@ class Event extends EventBase
     }
 
     /**
-     * Set Level
+     * Set Level.
      *
      * @param string $Level
      *
@@ -50,14 +50,14 @@ class Event extends EventBase
     }
 
     /**
-     * The message
+     * The message.
      *
      * @var string
      */
     private $message;
 
     /**
-     * Gets message
+     * Gets message.
      *
      * @return string
      */
@@ -67,7 +67,7 @@ class Event extends EventBase
     }
 
     /**
-     * Set message
+     * Set message.
      *
      * @param string $message
      *
@@ -81,14 +81,14 @@ class Event extends EventBase
     }
 
     /**
-     * The message
+     * The message.
      *
      * @var array
      */
     private $context;
 
     /**
-     * Gets message
+     * Gets message.
      *
      * @return string
      */
@@ -98,7 +98,7 @@ class Event extends EventBase
     }
 
     /**
-     * Set message
+     * Set message.
      *
      * @param array $context
      *
@@ -112,14 +112,14 @@ class Event extends EventBase
     }
 
     /**
-     * The message
+     * The message.
      *
      * @var DateTime
      */
     private $date;
 
     /**
-     * Gets message
+     * Gets message.
      *
      * @return DateTime
      */
@@ -168,7 +168,7 @@ class Event extends EventBase
     }
 
     /**
-     * Add current date
+     * Add current date.
      */
     public function onEmit()
     {

@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-declare (strict_types = 1);
+declare(strict_types = 1);
 
 namespace Cawa\Net;
 
@@ -62,7 +62,6 @@ class Uri
     }
 
     /**
-     * @return void
      */
     private function getCurrentUrl()
     {
@@ -140,7 +139,7 @@ class Uri
      */
     public static function parse(string $uri = null) : self
     {
-        $uri = new Uri($uri);
+        $uri = new self($uri);
 
         return $uri;
     }
@@ -152,14 +151,12 @@ class Uri
      */
     public static function getAbsoluteUri(string $uri = null) : string
     {
-        $uri = new Uri($uri);
+        $uri = new self($uri);
 
         return $uri->get(false);
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return string
      */
     public function getScheme() : string
@@ -257,7 +254,7 @@ class Uri
         if ($withSuffix) {
             return $parse->host->registerableDomain;
         } else {
-            return substr($parse->host->registerableDomain, 0, - strlen($parse->host->publicSuffix) - 1);
+            return substr($parse->host->registerableDomain, 0, -strlen($parse->host->publicSuffix) - 1);
         }
     }
 
@@ -274,7 +271,7 @@ class Uri
             return null;
         }
 
-        $return = substr($this->getHost(), 0, -strlen($this->getDomain())-1);
+        $return = substr($this->getHost(), 0, -strlen($this->getDomain()) - 1);
 
         if (!$return) {
             return null;
@@ -324,8 +321,6 @@ class Uri
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return string|null
      */
     public function getPath()
@@ -358,8 +353,6 @@ class Uri
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return string
      */
     public function getQuerystring()
@@ -431,7 +424,7 @@ class Uri
 
     /**
      * Add query string to current url, overwrite the one that already exists
-     * This method is the only way to add an array as value for a querystring (non standard)
+     * This method is the only way to add an array as value for a querystring (non standard).
      *
      * @param array $queries
      *
@@ -465,7 +458,7 @@ class Uri
     }
 
     /**
-     * Add query string to current url, overwrite the one that already exists
+     * Add query string to current url, overwrite the one that already exists.
      *
      * @param string $key
      * @param string $value
@@ -494,7 +487,7 @@ class Uri
     }
 
     /**
-     * Remove selected query string to current url
+     * Remove selected query string to current url.
      *
      * @param array $queries
      *
@@ -518,7 +511,7 @@ class Uri
     }
 
     /**
-     * Remove all query string to current url
+     * Remove all query string to current url.
      *
      * @return $this|self
      */

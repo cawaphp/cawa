@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-declare (strict_types = 1);
+declare(strict_types = 1);
 
 namespace Cawa\Date;
 
@@ -40,6 +40,7 @@ class Translator extends \Cake\Chronos\Translator
             false
         ));
     }
+
     /**
      * @param string $key
      *

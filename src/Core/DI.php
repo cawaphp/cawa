@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-declare (strict_types = 1);
+declare(strict_types = 1);
 
 namespace Cawa\Core;
 
@@ -72,10 +72,9 @@ abstract class DI
 
         if ($config) {
             return [$configName, $config, null];
-        } else if ($strict == false) {
+        } elseif ($strict == false) {
             return [$configName ?: $name, null, null];
         }
-
     }
 
     /**
@@ -119,7 +118,7 @@ abstract class DI
     /**
      * @return Config
      */
-    public static function config(): Config
+    public static function config() : Config
     {
         if (!self::$config) {
             self::$config = new Config();

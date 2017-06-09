@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-declare (strict_types = 1);
+declare(strict_types = 1);
 
 namespace Cawa\Intl;
 
@@ -27,7 +27,7 @@ class Translator
     use LoggerFactory;
 
     /**
-     *  Token cookie name
+     *  Token cookie name.
      */
     const COOKIE_LANGUAGE = 'L';
 
@@ -112,7 +112,7 @@ class Translator
     }
 
     /**
-     * detect locale & set cookie if neccesary
+     * detect locale & set cookie if neccesary.
      */
     private function initLocale()
     {
@@ -216,7 +216,7 @@ class Translator
 
         if ($type == 'php') {
             /* @noinspection PhpIncludeInspection */
-            $data = require($path);
+            $data = require $path;
         } else {
             $data = yaml_parse_file($path);
         }

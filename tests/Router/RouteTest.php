@@ -9,13 +9,14 @@
  * file that was distributed with this source code.
  */
 
-declare (strict_types = 1);
+declare(strict_types = 1);
 
 /**
- * Сáша frameworks tests
+ * Сáша frameworks tests.
  *
  * @author tchiotludo <http://github.com/tchiotludo>
  */
+
 namespace CawaTest\Router;
 
 use Cawa\Router\Route;
@@ -24,7 +25,7 @@ use PHPUnit_Framework_TestCase as TestCase;
 class RouteTest extends TestCase
 {
     /**
-     * Test the fluent interface
+     * Test the fluent interface.
      *
      * @param string $method
      * @param string $params
@@ -38,7 +39,7 @@ class RouteTest extends TestCase
     }
 
     /**
-     * Test the fluent interface
+     * Test the fluent interface.
      *
      * @param string $method
      * @param string $params
@@ -54,7 +55,7 @@ class RouteTest extends TestCase
     }
 
     /**
-     * Test InvalidArgumentException on setMatch
+     * Test InvalidArgumentException on setMatch.
      *
      * @dataProvider invalidMatchProvider
      */
@@ -66,7 +67,7 @@ class RouteTest extends TestCase
     }
 
     /**
-     * Test Empty Option
+     * Test Empty Option.
      */
     public function testGetEmptyOption()
     {
@@ -75,7 +76,7 @@ class RouteTest extends TestCase
     }
 
     /**
-     * Data provider for valid URIs, not necessarily complete
+     * Data provider for valid URIs, not necessarily complete.
      *
      * @return array
      */
@@ -90,7 +91,7 @@ class RouteTest extends TestCase
 
     /**
      * Return all methods that are expected to return the same object they
-     * are called on, to test that the fluent interface is not broken
+     * are called on, to test that the fluent interface is not broken.
      *
      * @return array
      */

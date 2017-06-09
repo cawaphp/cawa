@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-declare (strict_types = 1);
+declare(strict_types = 1);
 
 namespace Cawa\Http;
 
@@ -96,7 +96,7 @@ class File implements \Serializable
         foreach ($raw as $postName => $fileValue) {
             if (!is_array($fileValue['error'])) {
                 if ($fileValue['error'] != 4) {
-                    $return[$postName] = new File($postName, $fileValue);
+                    $return[$postName] = new self($postName, $fileValue);
                 }
             } else {
                 $keys = [$postName];
@@ -262,7 +262,7 @@ class File implements \Serializable
     }
 
     /**
-     * Exception are not clonable
+     * Exception are not clonable.
      */
     public function __clone()
     {

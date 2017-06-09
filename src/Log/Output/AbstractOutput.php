@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-declare (strict_types = 1);
+declare(strict_types = 1);
 
 namespace Cawa\Log\Output;
 
@@ -26,7 +26,7 @@ abstract class AbstractOutput
         LogLevel::ERROR,
         LogLevel::CRITICAL,
         LogLevel::ALERT,
-        LogLevel::EMERGENCY
+        LogLevel::EMERGENCY,
     ];
 
     /**

@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-declare (strict_types = 1);
+declare(strict_types = 1);
 
 namespace Cawa\App;
 
@@ -36,7 +36,7 @@ class HttpApp extends AbstractApp
     }
 
     /**
-     * Load route & request
+     * Load route & request.
      */
     public function init()
     {
@@ -46,7 +46,6 @@ class HttpApp extends AbstractApp
     }
 
     /**
-     * @return void
      */
     public function handle()
     {
@@ -80,7 +79,6 @@ class HttpApp extends AbstractApp
     }
 
     /**
-     * @return void
      */
     public function end()
     {
