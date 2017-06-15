@@ -68,7 +68,7 @@ var Request = function () {
             {
                 xhr.url = this.url;
                 if (complete) {
-                    $(document).one("complete.request", complete);
+                    $(document).oneFirst("complete.request", complete);
                 }
 
                 $(document).trigger("complete.request", [
@@ -83,7 +83,7 @@ var Request = function () {
                 }
 
                 if (fail) {
-                    $(document).one("error.request", fail);
+                    $(document).oneFirst("error.request", fail);
                 }
 
                 $(document).trigger("error.request", [
@@ -94,7 +94,7 @@ var Request = function () {
             .always(function (data, textStatus, xhr)
             {
                 if (always) {
-                    $(document).one("finally.request", always);
+                    $(document).oneFirst("finally.request", always);
                 }
 
                 if (textStatus === 'success') {

@@ -93,7 +93,7 @@ abstract class Ip
      */
     public static function isAdmin() : bool
     {
-        $ips = DI::config()->getIfExists('ip/admin');
+        $ips = DI::config()->getIfExists('admin/ips');
 
         if (!$ips) {
             return false;

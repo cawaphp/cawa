@@ -298,6 +298,16 @@ class Router
 
     /**
      * @param string $name
+     *
+     * @return bool
+     */
+    public function routeExist(string $name) : bool
+    {
+        return isset($this->routes[$name]);
+    }
+
+    /**
+     * @param string $name
      * @param array $data
      * @param bool $warnData
      *

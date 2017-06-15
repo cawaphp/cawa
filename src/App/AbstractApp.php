@@ -19,6 +19,7 @@ use Cawa\Events\Event;
 use Cawa\Http\ServerRequest;
 use Cawa\Log\Output\AbstractOutput;
 use Cawa\Log\Output\StdErr;
+use Cawa\Net\Ip;
 use Psr\Log\LogLevel;
 
 abstract class AbstractApp
@@ -236,6 +237,14 @@ abstract class AbstractApp
         }
 
         throw new \InvalidArgumentException("No register module modules with class '%s'", get_class($class));
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAdmin() : bool
+    {
+        return Ip::isAdmin();
     }
 
     /**

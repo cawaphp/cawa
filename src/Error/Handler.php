@@ -208,7 +208,7 @@ class Handler
         if (AbstractApp::isInit() && AbstractApp::instance() instanceof HttpApp) {
             self::response()->setStatus(500);
 
-            if (AbstractApp::env() != AbstractApp::PRODUCTION || Ip::isAdmin()) {
+            if (AbstractApp::env() != AbstractApp::PRODUCTION || AbstractApp::instance()->isAdmin()) {
                 $formatter = new $formatterClass();
                 self::render($formatter, $exception);
             } else {
@@ -227,7 +227,7 @@ class Handler
                 header('HTTP/1.1 500 Internal Server Error');
             }
 
-            if (AbstractApp::env() != AbstractApp::PRODUCTION) {
+            if (AbstractApp::env() != AbstractApp::PRODUCTION || AbstractApp::instance()->isAdmin()) {
                 $formatter = new $formatterClass();
                 self::render($formatter, $exception);
             } else {
