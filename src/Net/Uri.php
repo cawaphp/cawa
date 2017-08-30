@@ -261,7 +261,7 @@ class Uri
     /**
      * @param int $level
      *
-     * @return null|string
+     * @return bool|null|string
      */
     public function getSubdomain(int $level = null)
     {
@@ -296,6 +296,36 @@ class Uri
     public function setHost(string $host) : self
     {
         $this->uri['host'] = $host;
+
+        return $this;
+    }
+
+    /**
+     * @param string $host
+     *
+     * @return $this|self
+     */
+    public function setHostFull(string $host) : self
+    {
+        $uri = new static($host);
+
+        $this->uri['host'] = $uri->uri['host'];
+
+        if (isset($uri->uri['scheme'])) {
+            $this->uri['scheme'] = $uri->uri['scheme'];
+        }
+
+        if (isset($uri->uri['port'])) {
+            $this->uri['port'] = $uri->uri['port'];
+        }
+
+        if (isset($uri->uri['user'])) {
+            $this->uri['user'] = $uri->uri['user'];
+        }
+
+        if (isset($uri->uri['pass'])) {
+            $this->uri['pass'] = $uri->uri['pass'];
+        }
 
         return $this;
     }
@@ -376,7 +406,7 @@ class Uri
     public function setQuerystring(string $query = null) : self
     {
         if (is_null($query)) {
-            unset($this->uri['query']);
+            $this->uri['query'] = [];
         } else {
             $this->uri['query'] = $this->parseStr($query);
         }
@@ -414,7 +444,7 @@ class Uri
     public function setQueries(array $query = []) : self
     {
         if (sizeof($query) == 0) {
-            unset($this->uri['query']);
+            $this->uri['query'] = [];
         } else {
             $this->uri['query'] = $query;
         }

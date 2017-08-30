@@ -45,7 +45,19 @@ trait ViewDataTrait
      */
     protected function addViewDatas(array $datas)
     {
-        $this->data = array_merge($this->data, $datas);
+        $this->data = array_replace_recursive($this->data, $datas);
+
+        return $this;
+    }
+
+    /**
+     * @param array $datas
+     *
+     * @return $this|self
+     */
+    protected function setViewDatas(array $datas)
+    {
+        $this->data = $datas;
 
         return $this;
     }

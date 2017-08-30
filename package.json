@@ -1,0 +1,31 @@
+{
+  "name": "cawaphp-cawa",
+  "description": "Сáша Framework",
+  "version": "0.0.1",
+  "keywords": [
+    "cawa",
+    "framework"
+  ],
+  "files": [
+    "assets"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cawaphp/cawa.git"
+  },
+  "author": {
+    "name": "tchiotludo"
+  },
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/cawaphp/cawa/issues"
+  },
+  "homepage": "https://github.com/cawaphp/cawa#readme",
+  "dependencies": {
+    "jquery": "^2.2.1",
+    "jquery-ui": "^1.11.4",
+    "loglevel": "^1.4.0",
+    "moment": "^2.15.0",
+    "moment-timezone": "^0.5.5"
+  }
+}
