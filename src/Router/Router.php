@@ -297,6 +297,20 @@ class Router
     }
 
     /**
+     * @param string $key
+     *
+     * @return string
+     */
+    public function getUrisKeyword(string $key) : string
+    {
+        if (!isset($this->uris[$key][self::locale()])) {
+            throw new \InvalidArgumentException(sprintf("Invalid route uri keywords '%s'", $key));
+        }
+
+        return $this->uris[$key][self::locale()];
+    }
+
+    /**
      * @param string $name
      *
      * @return bool
