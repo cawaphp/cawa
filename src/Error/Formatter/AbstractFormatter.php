@@ -13,6 +13,7 @@ declare(strict_types = 1);
 
 namespace Cawa\Error\Formatter;
 
+use Cawa\App\AbstractApp;
 use ErrorException;
 
 abstract class AbstractFormatter
@@ -147,6 +148,44 @@ abstract class AbstractFormatter
         );
 
         return $this->render($exception, 1);
+    }
+
+    /**
+     * @param string $path
+     *
+     * @return string
+     */
+    protected static function mapPath(string $path) : string
+    {
+        if (getenv('APP_MAPPING')) {
+            $path = str_replace(AbstractApp::getAppRoot(), getenv('APP_MAPPING'), $path);
+        }
+
+        return $path;
+    }
+
+    /**
+     * @param string $path
+     * @param int $line
+     *
+     * @return string
+     */
+    public static function getIdeLink(string $path, int $line = null) : ?string
+    {
+        $fileLinkFormat = ini_get('xdebug.file_link_format') ?: 'phpstorm://%f:%l';
+
+        if ($path != '[internal function]' && $path != '{main}') {
+
+            $path = self::mapPath($path);
+
+            return str_replace(
+                ['%f', '%l'],
+                [$path, $line ?? 1],
+                $fileLinkFormat
+            );
+        }
+
+        return null;
     }
 
     /**

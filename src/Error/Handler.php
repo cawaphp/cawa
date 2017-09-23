@@ -138,8 +138,6 @@ class Handler
      * @param string $filename
      * @param string $linenumber
      *
-     * @throws Error
-     *
      * @return bool|void
      */
     public static function errorHandler($errno, $message = null, $filename = null, $linenumber = null)

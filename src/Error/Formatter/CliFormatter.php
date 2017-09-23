@@ -26,6 +26,12 @@ class CliFormatter extends AbstractFormatter
     {
         $stacks = $this->exceptionStackTrace($exception);
 
+        foreach ($stacks as &$stack) {
+            if (isset($stack['file'])) {
+                $stack['file'] = self::mapPath($stack['file']);
+            }
+        }
+
         $out = '';
 
         $out .= "\033[1;37m" . // white foreground

@@ -37,7 +37,6 @@ class HtmlFormatter extends AbstractFormatter
      */
     public function render(\Throwable $exception, int $index) : string
     {
-        $fileLinkFormat = ini_get('xdebug.file_link_format') ?: 'phpstorm://%f:%l';
 
         $stacks = $this->exceptionStackTrace($exception);
         $out = <<<EOF
@@ -92,6 +91,11 @@ class HtmlFormatter extends AbstractFormatter
                     font-size: 13px;
                 }
 
+                .cawaException h2 a {
+                    color: white;
+                    text-decoration: none;
+                }
+
                 .cawaException pre.extract {
                     background-color:#2b2b2b; 
                     color:#a1acb2;
@@ -142,7 +146,13 @@ EOF;
             '#' . $index . ' ' . htmlspecialchars($exception->getMessage()) .
             "</h1>\n";
 
-        $out .= '<h2>' . get_class($exception) . ' code(' . $exception->getCode() . ') in ' . $stacks[0]['file'];
+        $link = self::getIdeLink($stacks[0]['file'], $stacks[0]['line'] ?? null);
+        if ($link) {
+            $link = ' href="' . $link . '"';
+        }
+
+        $out .= '<h2>' . get_class($exception) . ' code(' . $exception->getCode() . ') in ' .
+            '<a ' . $link . '>' . $stacks[0]['file'] . '</a>';
         if (isset($stacks[0]['line'])) {
             $out .= ' line ' . $stacks[0]['line'];
         }
@@ -180,14 +190,9 @@ EOF;
                     htmlspecialchars($stack['args']) . '</a>' . "\n";
             }
 
-            $link = '';
-
-            if ($stack['file'] != '[internal function]' && $stack['file'] != '{main}') {
-                $link = ' href="' . str_replace(
-                    ['%f', '%l'],
-                    [$stack['file'], $stack['line'] ?? 1],
-                    $fileLinkFormat
-                ) . '"';
+            $link = self::getIdeLink($stack['file'], $stack['line'] ?? null);
+            if ($link) {
+                $link = ' href="' . $link . '"';
             }
 
             $out .= '    in <a class="file"' . $link . ' title="' . htmlentities($stack['file']) . '">' .
