@@ -19,7 +19,7 @@
         }
     },
     "require": {
-        "php": "~7.0",
+        "php": "~7.1",
 
         "ext-mbstring": "*",
         "ext-intl": "*",
@@ -29,12 +29,12 @@
         "jeremykendall/php-domain-parser": "~3.0",
         "cakephp/chronos": "^1.0",
         "nesbot/carbon": "^1.22",
-        "punic/punic": "~1.6",
+        "punic/punic": "~2.1",
         "psr/log": "~1.0",
         "symfony/translation": "~3.1"
     },
     "require-dev": {
-        "phpunit/phpunit": "~5.5"
+        "phpunit/phpunit": "~6.4"
     },
     "scripts": {
         "test": [

@@ -37,7 +37,6 @@ class HtmlFormatter extends AbstractFormatter
      */
     public function render(\Throwable $exception, int $index) : string
     {
-
         $stacks = $this->exceptionStackTrace($exception);
         $out = <<<EOF
             <script type="text/javascript">

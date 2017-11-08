@@ -157,7 +157,6 @@ class DatePeriodDateTime extends DateTime
         return false;
     }
 
-
     /**
      * @param self $comparison
      *

@@ -175,7 +175,6 @@ abstract class AbstractFormatter
         $fileLinkFormat = ini_get('xdebug.file_link_format') ?: 'phpstorm://%f:%l';
 
         if ($path != '[internal function]' && $path != '{main}') {
-
             $path = self::mapPath($path);
 
             return str_replace(

@@ -20,7 +20,7 @@ declare(strict_types = 1);
 namespace CawaTest\Router;
 
 use Cawa\Router\Route;
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 
 class RouteTest extends TestCase
 {
@@ -28,7 +28,7 @@ class RouteTest extends TestCase
      * Test the fluent interface.
      *
      * @param string $method
-     * @param string $params
+     * @param array $params
      * @dataProvider fluentInterfaceMethodProvider
      */
     public function testFluentInterface($method, $params)
@@ -42,7 +42,7 @@ class RouteTest extends TestCase
      * Test the fluent interface.
      *
      * @param string $method
-     * @param string $params
+     * @param array $params
      * @param mixed $getParam
      * @dataProvider fluentInterfaceMethodProvider
      */

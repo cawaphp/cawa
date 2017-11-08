@@ -20,7 +20,7 @@ declare(strict_types = 1);
 namespace CawaTest\Uri;
 
 use Cawa\Net\Uri;
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 
 class UriTest extends TestCase
 {
@@ -40,7 +40,7 @@ class UriTest extends TestCase
      * Test the fluent interface.
      *
      * @param string $method
-     * @param string $params
+     * @param array $params
      * @dataProvider fluentInterfaceMethodProvider
      */
     public function testFluentInterface($method, $params)
@@ -335,7 +335,7 @@ class UriTest extends TestCase
      */
     public function testRemoveQuerystringException()
     {
-        $this->setExpectedException('InvalidArgumentException');
+        $this->expectException('InvalidArgumentException');
         $uri = new Uri('http://example.com/?test=1');
         $uri->removeQueries([1]);
     }
@@ -345,7 +345,7 @@ class UriTest extends TestCase
      */
     public function testAddQuerystringException()
     {
-        $this->setExpectedException('InvalidArgumentException');
+        $this->expectException('InvalidArgumentException');
         $uri = new Uri('http://example.com/');
         $uri->addQueries([1 => 'test']);
     }
