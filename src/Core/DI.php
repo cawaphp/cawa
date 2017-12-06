@@ -47,13 +47,17 @@ abstract class DI
             $configName = $name;
         }
 
-        if (is_null($configName) && $strict) {
-            throw new \RuntimeException(sprintf(
-                "Can't detect configuration for namespace: '%s', config: '%s', type: '%s'",
-                $namespace,
-                $configPath,
-                is_string($name) ? $name : get_class($name)
-            ));
+        if (is_null($configName)) {
+            if ($strict) {
+                throw new \RuntimeException(sprintf(
+                    "Can't detect configuration for namespace: '%s', config: '%s', type: '%s'",
+                    $namespace,
+                    $configPath,
+                    is_string($name) ? $name : get_class($name)
+                ));
+            } else {
+                $configName = 'default';
+            }
         }
 
         if ($strict == false && is_null($configName)) {
