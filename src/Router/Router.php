@@ -874,7 +874,7 @@ class Router
                 $return = call_user_func_array([$controller, $method], $ordererArgs);
             }
         } catch (HttpStatusCode $exception) {
-            $return = $exception->getMessage();
+            $return = $exception->getResponse();
 
             if (!$return) {
                 $return = self::returnError($exception->getCode());

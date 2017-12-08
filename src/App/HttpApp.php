@@ -89,8 +89,7 @@ class HttpApp extends AbstractApp
             }
 
             self::response()->setBody($return->asXML());
-        }
-        if (gettype($return) == 'array') {
+        } elseif (gettype($return) == 'array') {
             if ($debug == false) {
                 self::response()->addHeaderIfNotExist('Content-Type', 'application/json; charset=utf-8');
             }

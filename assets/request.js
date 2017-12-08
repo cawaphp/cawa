@@ -20,12 +20,19 @@ require([
          */
         function send(uri, callback, method, data, options)
         {
+            var beforeSend = options.beforeSend;
+            delete options.beforeSend;
+
             options = $.extend(options === undefined ? {} : options, {
                 url: uri,
                 type: method === undefined ? "GET" : method,
                 dataType: "json",
                 beforeSend: function (xhr)
                 {
+                    if (beforeSend) {
+                        beforeSend(xhr);
+                    }
+
                     xhr.url = uri;
                     $(document).trigger("before.request", [xhr]);
                 }

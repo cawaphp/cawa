@@ -3,7 +3,6 @@ require([
     "moment"
 ], function($, moment)
 {
-
     $.extend({
         /**
          * Current locale
@@ -72,6 +71,49 @@ require([
             elem = this[i];
             handlers = jQuery._data(elem).events[name.split('.')[0]];
             handlers.unshift(handlers.pop());
+        }
+    };
+
+    /**
+     * @see https://stackoverflow.com/questions/10211203/scrolling-child-div-scrolls-the-window-how-do-i-stop-that
+     */
+    $.fn.preventScrollToParent = function ()
+    {
+        var elem, i, _len;
+
+        for (i = 0, _len = this.length; i < _len; i++) {
+            elem = $(this[i]);
+
+            elem
+                .on('wheel', function (event) {
+                    event = event.originalEvent;
+
+                    var scrollTop = this.scrollTop;
+                    var maxScroll = this.scrollHeight - this.offsetHeight;
+                    var deltaY = event.deltaY;
+
+                    if ((scrollTop >= maxScroll && deltaY > 0) || (scrollTop === 0 && deltaY < 0)) {
+                        event.preventDefault();
+                    }
+                })
+                .on('touchstart', function (event) {
+                    event = event.originalEvent;
+
+                    this.previousClientY = event.touches[0].clientY;
+                })
+                .on('touchmove', function (event) {
+                    event = event.originalEvent;
+
+                    var scrollTop = this.scrollTop;
+                    var maxScroll = this.scrollHeight - this.offsetHeight;
+                    var currentClientY = event.touches[0].clientY;
+                    var deltaY = this.previousClientY - currentClientY;
+
+                    if ((scrollTop >= maxScroll && deltaY > 0) || (scrollTop === 0 && deltaY < 0)) {
+                        event.preventDefault();
+                    }
+                    this.previousClientY = currentClientY;
+                })
         }
     };
 
