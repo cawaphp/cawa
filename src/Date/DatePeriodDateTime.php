@@ -60,6 +60,19 @@ class DatePeriodDateTime extends DateTime
         return $this->endDate;
     }
 
+    /**
+     * In seconds
+     *
+     * @return int
+     */
+    public function getDuration() : int
+    {
+        return $this->startDate->diffInSeconds($this->getEndDate());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function __toString()
     {
         return $this->format();

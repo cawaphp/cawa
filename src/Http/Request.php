@@ -89,7 +89,7 @@ class Request
     /**
      * @return string|null
      */
-    public function getPayload()
+    public function getPayload() : ?string
     {
         return $this->payload;
     }
@@ -99,7 +99,7 @@ class Request
      *
      * @return $this|self
      */
-    public function setPayload(string $payload) : self
+    public function setPayload(string $payload = null) : self
     {
         $this->payload = $payload;
 
