@@ -246,4 +246,91 @@ class DatePeriodDateTime extends DateTime
 
         return [$this];
     }
+
+    /**
+     * @param self $comparison
+     *
+     * @return self
+     */
+    public function common(DatePeriodDateTime $comparison) : ?self
+    {
+        $start = $this;
+        $end = $this->getEndDate();
+
+        $comparisonStart = $comparison;
+        $comparisonEnd = $comparison->getEndDate();
+
+        /*
+         *            L     H
+         * C :        |_____|
+         * 1 :      __|__   |
+         * 2 :     ___|     |
+         * 3 :        |   __|___
+         * 4 :        |     |___
+         * 5 :      __|_____|__
+         * 6 :        |_____|___
+         * 7 :      __|_____|
+         * 8 :        |_____|
+         * 9 :   __   |     |
+         * 10:        |     | __
+         * 11:        |  __ |
+         */
+
+        // case 1
+        if ($start->lt($comparisonStart) && $comparisonStart->gt($start) && $end->lt($comparisonEnd) && $end->gt($comparisonStart)) {
+            return new static($comparisonStart, $end);
+        }
+
+        // case 2
+        if ($end->eq($comparisonStart)) {
+            return null;
+        }
+
+        // case 3
+        if ($start->gt($comparisonStart) && $start->lt($comparisonEnd) && $end->gt($comparisonEnd)) {
+            return new static($start, $comparisonEnd);
+        }
+
+        // case 4
+        if ($start->eq($comparisonEnd)) {
+            return null;
+        }
+
+        // case 5
+        if ($start->lt($comparisonStart) && $end->gt($comparisonEnd)) {
+            return new static($comparisonStart, $comparisonEnd);
+        }
+
+        // case 6
+        if ($start->eq($comparisonStart) && $end->gt($comparisonEnd)) {
+            return new static($comparisonStart, $comparisonEnd);
+        }
+
+        // case 7
+        if ($start->lt($comparisonStart) && $end->eq($comparisonEnd)) {
+            return new static($comparisonStart, $comparisonEnd);
+        }
+
+        // case 8
+        if ($start->eq($comparisonStart) && $end->eq($comparisonEnd)) {
+            return new static($comparisonStart, $comparisonEnd);
+        }
+
+        // case 9
+        if ($end->lte($comparisonStart)) {
+            return null;
+        }
+
+        // case 10
+        if ($start->gte($comparisonEnd)) {
+            return null;
+        }
+
+        // case 11
+        if ($start->gt($comparisonStart) && $end->lt($comparisonEnd)) {
+            return new static($start, $end);
+        }
+
+        return null;
+    }
 }
