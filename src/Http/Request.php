@@ -329,4 +329,28 @@ class Request
 
         return array_keys($locales);
     }
+
+    /**
+     * @return string
+     */
+    public function toCurl() : string
+    {
+        $args = [];
+        foreach ($this->headers as $name => $header) {
+            if (
+                $name != 'Host' &&
+                stripos($name, 'Forwarded') === false &&
+                stripos($name, 'Accept-Encoding') === false &&
+                stripos($name, 'User-Agent') === false
+            ) {
+                $args[] = sprintf("--header '%s: %s'", $name, $header);
+            }
+        }
+
+        if ($this->getPayload()) {
+            $args[] = "-d '" . str_replace("'", "'\"'\"'", $this->getPayload()) . "'";
+        }
+
+        return 'curl ' . implode(" ", $args) . ' ' . $this->getUri()->get(false);
+    }
 }

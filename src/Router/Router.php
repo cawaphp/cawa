@@ -335,7 +335,7 @@ class Router
 
         $route = $this->routes[$name];
 
-        $uri = new Uri();
+        $uri = self::request()->getUri();
         $uri->removeAllQueries()
             ->setFragment(null)
             ->setPath($this->routeRegexp($route, $data))

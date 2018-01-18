@@ -278,7 +278,7 @@ class Handler
             $context['Url'] = self::request()->getUri()->get(false);
         }
 
-        $context['Trace'] = $exception->getTraceAsString();
+        $context['Trace'] = "\n" . $exception->getTraceAsString()  . "\n";
         $context['Referer'] = self::request()->getHeader('Referer');
 
         self::logger()->log($level, $exception->getMessage(), $context);

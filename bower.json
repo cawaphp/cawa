@@ -19,7 +19,7 @@
         "tests",
         "src"
     ],
-    "license": "GPL-3.0",
+    "license": "GPL-3.0-only",
     "dependencies": {
         "jquery": "^2.2.1",
         "jquery-ui": "^1.11.4",
