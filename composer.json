@@ -26,15 +26,15 @@
 
         "behat/transliterator": "~1.1",
         "giggsey/libphonenumber-for-php": "~8.1",
-        "jeremykendall/php-domain-parser": "~3.0",
+        "jeremykendall/php-domain-parser": "~5.1",
         "cakephp/chronos": "^1.0",
-        "nesbot/carbon": "^1.22",
-        "punic/punic": "~2.1",
+        "nesbot/carbon": "dev-master",
+        "punic/punic": "~3.1",
         "psr/log": "~1.0",
-        "symfony/translation": "~3.1"
+        "symfony/translation": "~4.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "~6.4"
+        "phpunit/phpunit": "~7.0"
     },
     "scripts": {
         "test": [

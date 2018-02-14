@@ -13,6 +13,9 @@ declare(strict_types = 1);
 
 namespace Cawa\Net;
 
+use Pdp\Cache;
+use Pdp\CurlHttpClient;
+use Pdp\Manager;
 use Pdp\Parser;
 use Pdp\PublicSuffixListManager;
 
@@ -243,18 +246,18 @@ class Uri
             return null;
         }
 
-        $pslManager = new PublicSuffixListManager();
-        $parser = new Parser($pslManager->getList());
-        $parse = $parser->parseUrl($this->uri['scheme'] . '://' . $this->uri['host']);
+        $manager = new Manager(new Cache(sys_get_temp_dir() . '/publicsuffix/'), new CurlHttpClient());
+        $rules = $manager->getRules();
+        $domain = $rules->resolve($this->uri['host']);
 
-        if (!$parse->host->registerableDomain) {
+        if (!$domain->isKnown()) {
             return $this->uri['host'];
         }
 
         if ($withSuffix) {
-            return $parse->host->registerableDomain;
+            return $domain->getRegistrableDomain();
         } else {
-            return substr($parse->host->registerableDomain, 0, -strlen($parse->host->publicSuffix) - 1);
+            return substr($domain->getRegistrableDomain(), 0, -strlen($domain->getPublicSuffix()) - 1);
         }
     }
 

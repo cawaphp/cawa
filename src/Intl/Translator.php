@@ -113,6 +113,8 @@ class Translator
 
     /**
      * detect locale & set cookie if neccesary.
+     *
+     * @throws \Exception
      */
     private function initLocale()
     {
