@@ -19,16 +19,48 @@ class Number
 {
     use TranslatorFactory;
 
+    const FORMAT_SHORT = 1;
+
     /**
      * @param float $value
      * @param string $currency
      *
      * @return string
      */
-    public static function formatCurrency(float $value, string $currency) : string
+    public static function formatCurrency(float $value, string $currency, int $format = null) : string
     {
         $formatter = new NumberFormatter(self::translator()->getIETF(), NumberFormatter::CURRENCY);
 
+        if ($format && $format & self::FORMAT_SHORT) {
+            $diff = pow(10, -$formatter->getAttribute(NumberFormatter::FRACTION_DIGITS));
+            $decimal = fmod($value, 1);
+
+            if ($decimal < $diff) {
+                $formatter->setAttribute(NumberFormatter::FRACTION_DIGITS, 0);
+            }
+        }
+
         return $formatter->formatCurrency($value, $currency);
+    }
+
+    /**
+     * @param float $value
+     *
+     * @return string
+     */
+    public static function formatPourcent(float $value, int $format = null) : string
+    {
+        $formatter = new NumberFormatter(self::translator()->getIETF(), NumberFormatter::PERCENT);
+
+        if ($format && $format & self::FORMAT_SHORT) {
+            $diff = pow(10, -$formatter->getAttribute(NumberFormatter::FRACTION_DIGITS));
+            $decimal = fmod($value, 1);
+
+            if ($decimal < $diff) {
+                $formatter->setAttribute(NumberFormatter::FRACTION_DIGITS, 0);
+            }
+        }
+
+        return $formatter->format($value);
     }
 }
