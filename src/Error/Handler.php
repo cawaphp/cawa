@@ -105,6 +105,11 @@ class Handler
      */
     public static function unserializeHandler(string $className)
     {
+        // This error code is not included in error_reporting
+        if (!error_reporting()) {
+            return;
+        }
+
         throw new \Exception(sprintf("Unable to unserialize class '%s'", $className));
     }
 

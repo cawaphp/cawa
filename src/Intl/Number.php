@@ -23,7 +23,20 @@ class Number
 
     /**
      * @param float $value
+     *
+     * @return string
+     */
+    public static function format(float $value) : string
+    {
+        $formatter = new NumberFormatter(self::translator()->getIETF(), NumberFormatter::DECIMAL);
+
+        return $formatter->format($value);
+    }
+
+    /**
+     * @param float $value
      * @param string $currency
+     * @param int|null $format
      *
      * @return string
      */
@@ -33,7 +46,7 @@ class Number
 
         if ($format && $format & self::FORMAT_SHORT) {
             $diff = pow(10, -$formatter->getAttribute(NumberFormatter::FRACTION_DIGITS));
-            $decimal = fmod($value, 1);
+            $decimal = (float) (floatval((string) $value) - (int) floatval((string) $value));
 
             if ($decimal < $diff) {
                 $formatter->setAttribute(NumberFormatter::FRACTION_DIGITS, 0);
@@ -48,18 +61,9 @@ class Number
      *
      * @return string
      */
-    public static function formatPourcent(float $value, int $format = null) : string
+    public static function formatPercent(float $value) : string
     {
         $formatter = new NumberFormatter(self::translator()->getIETF(), NumberFormatter::PERCENT);
-
-        if ($format && $format & self::FORMAT_SHORT) {
-            $diff = pow(10, -$formatter->getAttribute(NumberFormatter::FRACTION_DIGITS));
-            $decimal = fmod($value, 1);
-
-            if ($decimal < $diff) {
-                $formatter->setAttribute(NumberFormatter::FRACTION_DIGITS, 0);
-            }
-        }
 
         return $formatter->format($value);
     }
